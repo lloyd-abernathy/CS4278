@@ -22,3 +22,8 @@ The website is to include an information page dedicated to the history and purpo
 
 Each of these features and functions will be implemented by Dec 10, 2020. These features were collected during the client interview process. An interview transcript will be attached to the end of this report. 
 
+## Contributors
+Lloyd Abernathy (lloyd.r.abernathy@vanderbilt.edu)
+Erin Hardnett (erin.hardnett.1@vanderbilt.edu)
+Michelle Nicholas (michelle.l.nicholas@vanderbilt.edu)
+Derek Pang (derek.j.pang@vanderbilt.edu)

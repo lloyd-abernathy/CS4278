@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Bachelors</title>
+    <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/master.css">
     <script type="text/javascript" src="../js/master.js"></script>
@@ -15,6 +15,7 @@
 
     <!-- Overlay content -->
     <div class="overlay-content">
+      <a href="login.html" class="login">Sign Up | Login</a>
       <a href="index.html">Home</a>
       <a href="about-chapter.html">About Elegant Eta Beta</a>
       <button class="dropdown-btn">Make Donations <i class="fa fa-caret-down"></i>
@@ -30,16 +31,22 @@
   </div>
 
   <div class="header">
-    <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
-    <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
-    <h1>Elegant Eta Beta Chapter</h1>
+    <div class="header_left">
+      <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
+    </div>
+
+    <div class="header_center">
+      <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
+      <h1>Elegant Eta Beta Chapter</h1>
+    </div>
+
+    <div class="header_right">
+    </div>
   </div>
 
 
   <script type="text/javascript">
-  /* Loop through all dropdown buttons to toggle between hiding and showing its
-  dropdown content - This allows the user to have multiple dropdowns without any
-  conflict */
+  /*This section creates t*/
 
   var dropdown = document.getElementsByClassName("dropdown-btn");
   var i;

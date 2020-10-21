@@ -1,22 +1,3 @@
 .chapter_info {
-  margin-top: 15%;
   margin-left: 20px;
-}
-
-@media (min-width: 650px) and (max-width: 804px) {
-  .chapter_info {
-    margin-top: 27%;
-  }
-}
-
-@media (min-width: 805px) and (max-width: 910px) {
-  .chapter_info {
-    margin-top: 25%;
-  }
-}
-
-@media (min-width: 911px) {
-  .chapter_info {
-    margin-top: 23%;
-  }
 }

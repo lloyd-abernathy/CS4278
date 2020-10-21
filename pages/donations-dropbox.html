@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Dropbox Donations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/master.css">
+    <script type="text/javascript" src="../js/master.js"></script>
+  </head>
+  <body>
+    <div id="myNav" class="overlay">
+
+    <!-- Button to close the overlay navigation -->
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+    <!-- Overlay content -->
+    <div class="overlay-content">
+      <a href="index.html">Home</a>
+      <a href="about-chapter.html">About Elegant Eta Beta</a>
+      <button class="dropdown-btn">Make Donations <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="donations-money.html">Monetary Donations</a>
+        <a href="donations-dropbox.html">Dropbox Donations</a>
+      </div>
+      <a href="bachelors.html">Bachelors</a>
+      <a href="auction.html">HeartbreAKA Auction</a>
+    </div>
+
+  </div>
+
+  <div class="header">
+    <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
+    <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
+    <h1>Elegant Eta Beta Chapter</h1>
+  </div>
+
+
+  <script type="text/javascript">
+  /* Loop through all dropdown buttons to toggle between hiding and showing its
+  dropdown content - This allows the user to have multiple dropdowns without any
+  conflict */
+
+  var dropdown = document.getElementsByClassName("dropdown-btn");
+  var i;
+
+  for (i = 0; i < dropdown.length; i++) {
+    console.log("Adding click");
+    dropdown[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var dropdownContent = this.nextElementSibling;
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+      }
+    });
+  }
+  </script>
+  </body>
+</html>

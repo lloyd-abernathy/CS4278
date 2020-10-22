@@ -5,13 +5,14 @@ body {
 }
 
 .header {
-  width: 100%;
+  width: 100vw;
   height: 25%;
   background-color: #cc8899;
   color: white;
   padding-bottom: 5px;
   position: sticky;
   overflow: hidden;
+  right: 0;
   top: 0;
 }
 
@@ -40,6 +41,12 @@ h2 {
   padding-bottom: 2px;
   width: 90%;
   font-family: Apple Chancery, cursive;
+}
+
+h3 {
+  text-align: center;
+  border-bottom: double #cc8899;
+  padding-bottom: 2px;
 }
 
 /* The Overlay (background) */
@@ -162,6 +169,10 @@ color and some left padding to change the design of the dropdown content */
     font-size: 15px;
   }
 
+  h3 {
+    font-size: 0.5em;
+  }
+
   p {
     font-size: 12px;
   }
@@ -196,8 +207,44 @@ color and some left padding to change the design of the dropdown content */
     font-size: 15px;
   }
 
+  h3 {
+    font-size: 1.3em;
+  }
+
   p {
     font-size: 12px;
+  }
+}
+
+@media (min-width: 410px) and (max-width: 639px) {
+  .overlay a, .overlay button {font-size: 15px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+  .header {
+    height: 20%;
+  }
+  .fa-ellipsis-v {
+    font-size: 2.0rem;
+    padding-left: 5px;
+    padding-top: 3px;
+  }
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 0.8em;
+  }
+
+  p {
+    font-size: 21px;
   }
 }
 
@@ -225,12 +272,16 @@ color and some left padding to change the design of the dropdown content */
     font-size: 18px;
   }
 
+  h3 {
+    font-size: 1.1em;
+  }
+
   p {
     font-size: 15px;
   }
 }
 
-@media (min-width: 640px) and (max-width: 822px) and (min-height: ){
+@media (min-width: 640px) and (max-width: 822px){
   .overlay a, .overlay button {font-size: 15px}
   .overlay .closebtn {
     font-size: 40px;
@@ -253,35 +304,11 @@ color and some left padding to change the design of the dropdown content */
     font-size: 21px;
   }
 
+  h3 {
+    font-size: 0.8em;
+  }
+
   p {
     font-size: 18px;
-  }
-}
-
-@media (min-width: 410px) and (max-width: 639px) {
-  .overlay a, .overlay button {font-size: 15px}
-  .overlay .closebtn {
-    font-size: 40px;
-    top: 15px;
-    right: 35px;
-  }
-  .header {
-    height: 20%;
-  }
-  .fa-ellipsis-v {
-    font-size: 2.0rem;
-    padding-left: 5px;
-    padding-top: 3px;
-  }
-  h1 {
-    font-size: 30px;
-  }
-
-  h2 {
-    font-size: 24px;
-  }
-
-  p {
-    font-size: 21px;
   }
 }

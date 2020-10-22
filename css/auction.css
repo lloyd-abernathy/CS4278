@@ -1,0 +1,25 @@
+.event {
+  display: none;
+}
+
+.days, .hours, .minutes, .seconds {
+  float: left;
+  width: 15%;
+  height: 15%;
+  border: 5px solid #cc8899;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: pink;
+  font-weight: bold;
+}
+
+.countdown {
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  padding-left: 18%;
+}
+
+#num_day, #num_hr, #num_min, #num_sec {
+  font-size: 70px;
+}

@@ -2,10 +2,12 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>HeartbreAKA Auction</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/auction.css">
     <link rel="stylesheet" href="../css/master.css">
     <script type="text/javascript" src="../js/master.js"></script>
+    <script type="text/javascript" src="../js/auction.js"></script>
   </head>
   <body>
     <div class="header">
@@ -21,7 +23,41 @@
       <div class="header_right">
       </div>
     </div>
-    
+
+    <div class="auction_info">
+      <h2>HeartbreAKA Auction</h2>
+      <div class="countdown" id="countdown">
+        <div class="days">
+          <p id="num_day"></p>
+          <p id="label_day">days</p>
+        </div>
+        <div class="hours">
+          <p id="num_hr"></p>
+          <p id="label_hr">hours</p>
+        </div>
+        <div class="minutes">
+          <p id="num_min"></p>
+          <p id="label_min">minutes</p>
+        </div>
+        <div class="seconds">
+          <p id="num_sec"></p>
+          <p id="label_sec">seconds</p>
+        </div>
+      </div>
+
+      <div class="event" id="event">
+        <div class="admin_event" id="admin_event">
+          
+        </div>
+        <div class="bachelors_event" id="bachelors_event">
+
+        </div>
+        <div class="attendees_event" id="attendees_event">
+
+        </div>
+      </div>
+    </div>
+
     <div id="myNav" class="overlay">
 
     <!-- Button to close the overlay navigation -->

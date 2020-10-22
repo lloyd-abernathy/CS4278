@@ -1,0 +1,16 @@
+body {
+  background-image: url("../images/pink_rose_login1.png");
+  background-size: 1500px 1000px;
+}
+
+.login_info {
+  margin-left: 35%;
+  margin-top: 5%;
+  width: 30%;
+  height: 30%;
+  text-align: center;
+  background-color: white;
+  padding: 5px;
+  border-radius: 10px;
+  border: 5px solid #cc8899;
+}

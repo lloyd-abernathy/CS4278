@@ -1,0 +1,13 @@
+.create_account_form {
+  margin-left: 10%;
+  width: 40%;
+}
+
+.create_account_form input[type='submit'] {
+  border: 2px solid #cc8899;
+  background-color: #cc8899;
+  color: white;
+  font-weight: bold;
+  font-family: Didot, serif;
+  border-radius: 3px;
+}

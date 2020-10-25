@@ -175,7 +175,7 @@ color and some left padding to change the design of the dropdown content */
     font-size: 0.5em;
   }
 
-  p, li {
+  p, li, label, input {
     font-size: 12px;
   }
 }
@@ -213,7 +213,7 @@ color and some left padding to change the design of the dropdown content */
     font-size: 0.5em;
   }
 
-  p, li {
+  p, li, label, input {
     font-size: 12px;
   }
 }
@@ -246,11 +246,9 @@ color and some left padding to change the design of the dropdown content */
     font-size: 1.1em;
   }
 
-  p, li {
+  p, li, label, input {
     font-size: 15px;
   }
-
-
 }
 
 @media (min-width: 640px) and (max-width: 822px){
@@ -280,7 +278,7 @@ color and some left padding to change the design of the dropdown content */
     font-size: 0.8em;
   }
 
-  p, li {
+  p, li, label, input {
     font-size: 18px;
   }
 }
@@ -312,8 +310,8 @@ color and some left padding to change the design of the dropdown content */
     font-size: 0.5em;
   }
 
-  p, li {
-    font-size: 10px;
+  p, li, label, input {
+    font-size: 12px;
   }
 }
 
@@ -344,7 +342,7 @@ color and some left padding to change the design of the dropdown content */
     font-size: 0.5em;
   }
 
-  p, li {
+  p, li, label, input {
     font-size: 10px;
   }
 }
@@ -376,7 +374,7 @@ color and some left padding to change the design of the dropdown content */
     font-size: 1.4em;
   }
 
-  p, li {
+  p, li, label, input {
     font-size: 35px;
   }
 }

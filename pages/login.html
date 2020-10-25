@@ -2,12 +2,27 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/master.css">
     <script type="text/javascript" src="../js/master.js"></script>
   </head>
   <body>
+    <div class="header">
+      <div class="header_left">
+        <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
+      </div>
+
+      <div class="header_center">
+        <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
+        <h1>Elegant Eta Beta Chapter</h1>
+      </div>
+
+      <div class="header_right">
+      </div>
+    </div>
+
     <div id="myNav" class="overlay">
 
     <!-- Button to close the overlay navigation -->
@@ -30,18 +45,19 @@
 
   </div>
 
-  <div class="header">
-    <div class="header_left">
-      <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
-    </div>
-
-    <div class="header_center">
-      <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
-      <h1>Elegant Eta Beta Chapter</h1>
-    </div>
-
-    <div class="header_right">
-    </div>
+  <div class="login_info">
+    <h3>Login To Your Account</h3>
+    <form class="login_form" action="index.html" method="post">
+      <label for="email">E-mail</label><br>
+      <input type="text" id="username" name="username"><br>
+      <label for="pwd">Password</label><br>
+      <input type="password" id="pwd" name="pwd"><br>
+      <input type="submit" class="submit" value="Login">
+    </form>
+    <a href="#">Forgot password?</a><br>
+    <h3>Sign Up</h3>
+    <button class="sign_in_api" type="button" name="google">Google Sign Up</button>
+    <button class="sign_in_api" type="button" name="facebook">Facebook Sign Up</button>
   </div>
 
 

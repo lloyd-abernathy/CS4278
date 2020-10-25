@@ -1,0 +1,177 @@
+body {
+  background-image: url("../images/pink_rose_login1.png");
+  background-size: 1500px 1000px;
+}
+
+.login_info {
+  margin-left: 35%;
+  margin-top: 5%;
+  width: 30%;
+  height: 30%;
+  text-align: center;
+  background-color: white;
+  padding: 5px;
+  border-radius: 10px;
+  border: 5px solid #cc8899;
+}
+
+.login_info input[type='text'], input[type='password'] {
+  width: 70%;
+  border: 1px solid black;
+}
+
+.login_info button {
+  font-size: 10px;
+  border-radius: 5px;
+  background-color: #cc8899;
+  border: none;
+  color: white;
+}
+
+input[type='submit'] {
+  width: 30%;
+}
+
+@media (min-width: 300px) {
+  .login_info h3 {
+    font-size: 0.9em;
+  }
+
+  .login_form label {
+    font-size: 12px;
+  }
+
+  .login_info {
+    width: 60%;
+    margin-left: 20%;
+  }
+
+  .login_info input {
+    height: 12px;
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 400px) {
+  .login_info h3 {
+    font-size: 1.0em;
+  }
+
+  .login_form label {
+    font-size: 15px;
+  }
+
+  .login_info {
+    width: 60%;
+    margin-left: 20%;
+  }
+
+  .login_info button {
+    font-size: 12px;
+  }
+
+  .login_info input {
+    height: 15px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 500px) {
+  .login_info h3 {
+    font-size: 1.2em;
+  }
+
+  .login_form label {
+    font-size: 18px;
+  }
+
+  .login_info {
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  .login_info button {
+    font-size: 15px;
+  }
+
+  .login_info input {
+    height: 18px;
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 750px) {
+  .login_info h3 {
+    font-size: 1.4em;
+  }
+
+  .login_form label {
+    font-size: 21px;
+  }
+
+  .login_info {
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  .login_info button {
+    font-size: 18px;
+  }
+
+  .login_info input {
+    height: 21px;
+    font-size: 21px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .login_info h3 {
+    font-size: 1.6em;
+  }
+
+  .login_form label {
+    font-size: 24px;
+  }
+
+  .login_info {
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  .login_info button {
+    font-size: 21px;
+  }
+
+  .login_info input {
+    height: 24px;
+    font-size: 24px;
+  }
+
+  .submit {
+    width: 30%;
+  }
+}
+
+@media (min-width: 1300px) {
+  .login_info h3 {
+    font-size: 1.8em;
+  }
+
+  .login_form label {
+    font-size: 27px;
+  }
+
+  .login_info {
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  .login_info button {
+    font-size: 24px;
+  }
+
+  .login_info input {
+    height: 27px;
+    font-size: 27px;
+  }
+}

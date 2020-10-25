@@ -21,6 +21,14 @@ body {
   border: 1px solid black;
 }
 
+.login_info input[type='submit'] {
+  background-color: #cc8899;
+  border: 1px solid #cc8899;
+  color: white;
+  border-radius: 3px;
+  font-family: Didot, sans-serif;
+}
+
 .login_info button {
   font-size: 15px;
   width: 70%;
@@ -85,6 +93,11 @@ input[type='submit'] {
     font-size: 12px;
   }
 
+  .login_info input[type='submit'] {
+    height: 16px;
+    font-size: 10px;
+  }
+
   .sign_up img {
     width: 10%;
     height: 10%;
@@ -112,6 +125,11 @@ input[type='submit'] {
   .login_info input {
     height: 15px;
     font-size: 15px;
+  }
+
+  .login_info input[type='submit'] {
+    height: 18px;
+    font-size: 12px;
   }
 
   .login_info button {
@@ -146,7 +164,7 @@ input[type='submit'] {
 
 @media (min-width: 750px) {
   body {
-    background-size: 1024px 1500px;
+    background-size: 1500px 1024px;
   }
 
   .login_info h3 {
@@ -165,6 +183,11 @@ input[type='submit'] {
   .login_info input {
     height: 21px;
     font-size: 21px;
+  }
+
+  .login_info input[type='submit'] {
+    height: 24px;
+    font-size: 16px;
   }
 
   .login_info button {
@@ -194,6 +217,11 @@ input[type='submit'] {
   .login_info input {
     height: 24px;
     font-size: 24px;
+  }
+
+  .login_info input[type='submit'] {
+    height: 26px;
+    font-size: 18px;
   }
 
   .submit {
@@ -261,6 +289,11 @@ input[type='submit'] {
   .login_info button {
     font-size: 30px;
     width: 50%;
+  }
+
+  .login_info input[type='submit'] {
+    height: 30px;
+    font-size: 21px;
   }
 
   .login_info a {

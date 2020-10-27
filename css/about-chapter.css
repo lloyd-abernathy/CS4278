@@ -1,3 +1,28 @@
 .chapter_info {
   margin-left: 20px;
 }
+
+.event_rows::after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.column_left, .column_middle, .column_right {
+  width: 30%;
+  float: left;
+  padding-right: 15px;
+}
+
+@media (min-width: 320px) and (max-width: 750px) {
+  .column_left, .column_middle, .column_right {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .column_left, .column_middle, .column_right {
+    width: 30%;
+  }
+}

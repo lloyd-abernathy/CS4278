@@ -1,3 +1,12 @@
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+}
+
+/* Close when someone clicks on the "x" symbol inside the overlay */
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+}
+
 var eventDate = new Date("February 10, 2021 19:08:00");
 
 var countdownInterval = setInterval(function() {

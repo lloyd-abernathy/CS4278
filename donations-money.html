@@ -5,7 +5,13 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
-    <script type="text/javascript" src="js/donations-money.js"></script>
+    <link rel="stylesheet" href="css/donations-money.css">
+    <script src="https://js.braintreegateway.com/web/3.68.0/js/client.min.js"></script>
+    <script src="https://js.braintreegateway.com/web/3.68.0/js/venmo.min.js"></script>
+    <script src="https://js.braintreegateway.com/web/3.68.0/js/data-collector.min.js"></script>
+    <script data-main="js/donations-money.js" src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+    <!-- <script src="https://js.braintreegateway.com/web/3.68.0/js/client.min.js"></script> -->
+    <!-- <script type="text/javascript" src="js/donations-money.js"></script> -->
   </head>
   <body>
     <div class="header">
@@ -20,6 +26,11 @@
 
       <div class="header_right">
       </div>
+    </div>
+
+    <div class="donate_money_info">
+      <h2>Make a Monetary Donation</h2>
+
     </div>
 
     <div id="myNav" class="overlay">

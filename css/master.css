@@ -104,8 +104,8 @@ ul {
 
 /* When you mouse over the navigation links, change their color */
 .overlay a:hover, .overlay a:focus, .dropdown-btn:hover, .dropdown-btn:focus {
-  color: #ffe4e1;
-  background-color: #db7093;
+  color: lightgreen;
+  background-color: green;
 }
 
 button {
@@ -136,7 +136,7 @@ color and some left padding to change the design of the dropdown content */
 
 .dropdown-container a:hover, .dropdown-container a:focus, .closebtn a:hover,
   .closebtn a:focus  {
-  color: #ffe4e1;
+  color: lightgreen;
   background: transparent;
 }
 

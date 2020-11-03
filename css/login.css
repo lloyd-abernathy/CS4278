@@ -16,19 +16,6 @@ body {
   overflow: hidden;
 }
 
-.login_info input[type='text'], input[type='password'] {
-  width: 70%;
-  border: 1px solid black;
-}
-
-.login_info input[type='submit'] {
-  background-color: #cc8899;
-  border: 1px solid #cc8899;
-  color: white;
-  border-radius: 3px;
-  font-family: Didot, sans-serif;
-}
-
 .login_info button {
   font-size: 15px;
   width: 70%;
@@ -38,7 +25,7 @@ body {
   margin-bottom: 5px;
 }
 
-.sign_up img {
+.sign_up img, .login img {
   float: left;
   width: 8%;
   height: 8%;
@@ -47,28 +34,15 @@ body {
   border: 1px solid white;
 }
 
-#create_account {
-  background-color: #cc8899;
-  border: 2px solid #cc8899;
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-
-#join_google {
+#join_google, #login_google {
   background-color: #4285f4;
   border: 2px solid #4285f4;
 }
 
-#join_facebook {
+#join_facebook, #login_facebook {
   background-color: #3b5998;
   border: 2px solid #3b5998;
 }
-
-input[type='submit'] {
-  width: 30%;
-}
-
-
 
 @media (min-width: 300px) {
   body {
@@ -79,23 +53,9 @@ input[type='submit'] {
     font-size: 0.9em;
   }
 
-  .login_form label {
-    font-size: 12px;
-  }
-
   .login_info {
     width: 60%;
     margin-left: 20%;
-  }
-
-  .login_info input {
-    height: 12px;
-    font-size: 12px;
-  }
-
-  .login_info input[type='submit'] {
-    height: 16px;
-    font-size: 10px;
   }
 
   .sign_up img {
@@ -113,23 +73,9 @@ input[type='submit'] {
     font-size: 1.0em;
   }
 
-  .login_form label {
-    font-size: 15px;
-  }
-
   .login_info {
     width: 60%;
     margin-left: 20%;
-  }
-
-  .login_info input {
-    height: 15px;
-    font-size: 15px;
-  }
-
-  .login_info input[type='submit'] {
-    height: 18px;
-    font-size: 12px;
   }
 
   .login_info button {
@@ -142,18 +88,9 @@ input[type='submit'] {
     font-size: 1.2em;
   }
 
-  .login_form label {
-    font-size: 18px;
-  }
-
   .login_info {
     width: 50%;
     margin-left: 25%;
-  }
-
-  .login_info input {
-    height: 18px;
-    font-size: 18px;
   }
 
   .login_info button {
@@ -171,23 +108,9 @@ input[type='submit'] {
     font-size: 1.4em;
   }
 
-  .login_form label {
-    font-size: 21px;
-  }
-
   .login_info {
     width: 50%;
     margin-left: 25%;
-  }
-
-  .login_info input {
-    height: 21px;
-    font-size: 21px;
-  }
-
-  .login_info input[type='submit'] {
-    height: 24px;
-    font-size: 16px;
   }
 
   .login_info button {
@@ -205,27 +128,9 @@ input[type='submit'] {
     font-size: 1.6em;
   }
 
-  .login_form label {
-    font-size: 24px;
-  }
-
   .login_info {
     width: 50%;
     margin-left: 25%;
-  }
-
-  .login_info input {
-    height: 24px;
-    font-size: 24px;
-  }
-
-  .login_info input[type='submit'] {
-    height: 26px;
-    font-size: 18px;
-  }
-
-  .submit {
-    width: 30%;
   }
 
   .login_info button {
@@ -243,18 +148,9 @@ input[type='submit'] {
     font-size: 1.8em;
   }
 
-  .login_form label {
-    font-size: 27px;
-  }
-
   .login_info {
     width: 50%;
     margin-left: 25%;
-  }
-
-  .login_info input {
-    height: 27px;
-    font-size: 27px;
   }
 
   .login_info button {
@@ -272,31 +168,13 @@ input[type='submit'] {
     font-size: 2.1em;
   }
 
-  .login_form label {
-    font-size: 27px;
-  }
-
   .login_info {
     width: 50%;
     margin-left: 25%;
   }
 
-  .login_info input {
-    height: 30px;
-    font-size: 30px;
-  }
-
   .login_info button {
     font-size: 30px;
     width: 50%;
-  }
-
-  .login_info input[type='submit'] {
-    height: 30px;
-    font-size: 21px;
-  }
-
-  .login_info a {
-    font-size: 27px;
   }
 }

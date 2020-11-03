@@ -6,12 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/donations-money.css">
-    <script src="https://js.braintreegateway.com/web/3.68.0/js/client.min.js"></script>
-    <script src="https://js.braintreegateway.com/web/3.68.0/js/venmo.min.js"></script>
-    <script src="https://js.braintreegateway.com/web/3.68.0/js/data-collector.min.js"></script>
-    <script data-main="js/donations-money.js" src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
-    <!-- <script src="https://js.braintreegateway.com/web/3.68.0/js/client.min.js"></script> -->
-    <!-- <script type="text/javascript" src="js/donations-money.js"></script> -->
+    <script src="https://js.braintreegateway.com/web/3.44.2/js/client.min.js"></script>
+    <script src="https://js.braintreegateway.com/web/3.44.2/js/hosted-fields.min.js"></script>
+    <script type="text/javascript" src="js/donations-money.js"></script>
   </head>
   <body>
     <div class="header">
@@ -29,8 +26,25 @@
     </div>
 
     <div class="donate_money_info">
-      <h2>Make a Monetary Donation</h2>
+      <h2>Make a Monetary Donation</h2><br><br>
+      <form action="" id="hosted-fields-form" method="post">
+        <!-- <label for="cardholder-name">Name on Card</label><br>
+        <div id="cardholder-name" contenteditable="true"></div><br><br> -->
 
+        <label for="card-number">Card Number</label><br>
+        <div id="card-number" contenteditable="true" required></div><br><br>
+
+        <label for="cvv">CVV</label><br>
+        <div id="cvv" contenteditable="true" required></div><br><br>
+
+        <label for="expiration-date">Expiration Date</label><br>
+        <div id="expiration-date" contenteditable="true" required></div><br><br>
+
+        <div id="payment-message"></div>
+
+        <input type="submit" value="Donate" disabled />
+      </form>
+      <script type="text/javascript" src="js/donations-money.js"></script>
     </div>
 
     <div id="myNav" class="overlay">

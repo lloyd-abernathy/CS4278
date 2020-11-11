@@ -2,10 +2,10 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Monetary Donations</title>
+    <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
-    <link rel="stylesheet" href="css/donations-money.css">
+    <link rel="stylesheet" href="css/donations-admin-list.css">
   </head>
   <body>
     <div class="header">
@@ -22,15 +22,45 @@
       </div>
     </div>
 
-    <div class="donate_money_info">
-      <h2>Make a Monetary Donation</h2><br><br>
+    <div class="donations_admin_list_info">
+      <h2>List of Monetary Donations</h2>
+      <table id="monetary_donations_list">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Amount</th>
+          <th>Service Used</th>
+          <th>Accept or Deny?</th>
+        </thead>
+
+        <tbody id="monetary_donations_list_body">
+
+        </tbody>
+      </table>
+
+      <h2>List of Dropbox Donations</h2>
+      <table id="dropbox_donations_list">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Donation</th>
+          <th>Date Submitted</th>
+          <th>AKA Dollar Equivalence</th>
+          <th>Accept or Deny?</th>
+        </thead>
+
+        <tbody id="dropbox_donations_list_body">
+
+        </tbody>
+      </table>
+
+      <button type="submit" name="button">Submit</button>
     </div>
 
-    <!-- This class defines and structures the overlay navigation bar-->
-    <!-- It includes the content and functions of the nav bar-->
+
     <div id="myNav" class="overlay">
 
-    <!-- Button to close the overlay navigation-->
+    <!-- Button to close the overlay navigation -->
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
     <!-- Overlay content -->
@@ -51,7 +81,6 @@
 
   </div>
 
-
   <script type="text/javascript">
   /*This section creates t*/
 
@@ -71,5 +100,7 @@
     });
   }
   </script>
+  <script type="text/javascript" src="js/index.js"></script>
+
   </body>
 </html>

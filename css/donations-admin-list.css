@@ -1,0 +1,21 @@
+table {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-collapse: collapse;
+  font-size: 12px;
+  width: 100%;
+}
+
+th {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: lightgreen;
+}
+
+tr:hover {
+  background-color: lightgray;
+}

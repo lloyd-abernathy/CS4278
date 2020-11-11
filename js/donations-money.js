@@ -102,36 +102,6 @@ var submit = document.querySelector('input[type="submit"]');
             console.error(tokenizeErr);
             return;
           }
-
-          instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
-            $.ajax({
-              type: 'POST',
-              url: '/payment',
-              data: {'paymentMethodNonce': payload.nonce}
-            }).done(function(result) {
-              // Tear down the Hosted Fields form
-              instance.teardown(function (teardownErr) {
-                if (teardownErr) {
-                  console.error('Could not tear down the Hosted Fields form!');
-                } else {
-                  console.info('Hosted Fields form has been torn down!');
-                  // Remove the 'Submit payment' button
-                  $('#hosted-fields-form').remove();
-                }
-              });
-
-              if (result.success) {
-                $('#payment-message').html('<h1>Success</h1><p>Your Hosted Fields form is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
-              } else {
-                $('#payment-message').html('<h1>Error</h1><p>Check your console.</p>');
-              }
-            });
-          });
-        });
-      }, false);
-    });
-  });
-
 function openNav() {
   document.getElementById("myNav").style.width = "100%";
 }

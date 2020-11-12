@@ -2,10 +2,10 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Monetary Donations</title>
+    <title>Cashapp Instructions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
-    <link rel="stylesheet" href="css/donations-money.css">
+    <link rel="stylesheet" href="css/payment.css">
   </head>
   <body>
     <div class="header">
@@ -22,37 +22,14 @@
       </div>
     </div>
 
-    <div class="donate_money_info">
-      <h2>Make a Monetary Donation</h2><br><br>
-      <form class="monetary_donations_form" action="" method="get" name="monetary" onsubmit="submitForm()">
-        <label for="name">Name</label>
-        <input type="text" name="name" required><br><br>
-
-        <label for="email">Email Address</label>
-        <input type="email" name="email" required><br><br>
-
-        <label for="amount">Dollar Amount   $ </label>
-        <input id="dollar_amount" type="number" name="amount" onchange="updateAKADollars()" min="1" required>
-        <p id="aka_dollars">AKA Dollars Amount: </p><br>
-
-        <label for="service">What payment service would you like to use?</label><br>
-        <input type="radio" id="paypal" name="service" value="paypal" checked>
-        <label for="paypal">PayPal</label><br>
-        <input type="radio" id="cashapp" name="service" value="cashapp">
-        <label for="cashapp">Cash App</label><br>
-        <input type="radio" id="venmo" name="service" value="venmo">
-        <label for="venmo">Venmo</label><br><br>
-
-        <input type="submit" value="Submit">
-
-      </form>
+    <div class="cashapp_info">
+      <h4>Redirecting to...</h4>
+      <img src="images/cashapp_logo.png" alt="">
     </div>
 
-    <!-- This class defines and structures the overlay navigation bar-->
-    <!-- It includes the content and functions of the nav bar-->
     <div id="myNav" class="overlay">
 
-    <!-- Button to close the overlay navigation-->
+    <!-- Button to close the overlay navigation -->
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
     <!-- Overlay content -->
@@ -73,8 +50,9 @@
 
   </div>
 
-
   <script type="text/javascript">
+  window.open("https://cash.app/;");
+
   /*This section creates t*/
 
   var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -92,8 +70,9 @@
       }
     });
   }
+
   </script>
-  <script type="text/javascript" src="js/donations-money.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
 
   </body>
 </html>

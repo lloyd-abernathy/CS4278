@@ -1,9 +1,49 @@
-input {
-  font-size: 14px
+input, select {
+  width: 80%;
+  padding: 5px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
-input.invalid {
-  color: red
+
+input[type=submit] {
+  width: 20%;
+  background-color: lightgreen;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-input.valid {
-  color: green
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+input[type="radio"] {
+  width: 5%;
+
+}
+
+form {
+  background-color: green;
+  width: 80%;
+  margin-left: 10%;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+#aka_dollars {
+  margin-left: 15%;
+}
+
+.donations_money_info {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
 }

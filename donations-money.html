@@ -2,13 +2,10 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Monetary Donations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/donations-money.css">
-    <script src="https://js.braintreegateway.com/web/3.44.2/js/client.min.js"></script>
-    <script src="https://js.braintreegateway.com/web/3.44.2/js/hosted-fields.min.js"></script>
-    <script type="text/javascript" src="js/donations-money.js"></script>
   </head>
   <body>
     <div class="header">
@@ -27,27 +24,28 @@
 
     <div class="donate_money_info">
       <h2>Make a Monetary Donation</h2><br><br>
-      
-      <!-- Definition for the edittable form that allows for--> 
-      <!-- the input of payment information-->
-      <form action="" id="hosted-fields-form" method="post">
-        <!-- <label for="cardholder-name">Name on Card</label><br>
-        <div id="cardholder-name" contenteditable="true"></div><br><br> -->
+      <form class="monetary_donations_form" action="" method="get" name="monetary" onsubmit="submitForm()">
+        <label for="name">Name</label>
+        <input type="text" name="name" required><br><br>
 
-        <label for="card-number">Card Number</label><br>
-        <div id="card-number" contenteditable="true" required></div><br><br>
+        <label for="email">Email Address</label>
+        <input type="email" name="email" required><br><br>
 
-        <label for="cvv">CVV</label><br>
-        <div id="cvv" contenteditable="true" required></div><br><br>
+        <label for="amount">Dollar Amount   $ </label>
+        <input id="dollar_amount" type="number" name="amount" onchange="updateAKADollars()" min="1" required>
+        <p id="aka_dollars">AKA Dollars Amount: </p><br>
 
-        <label for="expiration-date">Expiration Date</label><br>
-        <div id="expiration-date" contenteditable="true" required></div><br><br>
+        <label for="service">What payment service would you like to use?</label><br>
+        <input type="radio" id="paypal" name="service" value="paypal" checked>
+        <label for="paypal">PayPal</label><br>
+        <input type="radio" id="cashapp" name="service" value="cashapp">
+        <label for="cashapp">Cash App</label><br>
+        <input type="radio" id="venmo" name="service" value="venmo">
+        <label for="venmo">Venmo</label><br><br>
 
-        <div id="payment-message"></div>
+        <input type="submit" value="Submit">
 
-        <input type="submit" value="Donate" disabled />
       </form>
-      <script type="text/javascript" src="js/donations-money.js"></script>
     </div>
 
     <!-- This class defines and structures the overlay navigation bar-->
@@ -67,6 +65,7 @@
       <div class="dropdown-container">
         <a href="donations-money.html">Monetary Donations</a>
         <a href="donations-dropbox.html">Dropbox Donations</a>
+        <a id="donations-admin" href="donations-admin-list.html">Donations List</a>
       </div>
       <a href="bachelors.html">Bachelors</a>
       <a href="auction.html">HeartbreAKA Auction</a>
@@ -94,5 +93,7 @@
     });
   }
   </script>
+  <script type="text/javascript" src="js/donations-money.js"></script>
+
   </body>
 </html>

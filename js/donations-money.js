@@ -1,66 +1,75 @@
-const braintree = require("braintree");
+let form = document.forms.monetary;
 
-const gateway = new braintree.BraintreeGateway({
-  environment: braintree.Environment.Sandbox,
-  merchantId: "vx32r6xn3xjsbdcj",
-  publicKey: "c8rzrhwp5tpwbkwv",
-  privateKey: "9747dccf799eb608b200304322066cd8"
-});
+function updateAKADollars() {
+  var dollars = form.amount.value;
+  document.getElementById("aka_dollars").innerHTML = "AKA Dollars Amount: " + (dollars * 100);
+}
 
-var form = document.querySelector('#hosted-fields-form');
-var submit = document.querySelector('input[type="submit"]');
+function submitForm() {
+  var paypal = form.service[0];
+  var cashapp = form.service[1];
+  var venmo = form.service[2];
 
-braintree.client.create({
-  authorization: 'sandbox_gpqy6ky8_vx32r6xn3xjsbdcj'
-}, function (clientErr, clientInstance) {
-  if (clientErr) {
-    console.error(clientErr);
-    return;
+  if (paypal.checked == true) {
+    form.action = "paypal-instructions.html"
   }
 
-  braintree.hostedFields.create({
-    client: clientInstance,
-    styles: '../css/donations-money.css',
-    fields: {
-      number: {
-        selector: '#card-number',
-        placeholder: 'Enter your card number'
-      },
-      cvv: {
-        selector: '#cvv',
-        placeholder: 'Enter CVV'
-      },
-      expirationDate: {
-        selector: '#expiration-date',
-        placeholder: 'Enter expiration date (mm/yy)'
-      }
-    }
-  }, function (hostedFieldsErr, hostedFieldsInstance) {
-    if (hostedFieldsErr) {
-      console.error(hostedFieldsErr);
-      return;
-    }
+  if (cashapp.checked == true) {
+    form.action = "cashapp-instructions.html"
+  }
 
-    submit.removeAttribute('disabled');
+  if (venmo.checked == true) {
+    form.action = "venmo-instructions.html"
+  }
 
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
 
-      hostedFieldsInstance.tokenize({
-        // cardholderName: event.target.cardholderName.value
-      }, function (tokenizeErr, payload) {
-        if (tokenizeErr) {
-          console.error(tokenizeErr);
-          return;
-        }
-        // If this was a real integration, this is where you would
-        // send the nonce to your server.
-        console.log('Got a nonce: ' + payload.nonce);
-        document.getElementById("payment-message").innerHTML = "Payment successful!";
-      });
-    }, false);
-  });
-});
+
+}
+
+function addToTable(paymentService){
+  var request = new XMLHttpRequest();
+
+  request.addEventListener("load", function(evt){
+    console.log(evt);
+  }, false);
+
+  request.open('GET', 'donations-admin-list.html', true),
+  request.send();
+  console.log("adding to table");
+  var table = document.getElementById("monetary_donations_list_body");
+
+  var newRow = table.insertRow();
+
+  var nameCell = newRow.insertCell();
+  var emailCell = newRow.insertCell();
+  var amountCell = newRow.insertCell();
+  var serviceCell = newRow.insertCell();
+  var approvalCell = newRow.insertCell();
+
+  // Append a text node to the cell
+  var fullName = document.createTextNode(form.name.value);
+  nameCell.appendChild(fullName);
+  var emailAddress = document.createTextNode(form.email.value);
+  emailCell.appendChild(emailAddress);
+  var dollars = document.createTextNode(form.amount.value);
+  amountCell.appendChild(dollars);
+  var service = document.createTextNode(paymentService.value);
+  serviceCell.appendChild(service);
+
+  // Create the approvalCell contents
+  var selectElement = document.createElement("select");
+  var approve = document.createElement("option");
+  var deny = document.createElement("option");
+  approve.value = "Approve";
+  approve.text = "Approve";
+  deny.value = "Deny";
+  deny.text = "Deny";
+  selectElement.appendChild(approve);
+  selectElement.appendChild(deny);
+  approvalCell.appendChild(selectElement);
+
+
+}
 
 function openNav() {
   document.getElementById("myNav").style.width = "100%";

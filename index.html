@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/index.css">
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script type="text/javascript" src="js/google-login.js"></script>
   </head>
   <body>
     <div class="header">
@@ -66,7 +68,9 @@
 
     <!-- Overlay content -->
     <div class="overlay-content">
-      <a href="login.html" class="login">Sign Up | Login</a><br><br>
+      <a href="login.html" class="login" id="sign-up">Sign Up | Login</a><br><br>
+      <!-- Default for Logout button is hidden-- only show when user logged in-->
+      <a href="index.html" id="sign-out" style="display:none" onclick="signOut();">Logout</a><br><br>
       <a href="index.html">Home</a>
       <a href="about-chapter.html">About Elegant Eta Beta</a>
       <button class="dropdown-btn">Make Donations <i class="fa fa-caret-down"></i>

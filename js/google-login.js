@@ -2,6 +2,7 @@ var auth2;
 var googleUser; // The current user
 
 gapi.load('auth2', function(){
+
     auth2 = gapi.auth2.init({
         // **********Still need to update this to correct Client ID!!***********
         client_id: '828552978883-a9t18224isla4nd0di12kf133mn4k6n5.apps.googleusercontent.com'
@@ -17,13 +18,18 @@ var signinChanged = function (val) {
     var signOut = document.getElementById("sign-out");
     console.log('Signin state changed to ', val);
 
-    // Hide either "Sign In" or "Logout" from dropdown menu
-    if (val) {
+    if (val = "true") {
+        // hide sign in/sign up
         signUp.style.display = "none";
-    } else {
-        signOut.style.display = "none";
-    }
+        // show log out 
+        signOut.style.display = "inline";
+    } 
 };
+
+function hideLogout() {
+    var signOut = document.getElementById("sign-out");
+    signOut.style.display = "none";
+}
 
 function onSuccess(googleUser) {
     console.log('Logged in as: ' + googleUser.getBasicProfile().getName());

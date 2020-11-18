@@ -1,33 +1,73 @@
-.button {
-  cursor: pointer;
-  font-weight: 500;
-  left: 3px;
-  line-height: inherit;
-  position: relative;
-  text-decoration: none;
-  text-align: center;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 3px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+input, select {
+  width: 80%;
+  padding: 5px;
+  margin: 8px 0;
   display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.button--small {
-  padding: 10px 20px;
-  font-size: 0.875rem;
+input[type=submit] {
+  width: 20%;
+  background-color: lightgreen;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.button--green {
-  outline: none;
-  background-color: #64d18a;
-  border-color: #64d18a;
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+input[type="radio"] {
+  width: 5%;
+
+}
+
+form {
+  background-color: green;
+  width: 80%;
+  margin-left: 10%;
+  padding: 10px;
+  border-radius: 10px;
   color: white;
-  transition: all 200ms ease;
+  font-weight: bold;
 }
 
-.button--green:hover {
-  background-color: #8bdda8;
+#aka_dollars {
+  margin-left: 15%;
+}
+
+.monetary_donations_attendee, .monetary_donations_admin {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+table {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-collapse: collapse;
+  font-size: 18px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+th {
+  background-color: green;
   color: white;
+  font-weight: bold;
+  padding: 2px;
+}
+
+tr:nth-child(even) {
+  background-color: lightgreen;
+}
+
+tr:hover {
+  background-color: lightgray;
 }

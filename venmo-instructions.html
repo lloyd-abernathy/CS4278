@@ -2,35 +2,53 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Venmo Instructions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
-    <script type="text/javascript" src="js/bachelors.js"></script>
+    <link rel="stylesheet" href="css/payment.css">
+    <script type="text/javascript" src="js/donations-money.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
   </head>
   <body>
-
     <div id="info">
-      <div class="header">
-        <div class="header_left">
-          <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
-        </div>
 
-        <div class="header_center">
-          <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
-          <h1>Elegant Eta Beta Chapter</h1>
-        </div>
-
-        <div class="header_right">
-        </div>
+    <div class="header">
+      <div class="header_left">
+        <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
       </div>
 
-      <div id="myNav" class="overlay">
+      <div class="header_center">
+        <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
+        <h1>Elegant Eta Beta Chapter</h1>
+      </div>
 
-      <!-- Button to close the overlay navigation -->
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <div class="header_right">
+      </div>
+    </div>
 
+    <div class="venmo_info">
+      <h4>Your selected payment method is: </h4>
+      <img src="images/venmo_logo.png" alt=""><br>
+      <h6>How to submit payment via Venmo</h6>
+      <ol>
+        <li>Login to Venmo on your mobile device.</li>
+        <li>Click the "Pay or Request button"</li>
+        <li>The recipient of the payment is: @ElegantHB</li>
+        <li id="pay_amount">Enter the amount you specified in the form: $</li>
+        <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
+          if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."</li>
+        <li>Submit your payment</li>
+      </ol>
+      <br>
+      <p><strong>Upon verifying your submission, you will recieve an email
+        with the amount credited to your account.</strong></p>
+    </div>
+
+    <div id="myNav" class="overlay">
+
+    <!-- Button to close the overlay navigation -->
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
     <!-- Overlay content -->
     <div class="overlay-content">
@@ -44,60 +62,13 @@
         <a href="donations-money.html">Monetary Donations</a>
         <a href="donations-dropbox.html">Dropbox Donations</a>
         <a id="donations-admin" href="donations-admin-list.html">Donations List</a>
+      </div>
       <a href="bachelors.html">Bachelors</a>
       <a href="auction.html">HeartbreAKA Auction</a>
-
-      </div>
-
     </div>
-        
-      <div class="Bachelors">
-        <head>
-      <style>
-      {
-          box-sizing: border-box;
-      }
-      /* Set additional styling options for the columns */
-      .column {
-      float: left;
-      }
 
-      /* Set width length for the left, right and middle columns */
-      .left {
-      width: 33%;
-      }
-
-      .middle {
-      width: 33%;
-      }
-
-      .right {
-      width: 33%;
-      }
-
-      .row:after {
-      content: "";
-      display: table;
-      clear: both;
-      }
-      </style>
-   </head>
-   <body>
-     <h2>Bachelors</h2>
-      <div class="row">
-          <div class="column left" style="background-color:#FFFFFF;">
-              <p>Data..</p>
-          </div>
-          <div class="column middle" style="background-color:#FFFFFF;">
-              <p>Data..</p>
-          </div>
-          <div class="column right" style="background-color:#FFFFFF;">
-              <p>Data..</p>
-          </div>
-      </div>
-   </body>
-      </div>
-    </div>
+  </div>
+</div>
 
 
   <script type="text/javascript">
@@ -119,5 +90,6 @@
     });
   }
   </script>
+
   </body>
 </html>

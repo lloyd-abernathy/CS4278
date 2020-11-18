@@ -47,7 +47,7 @@ h2 {
   color: black;
   margin-top: 10px;
   margin-left: 10px;
-  border-bottom: 3px dotted pink;
+  border-bottom: 3px dotted green;
   padding-bottom: 2px;
   width: 90%;
   font-family: Apple Chancery, cursive;
@@ -266,6 +266,7 @@ color and some left padding to change the design of the dropdown content */
   }
 }
 
+/* Responsive view for iphone 8+ thorugh iphone x */
 @media (min-width: 640px) and (max-width: 822px){
   .overlay a, .overlay button {font-size: 15px}
   .overlay .closebtn {
@@ -298,6 +299,7 @@ color and some left padding to change the design of the dropdown content */
   }
 }
 
+/* Responsive view for iphone X+ and ipad */
 @media (min-width: 500px) and (max-width: 639px){
   .overlay a, .overlay button {font-size: 15px}
   .overlay .closebtn {
@@ -330,6 +332,7 @@ color and some left padding to change the design of the dropdown content */
   }
 }
 
+/* Responsive view for ipad pro through ipad plus*/
 @media (min-width: 399px) and (max-width: 532px){
   .overlay a, .overlay button {font-size: 15px}
   .overlay .closebtn {
@@ -362,6 +365,7 @@ color and some left padding to change the design of the dropdown content */
   }
 }
 
+/* Responsive view for all Macbooks */
 @media (min-width: 1700px){
   .overlay a, .overlay button {font-size: 40px}
   .overlay .closebtn {

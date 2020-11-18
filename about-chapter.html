@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/about-chapter.css">
     <script type="text/javascript" src="js/about-chapter.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script type="text/javascript" src="js/google-login.js"></script>
   </head>
   <body>
     <div id="info">
@@ -29,22 +31,23 @@
       <!-- Button to close the overlay navigation -->
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-      <!-- Overlay content -->
-      <div class="overlay-content">
-        <a href="login.html" class="login">Sign Up | Login</a><br><br>
-        <a href="index.html">Home</a>
-        <a href="about-chapter.html">About Elegant Eta Beta</a>
-        <button class="dropdown-btn">Make Donations <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
-          <a href="donations-money.html">Monetary Donations</a>
-          <a href="donations-dropbox.html">Dropbox Donations</a>
-          <a id="donations-admin" href="donations-admin-list.html">Donations List</a>
-        </div>
-        <a href="bachelors.html">Bachelors</a>
-        <a href="auction.html">HeartbreAKA Auction</a>
-      </div>
 
+    <!-- Overlay content -->
+    <div class="overlay-content">
+      <a href="login.html" class="login" id="sign-up">Sign Up | Login</a><br><br>
+      <a href="index.html" id="sign-out" style="display:none" onclick="signOut();">Logout</a><br><br>
+      <a href="index.html">Home</a>
+      <a href="about-chapter.html">About Elegant Eta Beta</a>
+      <button class="dropdown-btn">Make Donations <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+        <a href="donations-money.html">Monetary Donations</a>
+        <a href="donations-dropbox.html">Dropbox Donations</a>
+        <a id="donations-admin" href="donations-admin-list.html">Donations List</a>
+      </div>
+      <a href="bachelors.html">Bachelors</a>
+      <a href="auction.html">HeartbreAKA Auction</a>
+     </div>
     </div>
 
     <div class="chapter_info" contenteditable="false">

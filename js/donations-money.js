@@ -21,20 +21,9 @@ function submitForm() {
   if (venmo.checked == true) {
     form.action = "venmo-instructions.html"
   }
-
-
-
 }
 
-function addToTable(paymentService){
-  var request = new XMLHttpRequest();
-
-  request.addEventListener("load", function(evt){
-    console.log(evt);
-  }, false);
-
-  request.open('GET', 'donations-admin-list.html', true),
-  request.send();
+function addToTable(paymentService) {
   console.log("adding to table");
   var table = document.getElementById("monetary_donations_list_body");
 
@@ -67,8 +56,6 @@ function addToTable(paymentService){
   selectElement.appendChild(approve);
   selectElement.appendChild(deny);
   approvalCell.appendChild(selectElement);
-
-
 }
 
 function openNav() {

@@ -10,6 +10,9 @@
     <script src="https://apis.google.com/js/platform.js"></script>
   </head>
   <body>
+
+    <div id="info">
+
     <div class="header">
       <div class="header_left">
         <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
@@ -24,7 +27,7 @@
       </div>
     </div>
 
-    <div class="donate_money_info">
+    <div class="monetary_donations_attendee">
       <h2>Make a Monetary Donation</h2><br><br>
       <form class="monetary_donations_form" action="" method="get" name="monetary" onsubmit="submitForm()">
         <label for="name">Name</label>
@@ -38,16 +41,33 @@
         <p id="aka_dollars">AKA Dollars Amount: </p><br>
 
         <label for="service">What payment service would you like to use?</label><br>
-        <input type="radio" id="paypal" name="service" value="paypal" checked>
+        <input type="radio" id="paypal" name="service" value="Paypal" checked>
         <label for="paypal">PayPal</label><br>
-        <input type="radio" id="cashapp" name="service" value="cashapp">
+        <input type="radio" id="cashapp" name="service" value="Cash App">
         <label for="cashapp">Cash App</label><br>
-        <input type="radio" id="venmo" name="service" value="venmo">
+        <input type="radio" id="venmo" name="service" value="Venmo">
         <label for="venmo">Venmo</label><br><br>
 
         <input type="submit" value="Submit">
 
       </form>
+    </div>
+
+    <div class="monetary_donations_admin">
+      <h2>List of Monetary Donations</h2>
+      <table id="monetary_donations_list">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Amount</th>
+          <th>Service Used</th>
+          <th>Accept or Deny?</th>
+        </thead>
+
+        <tbody id="monetary_donations_list_body">
+
+        </tbody>
+      </table>
     </div>
 
     <!-- This class defines and structures the overlay navigation bar-->
@@ -75,6 +95,8 @@
     </div>
 
   </div>
+</div>
+
 
 
   <script type="text/javascript">

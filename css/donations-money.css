@@ -42,8 +42,32 @@ form {
   margin-left: 15%;
 }
 
-.donations_money_info {
+.monetary_donations_attendee, .monetary_donations_admin {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
+}
+
+table {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-collapse: collapse;
+  font-size: 18px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+th {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  padding: 2px;
+}
+
+tr:nth-child(even) {
+  background-color: lightgreen;
+}
+
+tr:hover {
+  background-color: lightgray;
 }

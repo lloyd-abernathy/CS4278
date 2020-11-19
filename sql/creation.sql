@@ -22,12 +22,14 @@ CREATE TABLE bachelors (
     major VARCHAR(100),
     biography TEXT,
     photoUrl VARCHAR(100),
-    maxBid DECIMAL(20,2) UNSIGNED,
-    auctionStatus BOOLEAN,
+    maxBid DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
+    auctionStatus BOOLEAN DEFAULT 0,
     addedBy SMALLINT UNSIGNED,
-    CONSTRAINT pk_adminId PRIMARY KEY(adminId),
+    CONSTRAINT pk_bachelorId PRIMARY KEY(bachelorId),
     CONSTRAINT fk_bachelorAdminId FOREIGN KEY(addedBy)
 		REFERENCES admins(adminId)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
 -- Attendees
@@ -37,12 +39,10 @@ CREATE TABLE attendees (
     email VARCHAR(155),
     firstName VARCHAR(40),
     lastName VARCHAR(40),
-	accountBalance DECIMAL(20,2) UNSIGNED,
-    totalDonations DECIMAL(20,2) UNSIGNED,
-    auctionWon BOOLEAN,
-    CONSTRAINT pk_attendeeId PRIMARY KEY(attendeeId),
-    CONSTRAINT fk_bachelorAdminId FOREIGN KEY(addedBy)
-		REFERENCES admins(adminId)
+	accountBalance DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
+    totalDonations DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
+    auctionWon BOOLEAN DEFAULT 0,
+    CONSTRAINT pk_attendeeId PRIMARY KEY(attendeeId)
 );
 
 -- Bids
@@ -54,9 +54,13 @@ CREATE TABLE bids (
     bidAmount DECIMAL(20,2) UNSIGNED,
     CONSTRAINT pk_bidId PRIMARY KEY(bidId),
     CONSTRAINT fk_bidAttendeeId FOREIGN KEY(attendeeId)
-		REFERENCES attendees(attendeeId),
+		REFERENCES attendees(attendeeId)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
 	CONSTRAINT fk_bidBachelorId FOREIGN KEY(bachelorId)
 		REFERENCES bachelors(bachelorId)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
 -- Auctions
@@ -65,12 +69,17 @@ CREATE TABLE auctions (
 	auctionId SMALLINT UNSIGNED AUTO_INCREMENT,
     bachelorId SMALLINT UNSIGNED NOT NULL,
     winningAttendeeId SMALLINT UNSIGNED,
+    winningBidId SMALLINT UNSIGNED,
     winningBid DECIMAL(20,2) UNSIGNED,
     timeStart INT UNSIGNED,
     timeComplete INT UNSIGNED,
     CONSTRAINT pk_auctionId PRIMARY KEY(auctionId),
     CONSTRAINT fk_auctionBachelorId FOREIGN KEY(bachelorId)
-		REFERENCES bachelors(id),
-	CONSTRAINT fk_auctionAttendeeId FOREIGN KEY(winningAttendeeId)
-		REFERENCES attendees(id)
+		REFERENCES bachelors(bachelorId)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT fk_auctionBidId FOREIGN KEY(winningBidId)
+		REFERENCES bids(bidId)
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
 );

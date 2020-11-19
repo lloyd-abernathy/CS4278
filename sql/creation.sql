@@ -22,8 +22,8 @@ CREATE TABLE bachelors (
     major VARCHAR(100),
     biography TEXT,
     photoUrl VARCHAR(100),
-    maxBid DECIMAL(20,2) UNSIGNED,
-    auctionStatus BOOLEAN,
+    maxBid DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
+    auctionStatus BOOLEAN DEFAULT 0,
     addedBy SMALLINT UNSIGNED,
     CONSTRAINT pk_bachelorId PRIMARY KEY(bachelorId),
     CONSTRAINT fk_bachelorAdminId FOREIGN KEY(addedBy)
@@ -39,9 +39,9 @@ CREATE TABLE attendees (
     email VARCHAR(155),
     firstName VARCHAR(40),
     lastName VARCHAR(40),
-	accountBalance DECIMAL(20,2) UNSIGNED,
-    totalDonations DECIMAL(20,2) UNSIGNED,
-    auctionWon BOOLEAN,
+	accountBalance DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
+    totalDonations DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
+    auctionWon BOOLEAN DEFAULT 0,
     CONSTRAINT pk_attendeeId PRIMARY KEY(attendeeId)
 );
 

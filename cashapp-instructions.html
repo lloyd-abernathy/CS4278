@@ -30,6 +30,14 @@
     <div class="cashapp_info">
       <h4>Redirecting to...</h4>
       <img src="images/cashapp_logo.png" alt="">
+      <h6>How to submit payment via Venmo</h6>
+      <ol>
+        <li>Sign in to Cash App through the website or mobile.</li>
+        <li>Click the Pay or New button.</li>
+        <li id="pay_amount">Enter the amount you specified in the form: $</li>
+        <li id="full_name">In the description, put ".</li>
+        <li>Submit your payment.</li>
+      </ol>
     </div>
 
     <div id="myNav" class="overlay">
@@ -60,6 +68,7 @@
   <script type="text/javascript">
   window.open("https://cash.app/");
 
+  console.log(window.location.href);
   /*This section creates t*/
 
   var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -79,7 +88,5 @@
   }
 
   </script>
-  <script type="text/javascript" src="js/index.js"></script>
-
   </body>
 </html>

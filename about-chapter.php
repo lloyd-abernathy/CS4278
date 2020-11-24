@@ -49,8 +49,8 @@
           <a href="donations-money.php">Monetary Donations</a>
           <a href="donations-dropbox.php">Dropbox Donations</a>
         </div>
-        <a href="bachelors.html">Bachelors</a>
-        <a href="auction.html">HeartbreAKA Auction</a>
+        <a href="bachelors.php">Bachelors</a>
+        <a href="auction.php">HeartbreAKA Auction</a>
       </div>
 
     </div>

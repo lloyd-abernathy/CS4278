@@ -31,23 +31,28 @@
       <!-- Button to close the overlay navigation -->
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-
-    <!-- Overlay content -->
-    <div class="overlay-content">
-      <a href="login.html" class="login" id="sign-up">Sign Up | Login</a><br><br>
-      <a href="index.html" id="sign-out" style="display:none" onclick="signOut();">Logout</a><br><br>
-      <a href="index.html">Home</a>
-      <a href="about-chapter.html">About Elegant Eta Beta</a>
-      <button class="dropdown-btn">Make Donations <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-        <a href="donations-money.html">Monetary Donations</a>
-        <a href="donations-dropbox.html">Dropbox Donations</a>
-        <a id="donations-admin" href="donations-admin-list.html">Donations List</a>
+      <!-- Overlay content -->
+      <div class="overlay-content">
+        <a href="login.html" class="login" id="sign-up">Sign Up | Login</a>
+        <!-- Default for Logout button is hidden-- only show when user logged in-->
+        <button id="account-btn" class="dropdown-btn-account" style="display:none">Account
+          </button>
+        <div class="dropdown-container-account">
+          <a href="account.php" id="account">View Profile</a>
+          <a href="index.html" id="sign-out" onclick="signOut();">Logout</a><br><br>
+        </div>
+        <a href="index.html">Home</a>
+        <a href="about-chapter.html">About Elegant Eta Beta</a>
+        <button class="dropdown-btn-donations">Make Donations <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container-donations">
+          <a href="donations-money.php">Monetary Donations</a>
+          <a href="donations-dropbox.php">Dropbox Donations</a>
+        </div>
+        <a href="bachelors.html">Bachelors</a>
+        <a href="auction.html">HeartbreAKA Auction</a>
       </div>
-      <a href="bachelors.html">Bachelors</a>
-      <a href="auction.html">HeartbreAKA Auction</a>
-     </div>
+
     </div>
 
     <div class="chapter_info" contenteditable="false">
@@ -108,24 +113,37 @@
     </div>
 
 
-  <script type="text/javascript">
-  /*This section creates t*/
+    <script type="text/javascript">
+    /*This section creates t*/
 
-  var dropdown = document.getElementsByClassName("dropdown-btn");
-  var i;
+    var donations = document.getElementsByClassName("dropdown-btn-donations");
+    var account = document.getElementsByClassName("dropdown-btn-account");
+    var i;
+    var j;
 
-  for (i = 0; i < dropdown.length; i++) {
-    console.log("Adding click");
-    dropdown[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var dropdownContent = this.nextElementSibling;
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-      } else {
-        dropdownContent.style.display = "block";
-      }
-    });
-  }
-  </script>
+    for (i = 0; i < donations.length; i++) {
+      donations[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownDonations = this.nextElementSibling;
+        if (dropdownDonations.style.display === "block") {
+          dropdownDonations.style.display = "none";
+        } else {
+          dropdownDonations.style.display = "block";
+        }
+      });
+    }
+
+    for (j = 0; j < account.length; j++) {
+      account[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownAccount = this.nextElementSibling;
+        if (dropdownAccount.style.display === "block") {
+          dropdownAccount.style.display = "none";
+        } else {
+          dropdownAccount.style.display = "block";
+        }
+      });
+    }
+    </script>
   </body>
 </html>

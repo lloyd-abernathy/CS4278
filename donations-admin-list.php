@@ -1,5 +1,4 @@
 <?php
-
 $dbhost = 'etabetaaka.c1m0a5xa0ixp.us-east-2.rds.amazonaws.com';
 $dbuname = 'EtaBetaAka';
 $dbpass = 'EtaBeta1972!';
@@ -7,31 +6,41 @@ $dbname = 'aka';
 
 $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
 
-$query = "SELECT * FROM aka.bachelors";
+$to_do_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 0";
+$done_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 1";
 
 try {
-    $prepared_stmt = $dbo->prepare($query);
-    $prepared_stmt->execute();
-    $result = $prepared_stmt->fetchAll();
+    $to_do_prepared_stmt = $dbo->prepare($to_do_query);
+    $to_do_prepared_stmt->execute();
+    $to_do_result = $to_do_prepared_stmt->fetchAll();
+
+    $done_prepared_stmt = $dbo->prepare($done_query);
+    $done_prepared_stmt->execute();
+    $done_result = $to_do_prepared_stmt->fetchAll();
 
 } catch (PDOException $ex) { // Error in database processing.
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
-?>
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>View Profile</title>
+    <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
-    <script src="https://apis.google.com/js/platform.js"></script>
+    <link rel="stylesheet" href="css/donations-admin-list.css">
+    <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="js/donations-admin-list.js"></script>
+    <script type="text/javascript" src="js/donations-money.js"></script>
+    <script type="text/javascript" src="js/donations-dropbox.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
-    <script type="text/javascript" src="js/account.js">
-
-    </script>
+    <script src="https://apis.google.com/js/platform.js"></script>
   </head>
   <body>
+
+    <div id="info">
+
     <div class="header">
       <div class="header_left">
         <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
@@ -45,6 +54,59 @@ try {
       <div class="header_right">
       </div>
     </div>
+
+    <div class="donations_admin_list_info">
+      <h2>Tasks To Do</h2>
+      <form class="" action="donations-admin-list.php" method="post" onsubmit="">
+
+            <?php
+            if ($to_do_result && $to_do_prepared_stmt->rowCount() > 0) {?>
+              <table>
+                <thead>
+                  <th>&nbsp;</th>
+                  <th>Message</th>
+                  <th>Approved?</th>
+                </thead>
+                <tbody>
+              <?php 
+              foreach ($to_do_result as $row) {
+                ?>
+                <tr>
+                  <td>
+                    <input type="checkbox" value="<?php echo $row["notificationId"]; ?>">
+                  </td>
+                  <td>
+                    <strong>Subject: </strong> <?php echo $row["notificationSubject"]; ?><br>
+                    <strong>Message: </strong> <?php echo $row["notificationMessage"]; ?>
+                  </td>
+                  <td>
+                    <input type="radio" name="approved" value="Approve">
+                    <label for="approved">Approve</label><br>
+                    <input type="radio" name="approved" value="Deny">
+                    <label for="approved">Deny</label><br>
+                    <input type="radio" name="approved" value="Edit">
+                    <label for="approved">Edit</label>
+                  </td>
+                </tr>
+
+                <?php
+              }
+            } else {?>
+              No more Tasks to complete
+            }?>
+
+
+          </tbody>
+        </table>
+        <input type="submit" name="submit_changes" value="Submit Changes">
+      </form>
+
+      <h2>Completed Tasks</h2>
+      <form class="" action="donations-admin-list.php" method="post">
+
+      </form>
+    </div>
+
 
     <div id="myNav" class="overlay">
 
@@ -75,30 +137,10 @@ try {
 
   </div>
 
-  <div class="account_info">
-    <h2>View Profile</h2>
-    <table>
-
-      <tbody>
-        <tr>
-          <td>Name</td>
-          <td>Your Name</td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td>email@email.com</td>
-        </tr>
-        <tr>
-          <td>AKA Dollars Balance</td>
-          <td>XXX</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 
   <script type="text/javascript">
   /*This section creates t*/
-
   var donations = document.getElementsByClassName("dropdown-btn-donations");
   var account = document.getElementsByClassName("dropdown-btn-account");
   var i;

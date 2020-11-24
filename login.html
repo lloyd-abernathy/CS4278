@@ -28,7 +28,6 @@
       </div>
     </div>
 
-    <div id="name"></div>
     <div id="myNav" class="overlay">
 
     <!-- Button to close the overlay navigation -->
@@ -38,18 +37,22 @@
     <div class="overlay-content">
       <a href="login.html" class="login" id="sign-up">Sign Up | Login</a><br><br>
       <!-- Default for Logout button is hidden-- only show when user logged in-->
-      <a href="index.html" id="sign-out" style="display:none" onclick="signOut();">Logout</a><br><br>
+      <button id="account-btn" class="dropdown-btn-account" style="visibility:none">Account
+        </button>
+      <div class="dropdown-container-account">
+        <a href="account.php" id="account">View Profile</a>
+        <a href="index.html" id="sign-out" onclick="signOut();">Logout</a><br><br>
+      </div>
       <a href="index.html">Home</a>
       <a href="about-chapter.html">About Elegant Eta Beta</a>
-      <button class="dropdown-btn">Make Donations <i class="fa fa-caret-down"></i>
+      <button class="dropdown-btn-donations">Make Donations <i class="fa fa-caret-down"></i>
       </button>
-      <div class="dropdown-container">
-        <a href="donations-money.html">Monetary Donations</a>
-        <a href="donations-dropbox.html">Dropbox Donations</a>
-        <a id="donations-admin" href="donations-admin-list.html">Donations List</a>
+      <div class="dropdown-container-donations">
+        <a href="donations-money.php">Monetary Donations</a>
+        <a href="donations-dropbox.php">Dropbox Donations</a>
       </div>
       <a href="bachelors.php">Bachelors</a>
-      <a href="auction.html">HeartbreAKA Auction</a>
+      <a href="auction.php">HeartbreAKA Auction</a>
     </div>
 
   </div>
@@ -78,24 +81,37 @@
   <script type="text/javascript">
   /*This section creates t*/
 
-  var dropdown = document.getElementsByClassName("dropdown-btn");
+  var donations = document.getElementsByClassName("dropdown-btn-donations");
+  // var account = document.getElementsByClassName("dropdown-btn-account");
   var i;
+  // var j;
 
-  for (i = 0; i < dropdown.length; i++) {
-    console.log("Adding click");
-    dropdown[i].addEventListener("click", function() {
+  for (i = 0; i < donations.length; i++) {
+    donations[i].addEventListener("click", function() {
       this.classList.toggle("active");
-      var dropdownContent = this.nextElementSibling;
-      if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
+      var dropdownDonations = this.nextElementSibling;
+      if (dropdownDonations.style.display === "block") {
+        dropdownDonations.style.display = "none";
       } else {
-        dropdownContent.style.display = "block";
+        dropdownDonations.style.display = "block";
       }
     });
   }
+
+  // for (j = 0; j < account.length; j++) {
+  //   account[i].addEventListener("click", function() {
+  //     this.classList.toggle("active");
+  //     var dropdownAccount = this.nextElementSibling;
+  //     if (dropdownAccount.style.display === "block") {
+  //       dropdownAccount.style.display = "none";
+  //     } else {
+  //       dropdownAccount.style.display = "block";
+  //     }
+  //   });
+  // }
   </script>
 
-  <!-- This section handles logging in through Google 
+  <!-- This section handles logging in through Google
   <script>
     var auth2;
     var googleUser; // The current user
@@ -109,7 +125,7 @@
 
       auth2.isSignedIn.listen(signinChanged);
       auth2.currentUser.listen(userChanged); // This is what you use to listen for user changes
-    });  
+    });
 
     var signinChanged = function (val) {
         console.log('Signin state changed to ', val);
@@ -121,7 +137,7 @@
                   googleUser.getBasicProfile().getName();
       window.location.href = "index.html";
       // change log in to log out on drop down menu
-        
+
     };
 
     function onFailure(error) {
@@ -132,14 +148,14 @@
         auth2.signOut().then(function () {
             console.log('User signed out.');
         });
-    }        
+    }
 
     var userChanged = function (googleUser) {
       if(googleUser.getId()){
           // Do something here
         }
     };
-        
+
     function renderButton() {
       gapi.signin2.render('login_google', {
         'scope': 'profile email',

@@ -11,28 +11,44 @@ gapi.load('auth2', function(){
 
     auth2.isSignedIn.listen(signinChanged);
     auth2.currentUser.listen(userChanged); // This is what you use to listen for user changes
-});  
+});
 
 var signinChanged = function (val) {
     var signUp = document.getElementById("sign-up");
-    var signOut = document.getElementById("sign-out");
+    var accountBtn = document.getElementById("account-btn");
     console.log('Signin state changed to ', val);
 
     if (val = "true") {
         // hide sign in/sign up
         signUp.style.display = "none";
-        // show log out 
-        signOut.style.display = "inline";
-    } 
+        // show account button
+        accountBtn.style.visibility = "visibile";
+        var account = document.getElementsByClassName("dropdown-btn-account");
+        var j;
+
+        for (j = 0; j < account.length; j++) {
+          account[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var dropdownAccount = this.nextElementSibling;
+            if (dropdownAccount.style.display === "block") {
+              dropdownAccount.style.display = "none";
+            } else {
+              dropdownAccount.style.display = "block";
+            }
+          });
+        }
+    }
 };
 
 function hideLogout() {
-    var signOut = document.getElementById("sign-out");
-    signOut.style.display = "none";
+    var accountBtn = document.getElementById("account-btn");
+    accountBtn.style.display = "none";
 }
 
 function onSuccess(googleUser) {
     console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    document.getElementById('account-btn').innerHTML += "Hi, " +
+                googleUser.getBasicProfile().getName();
     document.getElementById('name').innerText = "Signed in: " +
                 googleUser.getBasicProfile().getName();
     // Redirect user to home page
@@ -47,12 +63,12 @@ function signOut() {
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });
-};        
+};
 
 var userChanged = function (googleUser) {
     // do something
 };
-    
+
 function renderButton() {
     gapi.signin2.render('login_google', {
     'scope': 'profile email',

@@ -1,15 +1,37 @@
+<?php
+
+$dbhost = '';
+$dbuname = '';
+$dbpass = '';
+$dbname = '';
+
+$dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
+
+$query = "SELECT * FROM aka.bachelors";
+
+try {
+    $prepared_stmt = $dbo->prepare($query);
+    $prepared_stmt->execute();
+    $result = $prepared_stmt->fetchAll();
+
+} catch (PDOException $ex) { // Error in database processing.
+    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/master.css">
-    <script src="https://apis.google.com/js/platform.js"></script>
+    <link rel="stylesheet" href="css/donations-dropbox.css">
+    <script type="text/javascript" src="js/donations-dropbox.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
   </head>
   <body>
+
     <div id="info">
 
     <div class="header">
@@ -26,37 +48,27 @@
       </div>
     </div>
 
-    <div class="homepage_info">
-      <div class="slideshow" id="slideshow">
-        <div class="slides">
-          <div class="slide_number">1 / 3</div>
-          <img src="images/slideshow/image1.png" alt="">
-        </div>
-        <div class="slides">
-          <div class="slide_number">2 / 3</div>
-          <img src="images/slideshow/image2.png" alt="">
-        </div>
-        <div class="slides">
-          <div class="slide_number">3 / 3</div>
-          <img src="images/slideshow/instagram.png" alt="">
-        </div>
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-      </div>
-
-      <div id="links" style="height:70px;margin-bottom:10px;width:100%;"class="buttons">
-        <form action="bachelors.php">
-          <input class="quick_links" type="submit" name="bachelors" value="View Bachelors">
-        </form>
-        <form action="donations-money.html">
-          <input class="quick_links" type="submit" name="bachelors" value="Make Monetary Donation">
-        </form>
-        <form action="auction.html">
-          <input id="auction" class="quick_links" type="submit" name="bachelors" value="Go to Auction">
-        </form>
-      </div>
+    <div class="dropbox_attendee">
+      <h2>Donations via Dropbox</h2>
     </div>
 
+    <div class="dropbox_admin">
+      <h2>List of Dropbox Donations</h2>
+      <table id="dropbox_donations_list">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Donation</th>
+          <th>Date Submitted</th>
+          <th>AKA Dollar Equivalence</th>
+          <th>Accept or Deny?</th>
+        </thead>
+
+        <tbody id="dropbox_donations_list_body">
+
+        </tbody>
+      </table>
+    </div>
 
     <div id="myNav" class="overlay">
 
@@ -78,8 +90,8 @@
       <button class="dropdown-btn-donations">Make Donations <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container-donations">
-        <a href="donations-money.php">Monetary Donations</a>
-        <a href="donations-dropbox.php">Dropbox Donations</a>
+        <a href="donations-money.html">Monetary Donations</a>
+        <a href="donations-dropbox.html">Dropbox Donations</a>
       </div>
       <a href="bachelors.php">Bachelors</a>
       <a href="auction.php">HeartbreAKA Auction</a>
@@ -87,6 +99,7 @@
 
   </div>
 </div>
+
 
 
 <script type="text/javascript">
@@ -121,7 +134,5 @@ for (j = 0; j < account.length; j++) {
   });
 }
 </script>
-  <script type="text/javascript" src="js/index.js"></script>
-
   </body>
 </html>

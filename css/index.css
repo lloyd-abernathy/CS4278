@@ -1,6 +1,11 @@
 .slideshow {
   position: relative;
   z-index: 0;
+  width: 80%;
+  height: 450px;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
 }
 
 .slides {
@@ -8,8 +13,11 @@
 }
 
 .slides img {
-  width: 100%;
+  width: 80%;
   margin-top: 0;
+  height: 450px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 
@@ -29,8 +37,12 @@
 }
 
 .next {
-  right: 0;
+  right: 10%;
   border-radius: 3px 0 0 3px;
+}
+
+.prev {
+  left: 10%;
 }
 
 .prev:hover, .next:hover {
@@ -43,6 +55,7 @@
   padding: 8px 12px;
   position: absolute;
   top: 0;
+  left: 10%;
 }
 
 .quick_links {
@@ -62,6 +75,17 @@
   font-style: bold;
 }
 
+.quick_links #auction {
+  margin-right: 10%;
+}
+
+div#links.buttons {
+  height: 10%;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
 .about_heartbreaka {
-  text-align: left;
+  margin-left: auto;
+
 }

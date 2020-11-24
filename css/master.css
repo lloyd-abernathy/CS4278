@@ -1,8 +1,7 @@
-font-family: Didot, sans-serif;
-
 body {
   margin: 0;
   padding: 0;
+  font-family: Didot, sans-serif;
 }
 
 * {
@@ -87,7 +86,7 @@ ul {
 }
 
 /* The navigation links inside the overlay */
-.overlay a, .dropdown-btn{
+.overlay a, .dropdown-btn-donations, .dropdown-btn-account{
   padding: 8px;
   text-decoration: none;
   font-size: 30px;
@@ -103,7 +102,9 @@ ul {
 }
 
 /* When you mouse over the navigation links, change their color */
-.overlay a:hover, .overlay a:focus, .dropdown-btn:hover, .dropdown-btn:focus {
+.overlay a:hover, .overlay a:focus,
+.dropdown-btn-donations:hover, .dropdown-btn-donations:focus,
+.dropdown-btn-account:hover, .dropdown-btn-account:focus{
   color: lightgreen;
   background-color: green;
 }
@@ -128,21 +129,25 @@ button {
 
 /* Dropdown container (hidden by default). Optional: add a lighter background
 color and some left padding to change the design of the dropdown content */
-.dropdown-container {
+.dropdown-container-donations, .dropdown-container-account {
   display: none;
   background-color: #262626;
   padding-left: 8px;
 }
 
-.dropdown-container a:hover, .dropdown-container a:focus, .closebtn a:hover,
-  .closebtn a:focus  {
+.dropdown-container-donations a:hover,
+.dropdown-container-donations a:focus,
+.dropdown-container-account a:hover,
+.dropdown-container-account a:focus,
+.closebtn a:hover,
+.closebtn a:focus  {
   color: lightgreen;
   background: transparent;
 }
 
 /* Add an active class to the active dropdown button */
 .active {
-  background-color: #db7093;
+  background-color: green;
   color: white;
 }
 

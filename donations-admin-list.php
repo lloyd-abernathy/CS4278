@@ -1,8 +1,8 @@
 <?php
-$dbhost = 'etabetaaka.c1m0a5xa0ixp.us-east-2.rds.amazonaws.com';
-$dbuname = 'EtaBetaAka';
-$dbpass = 'EtaBeta1972!';
-$dbname = 'aka';
+$dbhost = ' ';
+$dbuname = '';
+$dbpass = '';
+$dbname = '';
 
 $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
 
@@ -68,7 +68,7 @@ try {
                   <th>Approved?</th>
                 </thead>
                 <tbody>
-              <?php 
+              <?php
               foreach ($to_do_result as $row) {
                 ?>
                 <tr>

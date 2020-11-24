@@ -1,6 +1,6 @@
 <?php
 
-$dbhost = ' ';
+$dbhost = '';
 $dbuname = '';
 $dbpass = '';
 $dbname = '';

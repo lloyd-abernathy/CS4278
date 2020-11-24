@@ -85,7 +85,7 @@ try {
                 $bachelorID = $row['bachelorId'];
                 $bachelorFirstName = $row['firstName'];
                 $bachelorLastName = $row['lastName'];
-                $bachelorAge = $row['age'];
+                $bachelorClass = $row['class'];
                 $bachelorMajor = $row['major'];
                 $bachelorBiography = $row['biography'];
                 $bachelorProfilePicture = $row['photoUrl'];
@@ -107,7 +107,7 @@ try {
                   <div class="bachelor_info">
                     <h3>About <?php echo $bachelorFirstName . " " . $bachelorLastName; ?></h3>
                     <p>
-                      <strong>Clasification: </strong> <br>
+                      <strong>Clasification: </strong><?php echo $bachelorClass; ?> <br>
                       <strong>Major: </strong> <?php echo $bachelorMajor; ?> <br>
                       <strong>Max Bid (AKA Dollars): $</strong> <?php echo $bachelorMaxBid; ?><br>
                       <strong>Auction Status: </strong> <?php

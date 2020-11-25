@@ -1,11 +1,7 @@
 <?php
 
-$dbhost = '';
-$dbuname = '';
-$dbpass = '';
-$dbname = '';
+require_once("conn.php");
 
-$dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

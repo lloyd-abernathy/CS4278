@@ -1,11 +1,6 @@
 <?php
 
-$dbhost = '';
-$dbuname = '';
-$dbpass = '';
-$dbname = '';
-
-$dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
+require_once("conn.php");
 
 $query = "SELECT * FROM aka.bachelors";
 
@@ -93,7 +88,11 @@ try {
                 $bachelorAuctionStatus = $row['auctionStatus'];
                 $bachelorAddedBy = $row['addedBy']; ?>
                 <div class="bachelors_gallery" onclick="showDiv('<?php echo $bachelorID; ?>')">
-                  <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
+                    <?php if ($bachelorProfilePicture) { ?>
+                        <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
+                    <?php } else { ?>
+                        <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
+                    <?php }; ?>
                   <div class="desc">
                     <strong><?php echo $bachelorFirstName . " " . $bachelorLastName; ?></strong><br>
                     <strong>Major: </strong><?php echo $bachelorMajor; ?><br>
@@ -102,7 +101,11 @@ try {
                 <div class="biography" id="<?php echo $bachelorID; ?>">
                   <span onclick="hideDiv('<?php echo $bachelorID; ?>')" class="closebtn">&times;</span>
                   <div class="bachelor_img">
-                    <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
+                      <?php if ($bachelorProfilePicture) { ?>
+                          <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
+                      <?php } else { ?>
+                          <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
+                      <?php }; ?>
                   </div>
                   <div class="bachelor_info">
                     <h3>About <?php echo $bachelorFirstName . " " . $bachelorLastName; ?></h3>

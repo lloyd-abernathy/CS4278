@@ -1,10 +1,6 @@
 <?php
-$dbhost = '';
-$dbuname = '';
-$dbpass = '';
-$dbname = '';
 
-$dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
+require_once("conn.php");
 
 $to_do_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 0";
 $done_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 1";

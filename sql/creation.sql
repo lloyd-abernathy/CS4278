@@ -18,13 +18,14 @@ CREATE TABLE bachelors (
 	bachelorId SMALLINT UNSIGNED AUTO_INCREMENT,
     firstName VARCHAR(40),
     lastName VARCHAR(40),
-    age SMALLINT UNSIGNED,
+    class VARCHAR(40),
     major VARCHAR(100),
     biography TEXT,
     photoUrl VARCHAR(100),
     maxBid DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
     auctionStatus BOOLEAN DEFAULT 0,
     addedBy SMALLINT UNSIGNED,
+    auction_order_id SMALLINT UNSIGNED,
     CONSTRAINT pk_bachelorId PRIMARY KEY(bachelorId),
     CONSTRAINT fk_bachelorAdminId FOREIGN KEY(addedBy)
 		REFERENCES admins(adminId)
@@ -82,4 +83,15 @@ CREATE TABLE auctions (
 		REFERENCES bids(bidId)
         ON UPDATE CASCADE
         ON DELETE SET NULL
+);
+
+-- Notifications
+DROP TABLE IF EXISTS notifcations;
+CREATE TABLE notifications (
+	notificationId SMALLINT UNSIGNED AUTO_INCREMENT,
+    notificationType VARCHAR(50) NOT NULL,
+    notificationSubject VARCHAR(200),
+    notificationMessage TEXT,
+    notificationFlag BOOLEAN DEFAULT 0,
+    CONSTRAINT pk_notificationId PRIMARY KEY(notificationId)
 );

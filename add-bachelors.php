@@ -27,51 +27,14 @@ require_once("conn.php");
     </script>
   </head>
   <body>
-    <div class="header">
-      <div class="header_left">
-        <span onclick="openNav()"><i class="fa fa-ellipsis-v"></i></span>
-      </div>
 
-      <div class="header_center">
-        <h1>Alpha Kappa Alpha Sorority, Inc.</h1>
-        <h1>Elegant Eta Beta Chapter</h1>
-      </div>
+    <?php include_once("header.php"); ?>
+    <?php include_once("overlay.php"); ?>
 
-      <div class="header_right">
-      </div>
     </div>
-
-    <div id="myNav" class="overlay">
-
-    <!-- Button to close the overlay navigation -->
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-    <!-- Overlay content -->
-    <div class="overlay-content">
-      <a href="login.html" class="login" id="sign-up">Sign Up | Login</a>
-      <!-- Default for Logout button is hidden-- only show when user logged in-->
-      <button id="account-btn" class="dropdown-btn-account" style="display:none">Account
-        </button>
-      <div class="dropdown-container-account">
-        <a href="account.php" id="account">View Profile</a>
-        <a href="index.html" id="sign-out" onclick="signOut();">Logout</a><br><br>
-      </div>
-      <a href="index.html">Home</a>
-      <a href="about-chapter.html">About Elegant Eta Beta</a>
-      <button class="dropdown-btn-donations">Make Donations <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container-donations">
-        <a href="donations-money.html">Monetary Donations</a>
-        <a href="donations-dropbox.html">Dropbox Donations</a>
-      </div>
-      <a href="bachelors.php">Bachelors</a>
-      <a href="auction.php">HeartbreAKA Auction</a>
-    </div>
-
-  </div>
 
   <div class="add_bachelors_form">
-    <form class="" action="index.html" method="post">
+    <form class="" action="index.php" method="post">
       <label for="google_form">Link to Google Form</label>
       <input type="text" name="google_forms" value="">
       <input type="submit" name="submit_form" value="Submit">

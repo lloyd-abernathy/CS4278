@@ -93,6 +93,7 @@ try {
               }
             } else {?>
               No more Tasks to complete
+              <?php
             }?>
 
 

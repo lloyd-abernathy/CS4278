@@ -52,7 +52,7 @@ function onSuccess(googleUser) {
     document.getElementById('name').innerText = "Signed in: " +
                 googleUser.getBasicProfile().getName();
     // Redirect user to home page
-    window.location.href = "index.html";
+    window.location.href = "index.php";
 };
 
 function onFailure(error) {

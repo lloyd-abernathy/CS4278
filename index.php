@@ -1,58 +1,56 @@
-<?php
-
-require_once("conn.php");
-
-$query = "SELECT * FROM aka.bachelors";
-
-try {
-    $prepared_stmt = $dbo->prepare($query);
-    $prepared_stmt->execute();
-    $result = $prepared_stmt->fetchAll();
-
-} catch (PDOException $ex) { // Error in database processing.
-    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-}
-?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>View Profile</title>
+    <title>Home</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/master.css">
     <script src="https://apis.google.com/js/platform.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
-    <script type="text/javascript" src="js/account.js">
-
-    </script>
 </head>
 <body>
 <?php include_once("header.php"); ?>
-<?php include_once("overlay.php"); ?>
 
+<div class="homepage_info">
+    <div class="slideshow" id="slideshow">
+        <div class="slides">
+            <div class="slide_number">1 / 3</div>
+            <img src="images/slideshow/image1.png" alt="">
+        </div>
+        <div class="slides">
+            <div class="slide_number">2 / 3</div>
+            <img src="images/slideshow/image2.png" alt="">
+        </div>
+        <div class="slides">
+            <div class="slide_number">3 / 3</div>
+            <img src="images/slideshow/instagram.png" alt="">
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <div id="links" style="height:70px;margin-bottom:10px;width:100%;" class="buttons">
+        <form action="bachelors.php">
+            <input class="quick_links" type="submit" name="bachelors" value="View Bachelors">
+        </form>
+        <form action="donations-money.php">
+            <input class="quick_links" type="submit" name="bachelors"
+                   value="Make Monetary Donation">
+        </form>
+        <form action="auction.php">
+            <input id="auction" class="quick_links" type="submit" name="bachelors"
+                   value="Go to Auction">
+        </form>
+    </div>
+
+    <?php include_once("overlay.php"); ?>
 </div>
 
-<div class="account_info">
-    <h2>View Profile</h2>
-    <table>
-
-        <tbody>
-        <tr>
-            <td>Name</td>
-            <td>Your Name</td>
-        </tr>
-        <tr>
-            <td>Email</td>
-            <td>email@email.com</td>
-        </tr>
-        <tr>
-            <td>AKA Dollars Balance</td>
-            <td>XXX</td>
-        </tr>
-        </tbody>
-    </table>
 </div>
+</div>
+
 
 <script type="text/javascript">
     /*This section creates t*/
@@ -86,5 +84,7 @@ try {
         });
     }
 </script>
+<script type="text/javascript" src="js/index.js"></script>
+
 </body>
 </html>

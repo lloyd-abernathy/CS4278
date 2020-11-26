@@ -31,7 +31,7 @@ require_once("conn.php");
     <form class="" action="index.php" method="post">
         <div id="login_google"></div>
     </form>
-    <form class="" action="index.php" method="post">
+    <!-- <form class="" action="index.php" method="post">
         <button class="login" id="login_facebook" type="button" name="button"><img class="sign_in_icon" id="facebook_icon" src="https://www.flaticon.com/svg/static/icons/svg/124/124010.svg" alt="facebook_icon"> Login with Facebook</button>
     </form>
     <h3>Sign Up</h3>
@@ -41,7 +41,7 @@ require_once("conn.php");
     </form>
     <form class="" action="index.php" method="post">
         <button class="sign_up" id="join_facebook" type="button" name="button"><img class="sign_in_icon" id="facebook_icon" src="https://www.flaticon.com/svg/static/icons/svg/124/124010.svg" alt="facebook_icon"> Join with Facebook</button>
-    </form>
+    </form> -->
 </div>
 
 

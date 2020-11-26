@@ -18,7 +18,7 @@ function uploadImg($email, $image, $tmp_image) {
   }
 }
 
-function checkDatabase($email) {
+function checkBachelorDatabase($email) {
   $check_bachelors = "SELECT * FROM aka.bachelors WHERE email = :email";
 
   try {

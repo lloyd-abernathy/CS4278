@@ -1,57 +1,84 @@
 var auth2;
 var googleUser; // The current user
 
-gapi.load('auth2', function(){
+/**
+ * Calls startAuth after Sign in V2 finishes setting up.
+ */
+var appStart = function() {
+    gapi.load('auth2', initSigninV2);
+  };
 
+  /**
+   * Initializes Signin v2 and sets up listeners.
+   */
+  var initSigninV2 = function() {
     auth2 = gapi.auth2.init({
-        // **********Still need to update this to correct Client ID!!***********
-        client_id: '828552978883-a9t18224isla4nd0di12kf133mn4k6n5.apps.googleusercontent.com'
+        client_id: '171078891411-7i5ga9cttdoa4u7leqm36eaa013ojj94.apps.googleusercontent.com',
+        scope: 'profile'
     });
+
     auth2.attachClickHandler('login_google', {}, onSuccess, onFailure);
 
+    // Listen for sign-in state changes.
     auth2.isSignedIn.listen(signinChanged);
-    auth2.currentUser.listen(userChanged); // This is what you use to listen for user changes
-});
+
+    // Listen for changes to current user.
+    auth2.currentUser.listen(userChanged);
+
+    // Sign in the user if they are currently signed in.
+    if (auth2.isSignedIn.get() == true) {auth2.signIn();
+    }
+
+    // Start with the current live values.
+    refreshValues();
+  };
+
+
+window.onload = function () {
+
+    if (localStorage.getItem("isUserLoggedIn") == null || localStorage.getItem("isUserLoggedIn") == "false") {
+        // Hide Logout and Profile buttons when no one has logged in yet
+        hideLogoutAndProfile();
+    } else {
+        // someone is logged in -- hide sign in
+        hideSignIn();
+    }
+}
 
 var signinChanged = function (val) {
-    var signUp = document.getElementById("sign-up");
-    var accountBtn = document.getElementById("account-btn");
     console.log('Signin state changed to ', val);
 
     if (val = "true") {
-        // hide sign in/sign up
-        signUp.style.display = "none";
-        // show account button
-        accountBtn.style.visibility = "visibile";
-        var account = document.getElementsByClassName("dropdown-btn-account");
-        var j;
-
-        for (j = 0; j < account.length; j++) {
-          account[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var dropdownAccount = this.nextElementSibling;
-            if (dropdownAccount.style.display === "block") {
-              dropdownAccount.style.display = "none";
-            } else {
-              dropdownAccount.style.display = "block";
-            }
-          });
-        }
+        localStorage.setItem("isUserLoggedIn", true);
     }
 };
 
-function hideLogout() {
-    var accountBtn = document.getElementById("account-btn");
+function hideLogoutAndProfile() {
+    var logoutBtn = document.getElementById("sign-out");
+    var accountBtn = document.getElementById("account");
+    var signInBtn = document.getElementById("sign-in");
+
+    logoutBtn.style.display = "none";
     accountBtn.style.display = "none";
+    signInBtn.style.display = "block";
+}
+
+function hideSignIn() {
+    var signInBtn = document.getElementById("sign-in");
+    var logoutBtn = document.getElementById("sign-out");
+    var accountBtn = document.getElementById("account");
+
+    signInBtn.style.display = "none";
+    logoutBtn.style.display = "block";
+    accountBtn.style.display = "block";
 }
 
 function onSuccess(googleUser) {
     console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-    document.getElementById('account-btn').innerHTML += "Hi, " +
-                googleUser.getBasicProfile().getName();
-    document.getElementById('name').innerText = "Signed in: " +
-                googleUser.getBasicProfile().getName();
-    // Redirect user to home page
+    console.log('Logged in as: ' + googleUser.getBasicProfile().getEmail());
+    createCookie("fullName", googleUser.getBasicProfile().getName());
+    createCookie("email", googleUser.getBasicProfile().getEmail());
+    localStorage.setItem("isUserLoggedIn", true);
     window.location.href = "index.php";
 };
 
@@ -60,9 +87,18 @@ function onFailure(error) {
 };
 
 function signOut() {
+    deleteCookie("fullName");
+    deleteCookie("email");
+    localStorage.setItem("isUserLoggedIn", false);
+
     auth2.signOut().then(function () {
         console.log('User signed out.');
+        var signIn = document.getElementById('sign-in');
+        //hideLogoutAndProfile();
+        localStorage.setItem("isUserLoggedIn", false);
+        //signIn.style.visibility = "visible";
     });
+    //window.href.location = "index.php";
 };
 
 var userChanged = function (googleUser) {
@@ -72,11 +108,23 @@ var userChanged = function (googleUser) {
 function renderButton() {
     gapi.signin2.render('login_google', {
     'scope': 'profile email',
-    'width': 240,
+    'width': 200,
     'height': 50,
     'longtitle': true,
     'theme': 'dark',
     'onsuccess': onSuccess,
     'onfailure': onFailure
     });
+};
+
+function createCookie(name, value) {
+  var date = new Date();
+  date.setTime(date.getTime()+(24*60*60*1000));
+  var expires = "; expires="+date.toGMTString();
+
+  document.cookie = name+ "=" + value+expires+"; path=/;";
+}
+
+function deleteCookie(name) {
+  document.cookie = name+ "=; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/;";
 }

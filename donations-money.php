@@ -53,7 +53,7 @@ require_once("conn.php");
         $amount = $_POST['amount'];
         $service = $_POST['service'];
 
-        $subject = "PAYMENT RECIEVED FROM " . $name . "-" . $email;
+        $subject = "PAYMENT RECIEVED FROM: " . $name . "-" . $email;
         $message = $name . " has submitted a payment of $" . $amount . " through " . $service . ". Please confirm by checking
             the " . $service . " account and approve it here for the record.";
 
@@ -68,6 +68,9 @@ require_once("conn.php");
         } catch (PDOException $ex) { // Error in database processing.
             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
+        ?>
+        Successfully entered!
+        <?php
     }
     ?>
 </div>

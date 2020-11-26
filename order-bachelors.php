@@ -10,12 +10,6 @@ try {
     $bachelors_prepared_stmt = $dbo->prepare($bachelors);
     $bachelors_prepared_stmt->execute();
     $bachelors_result = $bachelors_prepared_stmt->fetchAll();
-
-    $auction_order_prepared_stmt = $dbo->prepare($auction_order);
-    $auction_order_prepared_stmt->execute();
-    $auction_order_result = $auction_order_prepared_stmt->fetchAll();
-    print_r($auction_order_result);
-
 } catch (PDOException $ex) { // Error in database processing.
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
@@ -91,7 +85,7 @@ try {
         </form>
         <?php
         if (isset($_POST['submit_order'])) {
-            $auction_order_null = "UPDATE aka.bachelors SET auction_order_id = NULL";
+            $auction_order_null = "UPDATE aka.bachelors SET auction_order_id = 0";
 
             try {
                 $auction_order_null_prepared_stmt = $dbo->prepare($auction_order_null);
@@ -99,19 +93,19 @@ try {
             } catch (PDOException $ex) {
                 echo $sql . "<br>" . $error->getMessage();
             }
+
             if (isset($_POST['new_order'])) {
                 $new_order = $_POST['new_order'];
                 $index = 1;
                 $x = 0;
-                print_r($new_order);
+
                 foreach ($new_order as $id) {
                     $new_order_query = "UPDATE aka.bachelors
                                       SET auction_order_id = :index
                                       WHERE bachelorId = :id";
-
                     try {
                         $new_order_prepared_stmt = $dbo->prepare($new_order_query);
-                        $new_order_prepared_stmt->bindValue(':id', $id[$x], PDO::PARAM_INT);
+                        $new_order_prepared_stmt->bindValue(':id', $new_order[$x], PDO::PARAM_INT);
                         $new_order_prepared_stmt->bindValue(':index', $index, PDO::PARAM_INT);
                         $new_order_prepared_stmt->execute();
                         $index++;
@@ -123,17 +117,11 @@ try {
 
                 $get_null_auction_order = "SELECT *
                                            FROM aka.bachelors
-                                           WHERE auction_order_id = '' ";
-                $bachelors_now = "SELECT * FROM aka.bachelors";
-
+                                           WHERE auction_order_id = 0";
                 try {
                     $get_null_auction_order_prepared_stmt = $dbo->prepare($get_null_auction_order);
                     $get_null_auction_order_prepared_stmt->execute();
                     $get_null_auction_order_result = $get_null_auction_order_prepared_stmt->fetchAll();
-
-                    $bachelors_now_prepared_stmt = $dbo->prepare($bachelors_now);
-                    $bachelors_now_prepared_stmt->execute();
-                    $bachelors_now_result = $bachelors_now_prepared_stmt->fetchAll();
                 } catch (PDOException $ex) {
                     echo $sql . "<br>" . $error->getMessage();
                 }
@@ -143,13 +131,11 @@ try {
                     Error! Please resubmit with all values added to the right side.
                     <?php
                 } else {
-                    print_r($get_null_auction_order_result);
                     ?>
                     Successfully submitted! Order of bachelors updated.
                     <?php
                 }
             }
-
         } ?>
     </div>
 

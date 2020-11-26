@@ -18,8 +18,6 @@ require_once("conn.php");
 </head>
 <body>
 
-<script>startApp();</script>
-
 <?php include_once("header.php"); ?>
 <?php include_once("overlay.php"); ?>
 
@@ -28,10 +26,10 @@ require_once("conn.php");
 <div class="login_info">
     <h3>Login To Your Account</h3>
     <br>
-    <form class="" action="index.php" method="post">
+    <form class="login_google" action="login.php" method="post">
         <div id="login_google"></div>
     </form>
-    <form class="" action="index.php" method="post">
+    <!-- <form class="" action="index.php" method="post">
         <button class="login" id="login_facebook" type="button" name="button"><img class="sign_in_icon" id="facebook_icon" src="https://www.flaticon.com/svg/static/icons/svg/124/124010.svg" alt="facebook_icon"> Login with Facebook</button>
     </form>
     <h3>Sign Up</h3>
@@ -41,7 +39,7 @@ require_once("conn.php");
     </form>
     <form class="" action="index.php" method="post">
         <button class="sign_up" id="join_facebook" type="button" name="button"><img class="sign_in_icon" id="facebook_icon" src="https://www.flaticon.com/svg/static/icons/svg/124/124010.svg" alt="facebook_icon"> Join with Facebook</button>
-    </form>
+    </form> -->
 </div>
 
 
@@ -50,9 +48,7 @@ require_once("conn.php");
     /*This section creates t*/
 
     var donations = document.getElementsByClassName("dropdown-btn-donations");
-    // var account = document.getElementsByClassName("dropdown-btn-account");
     var i;
-    // var j;
 
     for (i = 0; i < donations.length; i++) {
         donations[i].addEventListener("click", function() {
@@ -65,19 +61,22 @@ require_once("conn.php");
             }
         });
     }
-
-    // for (j = 0; j < account.length; j++) {
-    //   account[i].addEventListener("click", function() {
-    //     this.classList.toggle("active");
-    //     var dropdownAccount = this.nextElementSibling;
-    //     if (dropdownAccount.style.display === "block") {
-    //       dropdownAccount.style.display = "none";
-    //     } else {
-    //       dropdownAccount.style.display = "block";
-    //     }
-    //   });
-    // }
 </script>
+
+<?php
+ if (!checkDatabaseStatus()) {
+    $insert_attendee = "INSERT INTO aka.attendees(email, fullName)
+                        VALUES (:email, :fullName)";
+    try {
+      $insert_attendee_prepared_stmt = $dbo->prepare($insert_attendee);
+      $insert_attendee_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+      $insert_attendee_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
+      $insert_attendee_prepared_stmt->execute();
+    } catch (PDOException $ex) {
+      echo $sql . "<br>" . $error->getMessage();
+    }
+  }
+?>
 
 <!-- This section handles logging in through Google
 <script>
@@ -137,5 +136,6 @@ require_once("conn.php");
   }
 </script> -->
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script>startApp();</script>
 </body>
 </html>

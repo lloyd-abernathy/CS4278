@@ -1,4 +1,4 @@
-table {
+.tasks {
   border: 1px solid black;
   padding: 8px;
   border-collapse: collapse;
@@ -7,7 +7,7 @@ table {
   margin-top: 10px;
 }
 
-th {
+.tasks th {
   border: 1px solid black;
   background-color: green;
   color: white;
@@ -15,15 +15,15 @@ th {
   padding: 2px;
 }
 
-tr:nth-child(even) {
+.tasks tr:nth-child(even) {
   background-color: lightgreen;
 }
 
-tr:hover {
+.tasks tr:hover {
   background-color: lightgray;
 }
 
-td {
+.tasks td {
   border: 1px solid black;
   margin-right: 10px;
   margin-left: 10px;

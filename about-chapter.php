@@ -1,6 +1,7 @@
 <?php
 
 require_once("conn.php");
+$admin_flag = false;
 
 ?>
 
@@ -24,7 +25,7 @@ require_once("conn.php");
 
 </div>
 
-<div class="chapter_info" contenteditable="false">
+<div class="chapter_info">
     <h2>About Elegant Eta Beta</h2><br>
     <p>The Elegant Eta Beta Chapter of Alpha Kappa Alpha Sorority, Inc.
         was chartered on November 11, 1972 by a group of 13 sophisticated young

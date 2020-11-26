@@ -68,7 +68,7 @@ try {
                     <?php }; ?>
                 </div>
                 <div class="bachelor_info">
-                    <h3>About <?php echo $bachelorFirstName . " " . $bachelorLastName; ?></h3>
+                    <h3>About <?php echo $bachelorFullName; ?></h3>
                     <p>
                         <strong>Clasification: </strong><?php echo $bachelorClass; ?> <br>
                         <strong>Major: </strong> <?php echo $bachelorMajor; ?> <br>

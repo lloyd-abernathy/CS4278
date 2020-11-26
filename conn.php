@@ -5,13 +5,28 @@ $dbuname = '';
 $dbpass = '';
 $dbname = '';
 
-$dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
-$admin_flag = false;
-$bachelor_flag = false;
-$attendee_flag = false;
-$result;
+try {
+  $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
+} catch (PDOException $e) {
+  echo 'Connection failed: ' . $e->getMessage();
+  exit;
+}
+
+if ($dbo->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+$admin_flag = (bool)false;
+$bachelor_flag = (bool)false;
+$attendee_flag = (bool)false;
+$login_result;
 
 function checkDatabaseStatus() {
+  try {
+    $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
+  } catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
+    exit;
+  }
   if(isset($_COOKIE["email"]) && isset($_COOKIE["fullName"])) {
     $full_name = $_COOKIE["fullName"];
     $email = $_COOKIE["email"];
@@ -40,15 +55,38 @@ function checkDatabaseStatus() {
         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
     }
 
-    if ($check_attendees_email_result && $check_attendees_email_prepared_stmt->rowCount() > 0) {
-      $attendee_flag = true;
-      $result = $check_attendees_email_result;
-    } else if ($check_admin_email_result && $check_admin_email_prepared_stmt->rowCount() > 0) {
+    if ($check_admin_email_result && $check_admin_email_prepared_stmt->rowCount() > 0) {
       $admin_flag = true;
-      $result = $check_admin_email_result;
+      $login_result = array(
+        'id' => $check_admin_email_result['adminId'],
+        'email' => $check_admin_email_result['email'],
+        'fullName' => $check_admin_email_result['fullName']
+      );
     } else if ($check_bachelors_email_result && $check_bachelors_email_prepared_stmt->rowCount() > 0) {
       $bachelor_flag = true;
-      $result = $check_bachelors_email_result;
+      $login_result = array(
+        'id' => $check_bachelors_email_result['bachelorId'],
+        'email' => $check_bachelors_email_result['email'],
+        'fullName' => $check_bachelors_email_result['fullName'],
+        'class' => $check_bachelors_email_result['class'],
+        'major' => $check_bachelors_email_result['major'],
+        'biography' => $check_bachelors_email_result['biography'],
+        'photoUrl' => $check_bachelors_email_result['photoUrl'],
+        'maxBid' => $check_bachelors_email_result['maxBid'],
+        'auctionStatus' => $check_bachelors_email_result['auctionStatus'],
+        'addedBy' => $check_bachelors_email_result['addedBy'],
+        'auction_order_id' => $check_bachelors_email_result['auction_order_id']
+      );
+    } else if ($check_attendees_email_result && $check_attendees_email_prepared_stmt->rowCount() > 0) {
+      $attendee_flag = true;
+      $login_result = array(
+        'id' => $check_attendees_email_result['attendeeId'],
+        'email' => $check_attendees_email_result['email'],
+        'fullName' => $check_attendees_email_result['fullName'],
+        'accountBalance' => $check_attendees_email_result['accountBalance'],
+        'totalDonations' => $check_attendees_email_result['totalDonations'],
+        'auctionWon' => $check_attendees_email_result['auctionWon']
+      );
     }
 
     return $attendee_flag || $admin_flag || $bachelor_flag;

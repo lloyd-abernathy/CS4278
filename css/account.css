@@ -1,0 +1,16 @@
+.quick_links {
+  background-color: #cc8899;
+  border: 2px solid #cc8899;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  color: white;
+  float: left;
+  font-family:'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Calisto MT', 'Times New Roman', serif;
+  text-align: center;
+  width: 18%;
+  margin-left: 10%;
+  margin-bottom: 5%;
+  font-size: 15px;
+  border-radius: 3px;
+  font-style: bold;
+}

@@ -64,7 +64,7 @@ require_once("conn.php");
 </script>
 
 <?php
- if (!checkDatabase()) {
+ if (!checkDatabaseStatus()) {
     $insert_attendee = "INSERT INTO aka.attendees(email, fullName)
                         VALUES (:email, :fullName)";
     try {

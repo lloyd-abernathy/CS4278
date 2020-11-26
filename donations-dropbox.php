@@ -1,7 +1,7 @@
 <?php
 
 require_once("conn.php");
-checkDatabase();
+checkDatabaseStatus();
 
 $query = "SELECT * FROM aka.bachelors";
 

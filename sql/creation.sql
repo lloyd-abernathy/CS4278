@@ -7,8 +7,7 @@ DROP TABLE IF EXISTS admins;
 CREATE TABLE admins (
 	adminId SMALLINT UNSIGNED AUTO_INCREMENT,
     email VARCHAR(155),
-    firstName VARCHAR(40),
-    lastName VARCHAR(40),
+    fullName VARCHAR(100),
     CONSTRAINT pk_adminId PRIMARY KEY(adminId)
 );
 
@@ -16,8 +15,7 @@ CREATE TABLE admins (
 DROP TABLE IF EXISTS bachelors;
 CREATE TABLE bachelors (
 	bachelorId SMALLINT UNSIGNED AUTO_INCREMENT,
-    firstName VARCHAR(40),
-    lastName VARCHAR(40),
+    fullName VARCHAR(100),
     class VARCHAR(40),
     major VARCHAR(100),
     biography TEXT,
@@ -38,8 +36,7 @@ DROP TABLE IF EXISTS attendees;
 CREATE TABLE attendees (
 	attendeeId SMALLINT UNSIGNED AUTO_INCREMENT,
     email VARCHAR(155),
-    firstName VARCHAR(40),
-    lastName VARCHAR(40),
+    fullName VARCHAR(100),
 	accountBalance DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
     totalDonations DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
     auctionWon BOOLEAN DEFAULT 0,

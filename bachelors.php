@@ -38,8 +38,7 @@ try {
     <?php if ($result && $prepared_stmt->rowCount() > 0) {
         foreach ($result as $row) {
             $bachelorID = $row['bachelorId'];
-            $bachelorFirstName = $row['firstName'];
-            $bachelorLastName = $row['lastName'];
+            $bachelorFullName = $row['fullName'];
             $bachelorClass = $row['class'];
             $bachelorMajor = $row['major'];
             $bachelorBiography = $row['biography'];
@@ -54,7 +53,7 @@ try {
                     <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
                 <?php }; ?>
                 <div class="desc">
-                    <strong><?php echo $bachelorFirstName . " " . $bachelorLastName; ?></strong><br>
+                    <strong><?php echo $bachelorFullName; ?></strong><br>
                     <strong>Major: </strong><?php echo $bachelorMajor; ?><br>
                 </div>
             </div>
@@ -69,7 +68,7 @@ try {
                     <?php }; ?>
                 </div>
                 <div class="bachelor_info">
-                    <h3>About <?php echo $bachelorFirstName . " " . $bachelorLastName; ?></h3>
+                    <h3>About <?php echo $bachelorFullName; ?></h3>
                     <p>
                         <strong>Clasification: </strong><?php echo $bachelorClass; ?> <br>
                         <strong>Major: </strong> <?php echo $bachelorMajor; ?> <br>

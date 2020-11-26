@@ -75,6 +75,8 @@ require_once("conn.php");
     } catch (PDOException $ex) {
       echo $sql . "<br>" . $error->getMessage();
     }
+
+    checkDatabaseStatus();
   }
 ?>
 

@@ -22,11 +22,8 @@ require_once("bachelors-signup-check.php");
     <?php include_once("header.php"); ?>
     <h2>Bachelor Sign Up</h2> <br>
     <form class="" action="bachelor-signup.php" method="post" enctype="multipart/form-data">
-      <label for="first_name">First Name</label><br>
-      <input type="text" name="first_name" placeholder="i.e. Joe" required><br><br>
-
-      <label for="last_name">Last Name</label><br>
-      <input type="text" name="last_name" placeholder="i.e. Smith" required><br><br>
+      <label for="full_name">Full Name</label><br>
+      <input type="text" name="full_name" placeholder="i.e. Joe Smith" required><br><br>
 
       <label for="email">Vanderbilt Email</label><br>
       <input type="email" name="email" placeholder="i.e. joe.smith@vanderbilt.edu" required>
@@ -67,28 +64,18 @@ require_once("bachelors-signup-check.php");
     <?php
     include_once("overlay.php");
     if (isset($_POST['sign_up'])) {
-      $first_name = $_POST['first_name'];
-      $last_name = $_POST['last_name'];
+      $full_name = $_POST['first_name'];
       $email = $_POST['email'];
-      if (checkDatabase($email)) {
-        $major = $_POST['major'];
-        $class = $_POST['class'];
-        $hometown_state = $_POST['hometown_state'];
-        $food = $_POST['food'];
-        $hobbies = $_POST['hobbies'];
-        $pet_peeves = $_POST['pet_peeves'];
-        $dream_date = $_POST['dream_date'];
-        $image = basename($_FILES['uploadImg']["name"]);
-        $tmp_image = $_FILES['uploadImg']['tmp_name'];
-        uploadImg($email, $image, $tmp_image);
-        ?>
-        Successfully entered!
-        <?php
-      } else {
-        ?>
-        Application was not submitted for approval!
-        <?php
-      }
+      $major = $_POST['major'];
+      $class = $_POST['class'];
+      $hometown_state = $_POST['hometown_state'];
+      $food = $_POST['food'];
+      $hobbies = $_POST['hobbies'];
+      $pet_peeves = $_POST['pet_peeves'];
+      $dream_date = $_POST['dream_date'];
+      $image = basename($_FILES['uploadImg']["name"]);
+      $tmp_image = $_FILES['uploadImg']['tmp_name'];
+      uploadImg($email, $image, $tmp_image);
       print_r($_FILES);
     }
       ?>

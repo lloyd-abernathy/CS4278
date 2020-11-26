@@ -1,6 +1,7 @@
 <?php
 
 require_once("conn.php");
+checkDatabase();
 
 $query = "SELECT * FROM aka.bachelors";
 
@@ -31,25 +32,36 @@ try {
 
   <div class="dropbox_attendee">
       <h2>Donations via Dropbox</h2>
-    </div>
+      <p>Beginning on January 15, you will be able to drop off your donations in
+        the following locations in the boxes that look like the picture showed on
+        this page.
+        <ul>
+          <li>Rand</li>
+          <li>NPHC House</li>
+          <li>Commons Center</li>
+          <li>Kissam Center</li>
+        </ul><br>
+        We ask that if you are dropping off an item, please label it with your
+        name and email address associated with the account. After you have dropped
+        it off, fill out the form below specifying what is in the box and how much
+        of each item to determine how many AKA dollars you can be rewarded. Upon
+        submission, your donation will be reviewed by the chapter and funds will
+        be allocated to your account as soon as possible. If you have any questions,
+        feel free to reach out to the chapter through this
+        <a href="mailto:aka.vanderbilt@gmail.com?subject=HeartbreAKA%20Inquiry%20about%20Dropbox%20Donations">email</a>.</p>
 
-    <div class="dropbox_admin">
-      <h2>List of Dropbox Donations</h2>
-      <table id="dropbox_donations_list">
-        <thead>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Donation</th>
-          <th>Date Submitted</th>
-          <th>AKA Dollar Equivalence</th>
-          <th>Accept or Deny?</th>
-        </thead>
+        <form class="" action="donations-dropbox.php" method="post">
+          <label for="full_name">Full Name</label><br>
+          <input type="text" name="full_name"><br>
 
-        <tbody id="dropbox_donations_list_body">
+          <label for="email">Email</label><br>
+          <input type="email" name="email"><br>
 
-        </tbody>
-      </table>
-    </div>
+          <label for="donations">Donations</label><br>
+          <input type="checkbox" name="donations" value="">
+          <label for="checkbox" name="donations" value=""></label>
+        </form>
+  </div>
 
   <?php include_once("overlay.php"); ?>
 

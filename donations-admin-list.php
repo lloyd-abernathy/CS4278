@@ -44,11 +44,11 @@ try {
 
         <?php
         if ($to_do_result && $to_do_prepared_stmt->rowCount() > 0) { ?>
-        <table>
+        <table class="tasks">
             <thead>
-            <th>&nbsp;</th>
-            <th>Message</th>
-            <th>Approved?</th>
+              <th>&nbsp;</th>
+              <th>Message</th>
+              <th>Approved?</th>
             </thead>
             <tbody>
             <?php

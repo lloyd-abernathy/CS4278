@@ -1,5 +1,5 @@
 input, select {
-  width: 80%;
+  width: 100%;
   padding: 5px;
   margin: 8px 0;
   display: inline-block;
@@ -8,7 +8,7 @@ input, select {
   box-sizing: border-box;
 }
 
-input[type=submit] {
+input[type='submit'] {
   width: 20%;
   background-color: lightgreen;
   color: black;
@@ -19,31 +19,21 @@ input[type=submit] {
   cursor: pointer;
 }
 
-input[type=submit]:hover {
+input[type='submit']:hover {
   background-color: #45a049;
-}
-
-input[type="radio"] {
-  width: 5%;
-
 }
 
 form {
   background-color: green;
-  width: 80%;
-  margin-left: 10%;
+  width: 70%;
+  margin-left: 15%;
   padding: 10px;
   border-radius: 10px;
   color: white;
   font-weight: bold;
+  margin-bottom: 10%;
 }
 
-#aka_dollars {
-  margin-left: 15%;
-}
-
-.monetary_donations_attendee, .monetary_donations_admin {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
+.short_answer {
+  height: 50px;
 }

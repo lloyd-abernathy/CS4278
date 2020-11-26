@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Didot', sans-serif;
+  font-family: 'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Calisto MT', 'Times New Roman', serif;
 }
 
 * {
@@ -36,8 +36,8 @@ body {
 
 h1 {
   text-align: center;
-  font-family: 'Snell Roundhand', cursive;
-  font-size: 45px;
+  font-family: "Brush Script MT", "Bradley Hand", cursive;
+  font-size: 55px;
 }
 
 h2 {
@@ -46,11 +46,12 @@ h2 {
   color: black;
   margin-top: 10px;
   margin-left: 10px;
-  border-bottom: 3px dotted green;
+  border-bottom: 3px solid green;
   padding-bottom: 2px;
   width: 90%;
-  font-family: Apple Chancery, cursive;
+  font-family: "Brush Script MT", "Bradley Hand", cursive;
   font-weight: bold;
+  background-color: lightgreen;
 }
 
 h3 {

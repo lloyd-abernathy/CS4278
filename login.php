@@ -64,7 +64,8 @@ require_once("conn.php");
 </script>
 
 <?php
- if (!checkDatabaseStatus()) {
+require_once("createflags.php");
+ if (!$admin_flag && !$bachelor_flag && !$attendee_flag) {
     $insert_attendee = "INSERT INTO aka.attendees(email, fullName)
                         VALUES (:email, :fullName)";
     try {
@@ -75,8 +76,6 @@ require_once("conn.php");
     } catch (PDOException $ex) {
       echo $sql . "<br>" . $error->getMessage();
     }
-
-    checkDatabaseStatus();
   }
 ?>
 

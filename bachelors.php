@@ -2,7 +2,7 @@
 
 require_once("conn.php");
 
-$query = "SELECT * FROM aka.bachelors";
+$query = "SELECT * FROM aka.bachelors WHERE addedBy != 0";
 
 try {
     $prepared_stmt = $dbo->prepare($query);

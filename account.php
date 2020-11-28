@@ -1,6 +1,7 @@
 <?php
 
 require_once("conn.php");
+require_once("createflags.php");
 
 ?>
 <!DOCTYPE html>
@@ -10,12 +11,11 @@ require_once("conn.php");
     <title>View Profile</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/account.css">
     <link rel="stylesheet" href="css/master.css">
     <script src="https://apis.google.com/js/platform.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
-    <script type="text/javascript" src="js/account.js">
-
-    </script>
+    <script type="text/javascript" src="js/account.js"></script>
 </head>
 <body>
 <?php include_once("header.php"); ?>
@@ -25,12 +25,9 @@ require_once("conn.php");
 
 <div class="account_info">
     <h2>View Profile</h2>
-    <table>
+    <table class="profile">
 
         <tbody>
-        <?php
-        if(checkDatabaseStatus()) {
-         ?>
         <tr>
             <td>Name</td>
             <td><?php echo $login_result['fullName']; ?></td>
@@ -61,7 +58,7 @@ require_once("conn.php");
                           WHERE winningAttendeeId = :id";
                 try {
                   $winning_prepared_stmt = $dbo->prepare($winning_query);
-                  $winning_prepared_stmt->bindValue(':id', $login_result['attendeeId'], PDO::PARAM_INT);
+                  $winning_prepared_stmt->bindValue(':id', $login_result['id'], PDO::PARAM_INT);
                   $winning_prepared_stmt->execute();
                   $winning_result = $winning_prepared_stmt->fetchAll();
                 } catch (PDOException $ex) {
@@ -123,20 +120,23 @@ require_once("conn.php");
       if ($attendee_flag) {
         ?>
         <form action="donations-money.php">
-          <input class="quick_links" type="button" name="monetary_donation"
+          <input class="quick_links" type="submit" name="monetary_donation"
                 value="Make Monetary Donations">
         </form>
         <form action="donations-dropbox.php">
-          <input class="quick_links" type="button" name="dropbox_donation"
+          <input class="quick_links" type="submit" name="dropbox_donation"
                 value="Make Dropbox Donations">
         </form>
         <?php
       }
+      ?>
+      <div class="links">
 
+      <?php
       if ($bachelor_flag) {
         ?>
         <form action="edit-bachelor.php">
-          <input class="quick_links" type="button" name="edit_bachelor"
+          <input class="quick_links" type="submit" name="edit_bachelor"
                 value="Edit Bachelor Profile">
         </form>
         <?php
@@ -145,15 +145,15 @@ require_once("conn.php");
       if ($admin_flag) {
         ?>
         <form action="donations-admin-list.php">
-          <input class="quick_links" type="button" name="tasks"
+          <input class="quick_links" type="submit" name="tasks"
                 value="View Tasks to Complete">
         </form>
-        <form action="add-delete-admins.php">
-          <input class="quick_links" type="button" name="admins"
-                value="Add/Delete Admins">
+        <!-- <form action="add-delete-admins.php">
+          <input class="quick_links" type="submit" name="admins"
+                value="Add/Delete Admins"> -->
         </form>
         <form action="order-bachelors.php">
-          <input class="quick_links" type="button" name="order-bachelors"
+          <input class="quick_links" type="submit" name="order-bachelors"
                 value="Decide Bachelor Order">
         </form>
         <!-- <form action="add-bachelors.php">
@@ -162,8 +162,10 @@ require_once("conn.php");
         </form> -->
         <?php
       }
-    }
+
      ?>
+   </div>
+
 </div>
 
 <script type="text/javascript">

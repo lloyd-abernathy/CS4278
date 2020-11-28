@@ -56,7 +56,54 @@ require_once("conn.php");
         $subject = "PAYMENT RECIEVED FROM: " . $name . "-" . $email;
         $message = $name . " has submitted a payment of $" . $amount . " through " . $service . ". Please confirm by checking
             the " . $service . " account and approve it here for the record.";
-
+        if ($service == "Paypal") {
+          ?>
+          <div class="paypal_info">
+              <h4>Your selected payment method is: </h4>
+              <img src="images/paypal_logo.png" alt="">
+              <h6>How to submit payment via PayPal</h6>
+              <ol>
+                  <li></li>
+              </ol>
+          </div>
+          <?php
+        } else if ($service == "Venmo") {
+          ?>
+          <div class="venmo_info">
+              <h4>Your selected payment method is: </h4>
+              <img src="images/venmo_logo.png" alt=""><br>
+              <h6>How to submit payment via Venmo</h6>
+              <ol>
+                  <li>Login to Venmo on your mobile device.</li>
+                  <li>Click the "Pay or Request button"</li>
+                  <li>The recipient of the payment is: @ElegantHB</li>
+                  <li id="pay_amount">Enter the amount you specified in the form: $</li>
+                  <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
+                      if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."
+                  </li>
+                  <li>Submit your payment</li>
+              </ol>
+              <br>
+              <p><strong>Upon verifying your submission, you will recieve an email
+                      with the amount credited to your account.</strong></p>
+          </div>
+          <?php
+        } else if ($service == "Cash App") {
+          ?>
+          <div class="cashapp_info">
+              <h4>Your selected payment method is: </h4>
+              <img src="images/cashapp_logo.png" alt="">
+              <h6>How to submit payment via Cash App</h6>
+              <ol>
+                  <li>Sign in to Cash App through the website or mobile.</li>
+                  <li>Click the Pay or New button.</li>
+                  <li id="pay_amount">Enter the amount you specified in the form: $</li>
+                  <li id="full_name">In the description, put ".</li>
+                  <li>Submit your payment.</li>
+              </ol>
+          </div>
+          <?php
+        }
         $query = "INSERT INTO notifications(notificationType, notificationSubject, notificationMessage, notificationFlag)
                   VALUES ('Monetary Donation', :subject, :message, 0)";
 
@@ -74,46 +121,6 @@ require_once("conn.php");
     }
     ?>
 </div>
-<div class="cashapp_info" style="display:none">
-    <h4>Redirecting to...</h4>
-    <img src="images/cashapp_logo.png" alt="">
-    <h6>How to submit payment via Venmo</h6>
-    <ol>
-        <li>Sign in to Cash App through the website or mobile.</li>
-        <li>Click the Pay or New button.</li>
-        <li id="pay_amount">Enter the amount you specified in the form: $</li>
-        <li id="full_name">In the description, put ".</li>
-        <li>Submit your payment.</li>
-    </ol>
-</div>
-
-<div class="paypal_info" style="display:none">
-    <h4>Redirecting to...</h4>
-    <img src="images/paypal_logo.png" alt="">
-    <h6>How to submit payment via PayPal</h6>
-    <ol>
-        <li></li>
-    </ol>
-</div>
-
-<div class="venmo_info" style="display:none">
-    <h4>Your selected payment method is: </h4>
-    <img src="images/venmo_logo.png" alt=""><br>
-    <h6>How to submit payment via Venmo</h6>
-    <ol>
-        <li>Login to Venmo on your mobile device.</li>
-        <li>Click the "Pay or Request button"</li>
-        <li>The recipient of the payment is: @ElegantHB</li>
-        <li id="pay_amount">Enter the amount you specified in the form: $</li>
-        <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
-            if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."
-        </li>
-        <li>Submit your payment</li>
-    </ol>
-    <br>
-    <p><strong>Upon verifying your submission, you will recieve an email
-            with the amount credited to your account.</strong></p>
-</div>
 <!-- This class defines and structures the overlay navigation bar-->
 <!-- It includes the content and functions of the nav bar-->
 <?php include_once("overlay.php"); ?>
@@ -122,30 +129,8 @@ require_once("conn.php");
 <script type="text/javascript">
     /*This section creates t*/
 
-    function submitForm() {
-
-        var paypal = form.service[0];
-        var cashapp = form.service[1];
-        var venmo = form.service[2];
-
-        if (paypal.checked == true) {
-            document.getElementById("paypal_info").style.display = "block";
-        }
-
-        if (cashapp.checked == true) {
-            window.open("https://cash.app/");
-            document.getElementById("cashapp_info").style.display = "block";
-        }
-
-        if (venmo.checked == true) {
-            document.getElementById("venmo_info").style.display = "block";
-        }
-    }
-
     var donations = document.getElementsByClassName("dropdown-btn-donations");
-    var account = document.getElementsByClassName("dropdown-btn-account");
     var i;
-    var j;
 
     for (i = 0; i < donations.length; i++) {
         donations[i].addEventListener("click", function () {
@@ -155,18 +140,6 @@ require_once("conn.php");
                 dropdownDonations.style.display = "none";
             } else {
                 dropdownDonations.style.display = "block";
-            }
-        });
-    }
-
-    for (j = 0; j < account.length; j++) {
-        account[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownAccount = this.nextElementSibling;
-            if (dropdownAccount.style.display === "block") {
-                dropdownAccount.style.display = "none";
-            } else {
-                dropdownAccount.style.display = "block";
             }
         });
     }

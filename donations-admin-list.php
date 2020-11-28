@@ -2,15 +2,17 @@
 
 require_once("conn.php");
 
-$to_do_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 0";
-$done_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 1";
+$to_do_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 0 AND notificationType != :bachelor";
+$done_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 1 AND notificationType != :bachelor";
 
 try {
     $to_do_prepared_stmt = $dbo->prepare($to_do_query);
+    $to_do_prepared_stmt->bindValue(':bachlor', 'Bachelor Sign Up', PDO::PARAM_STR);
     $to_do_prepared_stmt->execute();
     $to_do_result = $to_do_prepared_stmt->fetchAll();
 
     $done_prepared_stmt = $dbo->prepare($done_query);
+    $done_prepared_stmt->bindValue(':bachlor', 'Bachelor Sign Up', PDO::PARAM_STR);
     $done_prepared_stmt->execute();
     $done_result = $to_do_prepared_stmt->fetchAll();
 
@@ -29,8 +31,6 @@ try {
     <link rel="stylesheet" href="css/donations-admin-list.css">
     <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="js/donations-admin-list.js"></script>
-    <script type="text/javascript" src="js/donations-money.js"></script>
-    <script type="text/javascript" src="js/donations-dropbox.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
 </head>
@@ -87,7 +87,46 @@ try {
 
     <h2>Completed Tasks</h2>
     <form class="" action="donations-admin-list.php" method="post">
+      <?php
+      if ($done_result && $done_prepared_stmt->rowCount() > 0) { ?>
+      <table class="tasks">
+          <thead>
+            <th>&nbsp;</th>
+            <th>Message</th>
+            <th>Approved?</th>
+          </thead>
+          <tbody>
+          <?php
+          foreach ($done_result as $row) {
+              ?>
+              <tr>
+                  <td>
+                      <input type="checkbox" value="<?php echo $row["notificationId"]; ?>">
+                  </td>
+                  <td>
+                      <strong>Subject: </strong> <?php echo $row["notificationSubject"]; ?><br>
+                      <strong>Message: </strong> <?php echo $row["notificationMessage"]; ?>
+                  </td>
+                  <td>
+                      <input type="radio" name="approved" value="Approve">
+                      <label for="approved">Approve</label><br>
+                      <input type="radio" name="approved" value="Deny">
+                      <label for="approved">Deny</label><br>
+                      <input type="radio" name="approved" value="Edit">
+                      <label for="approved">Edit</label>
+                  </td>
+              </tr>
 
+              <?php
+          }
+          ?>
+        </tbody>
+    </table>
+         <?php
+          } else { ?>
+              No tasks have been completed.
+              <?php
+          } ?>
     </form>
 </div>
 

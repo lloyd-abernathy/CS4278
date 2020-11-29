@@ -1,6 +1,5 @@
 <?php
-echo "<div id=\"info\">" .
-    "<div class=\"header\">" .
+echo "<div class=\"header\">" .
     "<div class=\"header_left\">" .
     "<span onclick=\"openNav()\"><i class=\"fa fa-ellipsis-v\"></i></span>" .
     "</div>" .

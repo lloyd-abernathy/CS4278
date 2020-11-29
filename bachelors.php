@@ -2,7 +2,7 @@
 
 require_once("conn.php");
 
-$query = "SELECT * FROM aka.bachelors WHERE addedBy != 0";
+$query = "SELECT * FROM aka.bachelors WHERE addedBy IS NOT NULL";
 
 try {
     $prepared_stmt = $dbo->prepare($query);
@@ -84,7 +84,17 @@ try {
                             <?php
                         } ?><br>
                         <!-- Add biography here -->
-                        <strong></strong>
+                        <u><strong>BIOGRAPHY</strong></u><br>
+                        <?php
+                          $bachelorBiographyArr = explode("||", $bachelorBiography);
+                          foreach ($bachelorBiographyArr as $str) {
+                            $question = explode("=", $str);
+                            ?>
+                            <strong><?php echo $question[0]; ?></strong><br><br>
+                            <p><?php echo substr($question[1], 1, -1); ?></p><br>
+                            <?php
+                          }
+                         ?>
                     </p>
                 </div>
             </div>

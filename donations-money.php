@@ -1,6 +1,7 @@
 <?php
 
 require_once("conn.php");
+require_once("createflags.php");
 
 ?>
 <!DOCTYPE html>
@@ -19,16 +20,76 @@ require_once("conn.php");
 <body>
 
 <?php include_once("header.php"); ?>
+<h2>Make a Monetary Donation</h2><br>
+<div class="monetary_donations_everyone">
+  <?php
+  if (!$attendee_flag) {
+    ?>
+    <p>
+      <strong>
+        If you plan to attend HeartbreAKA, please log in/create an account from
+        the navigation bar so that you can have your donation credited to your
+        account.
+      </strong><br>
+      For HeartbreAKA, we are accepting monetary donations to donate to a charity.
+      You can use the following payment methods to make a contribution and follow
+      the instructions to make your donation:
+    </p><br>
+    <div class="payment_rows">
+        <div class="column_left">
+          <h3>PayPal</h3>
+            <p>Instructions Coming Soon!</p>
+        </div>
+        <div class="column_middle">
+          <h3>Cash App: <a href="https://cash.app/">https://cash.app/</a></h3>
+            <ol>
+                <li>Sign in to Cash App through the website or mobile.</li>
+                <li>Click the Pay or New button.</li>
+                <li>Enter the amount you would like to donate.</li>
+                <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
+                    if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."
+                </li>
+                <li>The recipient is: $elegantetabeta.</li>
+                <li>Submit your payment!</li>
+            </ol>
+        </div>
+        <div class="column_right">
+          <h3>Venmo</h3>
+            <ol>
+                <li>Login to Venmo app on your mobile device.</li>
+                <li>Click the "Pay or Request button"</li>
+                <li>Enter the amount you would like to donate.</li>
+                <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
+                    if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."
+                </li>
+                <li>The recipient of the payment is: @ElegantHB</li>
+                <li>Submit your payment!</li>
+            </ol>
+        </div>
+    </div>
+    <?php
+  }?>
+</div>
 
 <div class="monetary_donations_attendee">
-    <h2>Make a Monetary Donation</h2><br><br>
+  <?php
+     if ($attendee_flag) {
+      ?>
+      <p>
+        On this page, you are able to submit a form with your monetary donation
+        that will be converted to AKA Dollars for HeartbreAKA. Please submit the
+        form below and follow the instructions listed for the payment method. Upon
+        submitting, your donation will be sent in for approval and the money will
+        be credited to your account as soon as it has been approved. We appreciate
+        your generous contribution to our cause and hope you enjoy HeartbreAKA!
+      </p><br>
     <form class="monetary_donations_form" action="" method="post" name="monetary"
           onsubmit="submitForm()">
         <label for="name">Name</label>
-        <input type="text" name="name" required><br><br>
+        <input type="text" name="name" value="<?php echo $login_result['fullName']; ?>" readonly required><br><br>
 
         <label for="email">Email Address</label>
-        <input type="email" name="email" required><br><br>
+        <input type="email" name="email"  value="<?php echo $login_result['email']; ?>" readonly required><br><br>
 
         <label for="amount">Dollar Amount $ </label>
         <input id="dollar_amount" type="number" name="amount" onchange="updateAKADollars()" min="1"
@@ -36,7 +97,7 @@ require_once("conn.php");
         <p id="aka_dollars">AKA Dollars Amount: </p><br>
 
         <label for="service">What payment service would you like to use?</label><br>
-        <input type="radio" id="paypal" name="service" value="Paypal" disabled>
+        <input type="radio" id="paypal" name="service" value="PayPal" disabled>
         <label for="paypal">PayPal</label><br>
         <input type="radio" id="cashapp" name="service" value="Cash App" checked>
         <label for="cashapp">Cash App</label><br>
@@ -45,67 +106,56 @@ require_once("conn.php");
 
         <input type="submit" value="Submit" name="submit_payment">
 
-    </form>
+    </form><br>
+    <div class="payment_rows">
+        <div class="column_left">
+          <h3>PayPal</h3>
+            <p>Instructions Coming Soon!</p>
+        </div>
+        <div class="column_middle">
+          <h3>Cash App: <a href="https://cash.app/">https://cash.app/</a></h3>
+            <ol>
+                <li>Sign in to Cash App through the website or mobile.</li>
+                <li>Click the Pay or New button.</li>
+                <li>Enter the amount you would like to donate.</li>
+                <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
+                    if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."
+                </li>
+                <li>The recipient is: $elegantetabeta.</li>
+                <li>Submit your payment!</li>
+            </ol>
+        </div>
+        <div class="column_right">
+          <h3>Venmo</h3>
+            <ol>
+                <li>Login to Venmo app on your mobile device.</li>
+                <li>Click the "Pay or Request button"</li>
+                <li>Enter the amount you would like to donate.</li>
+                <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
+                    if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."
+                </li>
+                <li>The recipient of the payment is: @ElegantHB</li>
+                <li>Submit your payment!</li>
+            </ol>
+        </div>
+    </div>
     <?php
-    if (isset($_POST['submit_payment'])) {
+  }
+   ?>
+    <?php
+    if (isset($_POST['submit_payment']) && $attendee_flag) {
         $name = $_POST['name'];
         $email = $_POST['email'];
         $amount = $_POST['amount'];
         $service = $_POST['service'];
 
-        $subject = "PAYMENT RECIEVED FROM: " . $name . "-" . $email;
-        $message = $name . " has submitted a payment of $" . $amount . " through " . $service . ". Please confirm by checking
-            the " . $service . " account and approve it here for the record.";
-        if ($service == "Paypal") {
-          ?>
-          <div class="paypal_info">
-              <h4>Your selected payment method is: </h4>
-              <img src="images/paypal_logo.png" alt="">
-              <h6>How to submit payment via PayPal</h6>
-              <ol>
-                  <li></li>
-              </ol>
-          </div>
-          <?php
-        } else if ($service == "Venmo") {
-          ?>
-          <div class="venmo_info">
-              <h4>Your selected payment method is: </h4>
-              <img src="images/venmo_logo.png" alt=""><br>
-              <h6>How to submit payment via Venmo</h6>
-              <ol>
-                  <li>Login to Venmo on your mobile device.</li>
-                  <li>Click the "Pay or Request button"</li>
-                  <li>The recipient of the payment is: @ElegantHB</li>
-                  <li id="pay_amount">Enter the amount you specified in the form: $</li>
-                  <li>In the description, put "{Full Name} - HeartbreAKA Donation". For example,
-                      if your name is Mary Smith, then you would put "Mary Smith - HeartbreAKA Donation."
-                  </li>
-                  <li>Submit your payment</li>
-              </ol>
-              <br>
-              <p><strong>Upon verifying your submission, you will recieve an email
-                      with the amount credited to your account.</strong></p>
-          </div>
-          <?php
-        } else if ($service == "Cash App") {
-          ?>
-          <div class="cashapp_info">
-              <h4>Your selected payment method is: </h4>
-              <img src="images/cashapp_logo.png" alt="">
-              <h6>How to submit payment via Cash App</h6>
-              <ol>
-                  <li>Sign in to Cash App through the website or mobile.</li>
-                  <li>Click the Pay or New button.</li>
-                  <li id="pay_amount">Enter the amount you specified in the form: $</li>
-                  <li id="full_name">In the description, put ".</li>
-                  <li>Submit your payment.</li>
-              </ol>
-          </div>
-          <?php
-        }
-        $query = "INSERT INTO notifications(notificationType, notificationSubject, notificationMessage, notificationFlag)
-                  VALUES ('Monetary Donation', :subject, :message, 0)";
+        $subject = "PAYMENT RECIEVED FROM: " . $name;
+        $message = "Name: " . $name . ", Email: " . $email . ", Amount ($): " . $amount . ",
+                    Service Used: " . $service . ", Task: Please confirm this payment method
+                    by checking the " . $service . " account and approve it here for the record.";
+
+        $query = "INSERT INTO notifications(notificationType, notificationSubject, notificationMessage, notificationFlag, notificationApproved)
+                  VALUES ('Monetary Donation', :subject, :message, 0, 0)";
 
         try {
             $prepared_stmt = $dbo->prepare($query);

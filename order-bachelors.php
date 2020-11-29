@@ -56,7 +56,6 @@ try {
                                 value="<?= $bachelorID ?>"><?php echo $bachelorFullName; ?></option>
                         <?php
                     }
-                    }
                     ?>
                 </select>
             </div>
@@ -80,6 +79,13 @@ try {
 
         </form>
         <?php
+        } else {
+          ?>
+          No bachelors have been added yet! Use <a href="bachelor-signup">this form</a>
+          to add bachelors.
+          <?php
+        }
+
         if (isset($_POST['submit_order'])) {
             $auction_order_null = "UPDATE aka.bachelors SET auction_order_id = 0";
 

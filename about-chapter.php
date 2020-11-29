@@ -1,7 +1,7 @@
 <?php
 
 require_once("conn.php");
-$admin_flag = false;
+require_once("createflags.php");
 
 ?>
 
@@ -16,16 +16,20 @@ $admin_flag = false;
     <link rel="stylesheet" href="css/about-chapter.css">
     <script type="text/javascript" src="js/about-chapter.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
-    <script type="text/javascript" src="js/google-login.js"></script>
 </head>
 <body>
 
-<?php include_once("header.php"); ?>
-<?php include_once("overlay.php"); ?>
-
+  <?php include_once("header.php"); ?>
 </div>
 
 <div class="chapter_info">
+    <?php
+    if ($admin_flag) {
+      ?>
+      <!-- Create content editable by admin -->
+      <?php
+    }
+     ?>
     <h2>About Elegant Eta Beta</h2><br>
     <p>The Elegant Eta Beta Chapter of Alpha Kappa Alpha Sorority, Inc.
         was chartered on November 11, 1972 by a group of 13 sophisticated young
@@ -82,6 +86,10 @@ $admin_flag = false;
         </div>
     </div>
 </div>
+<?php include_once("overlay.php"); ?>
+
+<script type="text/javascript" src="js/google-login.js"></script>
+
 </div>
 
 
@@ -89,9 +97,7 @@ $admin_flag = false;
     /*This section creates t*/
 
     var donations = document.getElementsByClassName("dropdown-btn-donations");
-    var account = document.getElementsByClassName("dropdown-btn-account");
     var i;
-    var j;
 
     for (i = 0; i < donations.length; i++) {
         donations[i].addEventListener("click", function () {
@@ -104,18 +110,7 @@ $admin_flag = false;
             }
         });
     }
-
-    for (j = 0; j < account.length; j++) {
-        account[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownAccount = this.nextElementSibling;
-            if (dropdownAccount.style.display === "block") {
-                dropdownAccount.style.display = "none";
-            } else {
-                dropdownAccount.style.display = "block";
-            }
-        });
-    }
 </script>
+
 </body>
 </html>

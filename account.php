@@ -41,17 +41,17 @@ require_once("createflags.php");
             ?>
             <tr>
                 <td>AKA Dollars Balance</td>
-                <td><?php echo $login_result['accountBalance']; ?></td>
+                <td><?php echo "$" . $login_result['accountBalance']; ?></td>
             </tr>
             <tr>
               <td>Total Monetary Donations</td>
-              <td><?php echo $login_result['totalDonations']; ?></td>
+              <td><?php echo "$" . $login_result['totalDonations']; ?></td>
             </tr>
             <tr>
               <td>Bachelor Won</td>
               <td><?php
               $auctionWon = $login_result['auctionWon'];
-              if ($auctionWon = 1) {
+              if ($auctionWon == 1) {
                 $winning_query = "SELECT winningAttendeeId,
                                  bachelorId
                           FROM aka.auctions
@@ -101,10 +101,19 @@ require_once("createflags.php");
               <td>Major</td>
               <td><?php echo $login_result['major']; ?></td>
             </tr>
-            <tr>
-              <td>Biography</td>
-              <td><?php echo $login_result['biography']; ?></td>
-            </tr>
+
+              <?php
+              $bachelorBiographyArr = explode("||", $login_result['biography']);
+              foreach ($bachelorBiographyArr as $str) {
+                $question = explode("=", $str);
+                ?>
+              <tr>
+                <td><?php echo $question[0]; ?></td>
+                <td><?php echo substr($question[1], 1, -1); ?></td>
+              </tr>
+                <?php
+              }
+              ?>
             <tr>
               <td>Photo</td>
               <td>
@@ -116,6 +125,9 @@ require_once("createflags.php");
          ?>
         </tbody>
     </table>
+    <?php
+    ?>
+    <div class="links">
     <?php
       if ($attendee_flag) {
         ?>
@@ -129,10 +141,6 @@ require_once("createflags.php");
         </form>
         <?php
       }
-      ?>
-      <div class="links">
-
-      <?php
       if ($bachelor_flag) {
         ?>
         <form action="edit-bachelor.php">
@@ -148,18 +156,18 @@ require_once("createflags.php");
           <input class="quick_links" type="submit" name="tasks"
                 value="View Tasks to Complete">
         </form>
-        <!-- <form action="add-delete-admins.php">
+        <form action="add-delete-admins.php">
           <input class="quick_links" type="submit" name="admins"
-                value="Add/Delete Admins"> -->
+                value="Add/Delete Admins">
         </form>
         <form action="order-bachelors.php">
           <input class="quick_links" type="submit" name="order-bachelors"
                 value="Decide Bachelor Order">
         </form>
-        <!-- <form action="add-bachelors.php">
-          <input class="quick_links" type="button" name="add-bachelors"
+        <form action="add-bachelors.php">
+          <input class="quick_links" type="submit" name="add-bachelors"
                 value="Add Bachelors to Page">
-        </form> -->
+        </form>
         <?php
       }
 

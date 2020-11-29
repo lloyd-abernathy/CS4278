@@ -41,6 +41,7 @@ var countdownInterval = setInterval(function() {
   if (untilEvent < 0) {
     clearInterval(countdownInterval);
     document.getElementById("event").style.display = "block";
+    document.getElementById("about_heartbreaka").style.display = "none";
     document.getElementById("countdown").style.display = "none";
   }
 }, 1000);

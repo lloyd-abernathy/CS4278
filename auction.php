@@ -1,6 +1,18 @@
 <?php
 
 require_once("conn.php");
+require_once("createflags.php");
+
+$bachelors = "SELECT * FROM aka.bachelors WHERE auctionStatus = 0 ORDER BY auction_order_id ASC";
+$auctions = "SELECT * FROM aka.auctions";
+
+try {
+    $bachelors_prepared_stmt = $dbo->prepare($bachelors);
+    $bachelors_prepared_stmt->execute();
+    $bachelors_result = $bachelors_prepared_stmt->fetchAll();
+} catch (PDOException $ex) { // Error in database processing.
+    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
 
 ?>
 
@@ -23,7 +35,7 @@ require_once("conn.php");
 
 <div class="auction_info">
     <h2>HeartbreAKA Auction</h2>
-    <div class="about_heartbreaka" style="height:200px;margin-bottom:10px;margin-left:20px;">
+    <div id="about_heartbreaka" class="about_heartbreaka" style="height:200px;margin-bottom:10px;margin-left:20px;">
         <p>In accordance with our current initiatives, the Elegant Eta Beta Chapter
             of Alpha Kappa Alpha Sorority Inc. hosts HeartbreAKA every year to raise
             money for an important cause. HeartbreAKA is a date auction where
@@ -39,35 +51,118 @@ require_once("conn.php");
             Overall, HeartbreAKA is meant to be a fun event where you can make
             a significant contribution to the community.</p>
     </div>
-    <div class="countdown" id="countdown">
-        <div class="days">
-            <p class="num" id="num_day"></p>
-            <p class="label" id="label_day">days</p>
-        </div>
-        <div class="hours">
-            <p class="num" id="num_hr"></p>
-            <p class="label" id="label_hr">hours</p>
-        </div>
-        <div class="minutes">
-            <p class="num" id="num_min"></p>
-            <p class="label" id="label_min">minutes</p>
-        </div>
-        <div class="seconds">
-            <p class="num" id="num_sec"></p>
-            <p class="label" id="label_sec">seconds</p>
-        </div>
-    </div>
+    <?php
+    if (!$admin_flag) {
+      ?>
+      <div class="countdown" id="countdown">
+          <div class="days">
+              <p class="num" id="num_day"></p>
+              <p class="label" id="label_day">days</p>
+          </div>
+          <div class="hours">
+              <p class="num" id="num_hr"></p>
+              <p class="label" id="label_hr">hours</p>
+          </div>
+          <div class="minutes">
+              <p class="num" id="num_min"></p>
+              <p class="label" id="label_min">minutes</p>
+          </div>
+          <div class="seconds">
+              <p class="num" id="num_sec"></p>
+              <p class="label" id="label_sec">seconds</p>
+          </div>
+      </div>
+      <?php
+    } else {
+      ?>
+      <br>
+      <p>Before the event, please make sure that you have ordered all the bachelors
+        on <a href="order-bachelors.php">this page</a>.</p>
+      <?php
+    }
+     ?>
+
 
     <div class="event" id="event">
-        <div class="admin_event" id="admin_event">
+      <div class="bachelor">
+        <table>
+          <tr>
+            <?php
+            if ($bachelors_result && $bachelors_prepared_stmt->rowCount() > 0) {
+              foreach ($bachelors_result as $header) {
+                $bachelorFullName = $header['fullName'];
+                $bachelorClass = $header['class'];
+                $bachelorMajor = $header['major'];
 
-        </div>
-        <div class="bachelors_event" id="bachelors_event">
+                ?>
+                <th>
+                  <strong><?php echo $bachelorFullName; ?></strong><br>
+                  <?php echo "Classification: " . $bachelorClass; ?>
+                  <?php echo "Major: " . $bachelorMajor; ?>
+                </th>
+                <?php
+              } ?>
 
+          </tr>
+          <tr>
+            <?php
+              foreach ($bachelors_result as $row) {
+                $bachelorBiography = $header['biography'];
+                $bachelorProfilePicture = $header['photoUrl'];
+                $bachelorMaxBid = $header['maxBid'];
+                $bachelorAuctionStatus = $header['auctionStatus'];
+                $bachelorAddedBy = $header['addedBy'];
+                ?>
+                <td>
+                  <div class="bachelor_img">
+                    <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
+                  </div>
+                  <div class="bachelor_info">
+                    <?php
+                    $bachelorBiographyArr = explode("||", $bachelorBiography);
+                    foreach ($bachelorBiographyArr as $str) {
+                      $question = explode("=", $str);
+                      ?>
+                      <strong><?php echo $question[0]; ?></strong><br><br>
+                      <p><?php echo substr($question[1], 1, -1); ?></p><br>
+                </td>
+                    <?php
+                  }
+                   ?>
+                </div>
+                <?php
+              }
+             ?>
+          </tr>
+            <?php
+          }
+           ?>
+        </table>
+      </div>
+      <?php
+      if ($admin_flag) {
+        ?>
+        <div class="buttons">
+          <!-- <form class="" action="auction.php" method="post">
+            <input type="submit" name="skip_bachelor" value="Skip Next Bachelor">
+          </form> -->
+          <form class="" action="auction.php" method="post">
+            <input type="submit" name="next_bachelor" value="Next Bachelor">
+          </form>
         </div>
-        <div class="attendees_event" id="attendees_event">
-
+        <?php
+      } else if ($attendee_flag) {
+        ?>
+        <div class="buttons">
+          <form class="" action="index.html" method="post">
+            <input type="number" name="bid" value="">
+            <input type="submit" name="make_bid" value="Make Bid">
+            <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
+          </form>
         </div>
+        <?php
+      }
+        ?>
     </div>
 </div>
 

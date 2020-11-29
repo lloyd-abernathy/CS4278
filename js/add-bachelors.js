@@ -31,3 +31,25 @@ function showForm() {
     }
   }
 }
+
+function moveToRight() {
+  var options = $('select.bachelor_signup option:selected').sort().clone();
+  $('select.bachelor_approved').append(options);
+  $('select.bachelor_signup option:selected').remove();
+
+  var newOptions = $('select.bachelor_approved option').sort()
+  for (var i = 0; i < newOptions.length; i++) {
+    newOptions[i].selected = "true";
+  }
+}
+
+function moveToLeft() {
+  var options = $('select.bachelor_approved option:selected').sort().clone();
+  $('select.bachelor_signup').append(options);
+  $('select.bachelor_approved option:selected').remove();
+
+  var newOptions = $('select.bachelor_approved option').sort()
+  for (var i = 0; i < newOptions.length; i++) {
+    newOptions[i].selected = "true";
+  }
+}

@@ -65,9 +65,11 @@ require_once("conn.php");
 
 <?php
 require_once("createflags.php");
- if (!$admin_flag && !$bachelor_flag && !$attendee_flag) {
-    $insert_attendee = "INSERT INTO aka.attendees(email, fullName)
-                        VALUES (:email, :fullName)";
+ if ((int)$admin_flag == 0 && (int)$bachelor_flag == 0 && (int)$attendee_flag == 0) {
+   $full_name = $_COOKIE["fullName"];
+   $email = $_COOKIE["email"];
+    $insert_attendee = "INSERT INTO attendees(email, fullName, accountBalance, totalDonations, auctionWon)
+                        VALUES (:email, :fullName, 0.00, 0.00, 0)";
     try {
       $insert_attendee_prepared_stmt = $dbo->prepare($insert_attendee);
       $insert_attendee_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);

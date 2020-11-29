@@ -124,6 +124,36 @@ try {
         } catch (PDOException $ex) { // Error in database processing.
            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
+
+        $is_attendee = false;
+
+        $find_attendee_info = "SELECT * FROM aka.attendees WHERE email = :email";
+
+        try {
+          $find_attendee_info_prepared_stmt = $dbo->prepare($find_attendee_info);
+          $find_attendee_info_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+          $find_attendee_info_prepared_stmt->execute();
+          $find_attendee_info_result = $find_attendee_info_prepared_stmt->fetchAll();
+        } catch (PDOException $ex) {
+          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+
+        if ($find_attendee_info_result && $find_attendee_info_prepared_stmt->rowCount() == 1) {
+          $is_attendee = true;
+        }
+
+        if ($is_attendee) {
+          $delete_from_attendee = "DELETE FROM aka.attendees WHERE email = :email";
+
+          try {
+            $delete_from_attendee_prepared_stmt = $dbo->prepare($delete_from_attendee);
+            $delete_from_attendee_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $delete_from_attendee_prepared_stmt->execute();
+            $delete_from_attendee_result = $delete_from_attendee_prepared_stmt->fetchAll();
+          } catch (PDOException $ex) {
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+          }
+        }
         ?>
         Form submitted successfully!
         <?php

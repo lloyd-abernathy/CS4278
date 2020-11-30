@@ -36,15 +36,28 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 // } catch (PDOException $ex) {
 //   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 // }
+//
 
-
-$show_attendees = "SELECT * FROM aka.bids";
-try {
-  $show_attendees_prepared_stmt = $dbo->prepare($show_attendees);
-  $show_attendees_prepared_stmt->execute();
-  $show_attendees_result = $show_attendees_prepared_stmt->fetchAll();
-  print_r($show_attendees_result);
-} catch (PDOException $ex) {
-  echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-}
+// $show_auctions = "SELECT * FROM aka.auctions";
+// $show_bids = "SELECT * FROM aka.bids";
+// try {
+//   $show_auctions_prepared_stmt = $dbo->prepare($show_auctions);
+//   $show_auctions_prepared_stmt->execute();
+//   $show_auctions_result = $show_auctions_prepared_stmt->fetchAll();
+//   print_r($show_auctions_result);
+//
+//   $show_bids_prepared_stmt = $dbo->prepare($show_bids);
+//   $show_bids_prepared_stmt->execute();
+//   $show_bids_result = $show_bids_prepared_stmt->fetchAll();
+//   print_r($show_bids_result);
+// } catch (PDOException $ex) {
+//   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+// }
+//
+//
+// try {
+//
+// } catch (PDOException $ex) {
+//   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+// }
 ?>

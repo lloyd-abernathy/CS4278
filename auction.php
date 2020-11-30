@@ -3,17 +3,105 @@
 require_once("conn.php");
 require_once("createflags.php");
 
-$bachelors = "SELECT * FROM aka.bachelors WHERE auctionStatus = 0 ORDER BY auction_order_id ASC";
-$auctions = "SELECT * FROM aka.auctions";
-
+// Set sql mode
+$sql_mode = "SET sql_mode=''";
 try {
-    $bachelors_prepared_stmt = $dbo->prepare($bachelors);
-    $bachelors_prepared_stmt->execute();
-    $bachelors_result = $bachelors_prepared_stmt->fetchAll();
+    $sql_mode_prepared_stmt = $dbo->prepare($sql_mode);
+    $sql_mode_prepared_stmt->execute();
 } catch (PDOException $ex) { // Error in database processing.
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
 
+// Load one bachelor at a time
+$bachelor = "SELECT * FROM aka.bachelors WHERE auctionStatus = 0 ORDER BY auction_order_id ASC LIMIT 1";
+
+try {
+    $bachelor_prepared_stmt = $dbo->prepare($bachelor);
+    // $bachelor_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+    $bachelor_prepared_stmt->execute();
+    $bachelor_result = $bachelor_prepared_stmt->fetchAll();
+} catch (PDOException $ex) { // Error in database processing.
+    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
+
+
+if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
+  $curr_bachelor = $bachelor_result[0];
+  $bachelorID = $curr_bachelor['bachelorId'];
+
+  // Check if auction exists for current bachelor
+  $find_auction = "SELECT * FROM aka.auctions
+                   WHERE bachelorId = :bachelorId";
+   try {
+       $find_auction_prepared_stmt = $dbo->prepare($find_auction);
+       $find_auction_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+       $find_auction_prepared_stmt->execute();
+       $find_auction_result = $find_auction_prepared_stmt->fetchAll();
+   } catch (PDOException $ex) { // Error in database processing.
+       echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+   }
+
+   // If auction doesn't exist, create one and set cookies for time interval
+  if ($find_auction_prepared_stmt->rowCount() == 0) {
+    // Add bachelor to auction table
+    $auctions = "INSERT INTO aka.auctions (bachelorId, timeStart, timeComplete)
+                 VALUES (:bachelorId, :currTime, :tenMinutesLater)";
+     try {
+         $auctions_prepared_stmt = $dbo->prepare($auctions);
+         $auctions_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+         $auctions_prepared_stmt->bindValue(':currTime', time(), PDO::PARAM_INT);
+         $auctions_prepared_stmt->bindValue(':tenMinutesLater', time() +  60, PDO::PARAM_INT);
+         $auctions_prepared_stmt->execute();
+     } catch (PDOException $ex) { // Error in database processing.
+         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+     }
+
+     // Set cookies for time interval
+    $time_cookies = "SELECT *
+                     FROM aka.auctions
+                     WHERE bachelorId = :bachelorId";
+      try {
+          $time_cookies_prepared_stmt = $dbo->prepare($time_cookies);
+          $time_cookies_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+          $time_cookies_prepared_stmt->execute();
+          $time_cookies_result = $time_cookies_prepared_stmt->fetchAll();
+      } catch (PDOException $ex) { // Error in database processing.
+          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+      }
+
+      if ($time_cookies_result && $time_cookies_prepared_stmt->rowCount() > 0) {
+        $startTime = $time_cookies_result[0]['timeStart'];
+        $endTime = $time_cookies_result[0]['timeComplete'];
+        $auction_over = new DateTime();
+        $auction_over->setTimestamp($endTime);
+        $timestamp = $auction_over->getTimestamp() + 60;
+        ?>
+        <script type="text/javascript">
+        var start_time = "<?php echo $startTime; ?>";
+        var end_time = "<?php echo $endTime; ?>";
+        createTimeCookies('startTime', start_time);
+        createTimeCookies('endTime', end_time);
+        function createTimeCookies(name, value) {
+          var expired = <?php echo $timestamp; ?>;
+          var date = new Date(expired * 1000);
+          var expires = "; expires="+date.toGMTString();
+
+          document.cookie = name+ "=" + value+expires+"; path=/;";
+        }
+        </script>
+        <?php
+      }
+  }
+$bachelorFullName = $curr_bachelor['fullName'];
+$bachelorClass = $curr_bachelor['class'];
+$bachelorMajor = $curr_bachelor['major'];
+$bachelorBiography = $curr_bachelor['biography'];
+$bachelorProfilePicture = $curr_bachelor['photoUrl'];
+$bachelorMaxBid = $curr_bachelor['maxBid'];
+$bachelorAuctionStatus = $curr_bachelor['auctionStatus'];
+$bachelorAddedBy = $curr_bachelor['addedBy'];
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -50,10 +138,17 @@ try {
             further instructions later about where and when the date will be held.<br>
             Overall, HeartbreAKA is meant to be a fun event where you can make
             a significant contribution to the community.</p>
+            <?php
+            if ($admin_flag) {
+              ?>
+              <br>
+              <p >Before the event, please make sure that you have ordered all the bachelors
+                on <a href="order-bachelors.php">this page</a>.</p>
+              <?php
+            }
+             ?>
     </div>
-    <?php
-    if (!$admin_flag) {
-      ?>
+
       <div class="countdown" id="countdown">
           <div class="days">
               <p class="num" id="num_day"></p>
@@ -72,73 +167,67 @@ try {
               <p class="label" id="label_sec">seconds</p>
           </div>
       </div>
-      <?php
-    } else {
-      ?>
-      <br>
-      <p>Before the event, please make sure that you have ordered all the bachelors
-        on <a href="order-bachelors.php">this page</a>.</p>
-      <?php
-    }
-     ?>
-
 
     <div class="event" id="event">
-      <div class="bachelor">
+      <div class="bachelor" id="bachelor">
+        <script type="text/javascript" src="js/auction-timer.js"></script>
+        <?php
+        if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
+         ?>
         <table>
           <tr>
-            <?php
-            if ($bachelors_result && $bachelors_prepared_stmt->rowCount() > 0) {
-              foreach ($bachelors_result as $header) {
-                $bachelorFullName = $header['fullName'];
-                $bachelorClass = $header['class'];
-                $bachelorMajor = $header['major'];
-
-                ?>
-                <th>
-                  <strong><?php echo $bachelorFullName; ?></strong><br>
-                  <?php echo "Classification: " . $bachelorClass; ?>
-                  <?php echo "Major: " . $bachelorMajor; ?>
-                </th>
-                <?php
-              } ?>
-
+            <th>
+              <strong><?php echo $bachelorFullName; ?></strong><br>
+              <?php echo "Classification: " . $bachelorClass; ?><br>
+              <?php echo "Major: " . $bachelorMajor; ?>
+            </th>
           </tr>
           <tr>
-            <?php
-              foreach ($bachelors_result as $row) {
-                $bachelorBiography = $header['biography'];
-                $bachelorProfilePicture = $header['photoUrl'];
-                $bachelorMaxBid = $header['maxBid'];
-                $bachelorAuctionStatus = $header['auctionStatus'];
-                $bachelorAddedBy = $header['addedBy'];
-                ?>
-                <td>
-                  <div class="bachelor_img">
-                    <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
-                  </div>
-                  <div class="bachelor_info">
-                    <?php
-                    $bachelorBiographyArr = explode("||", $bachelorBiography);
-                    foreach ($bachelorBiographyArr as $str) {
-                      $question = explode("=", $str);
-                      ?>
-                      <strong><?php echo $question[0]; ?></strong><br><br>
-                      <p><?php echo substr($question[1], 1, -1); ?></p><br>
-                </td>
-                    <?php
-                  }
-                   ?>
-                </div>
+            <td>
+              <div class="bachelor_img">
+                <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
+              </div>
+              <div class="bachelor_info">
                 <?php
-              }
-             ?>
+                $bachelorBiographyArr = explode("||", $bachelorBiography);
+                foreach ($bachelorBiographyArr as $str) {
+                  $question = explode("=", $str);
+                  ?>
+                  <strong><?php echo $question[0]; ?></strong><br><br>
+                  <p><?php echo substr($question[1], 1, -1); ?></p><br>
+                  <?php
+                }
+                 ?>
+                 <div class="timer">
+                   <span id="timer"></span>
+                 </div>
+                 <div class="current_bid">
+                   <!-- Current Bid goes here -->
+                   Current Bid: <span id="bid"></span>
+                 </div>
+              </div>
+            </td>
           </tr>
-            <?php
-          }
-           ?>
         </table>
-      </div>
+          <?php
+        } else {
+          ?>
+          <p>No more bachelors to present! Thank you for coming to our HeartbreAKA event!</p>
+          <form class="" action="index.php" method="post">
+            <input class="quick_links" type="submit" name="go_home" value="Go to Homepage">
+          </form>
+          <?php
+          if ($admin_flag) {
+            ?>
+           <form class="" action="view_winners.php" method="post">
+             <input class="quick_links" type="submit" name="view_winners" value="View Winners">
+           </form>
+           <?php
+          }
+        }
+       ?>
+     </div>
+
       <?php
       if ($admin_flag) {
         ?>
@@ -146,27 +235,118 @@ try {
           <!-- <form class="" action="auction.php" method="post">
             <input type="submit" name="skip_bachelor" value="Skip Next Bachelor">
           </form> -->
-          <form class="" action="auction.php" method="post">
+          <!-- <form class="" action="auction.php" method="post">
             <input type="submit" name="next_bachelor" value="Next Bachelor">
-          </form>
+          </form> -->
         </div>
         <?php
       } else if ($attendee_flag) {
         ?>
-        <div class="buttons">
-          <form class="" action="index.html" method="post">
-            <input type="number" name="bid" value="">
-            <input type="submit" name="make_bid" value="Make Bid">
-            <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
-          </form>
-        </div>
+        <form class="make_bid" action="index.html" method="post">
+          <input type="number" name="bid" value="0" min="0">
+          <input type="submit" name="make_bid" value="Make Bid">
+          <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
+          <input type="hidden" name="attendee_id" value="<?php $login_result['id']; ?>">
+        </form>
         <?php
       }
         ?>
     </div>
 </div>
 
-<?php include_once("overlay.php"); ?>
+<?php
+// Update Auction table with bid
+if (isset($_POST['make_bid'])) {
+  $attendee_id = $_POST['attendee_id'];
+  $bid = $_POST['bid'];
+  // IDEA: This may be the logic needed to update the current bid as well
+  $get_max_bid = "SELECT bachelorId,
+                         MAX(bidAmount) AS maxBid
+                  FROM aka.bids
+                  WHERE bachelorId = :bachelorId
+                  GROUP BY bachelorId";
+  try {
+      $get_max_bid_prepared_stmt = $dbo->prepare($get_max_bid);
+      $get_max_bid_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+      $get_max_bid_prepared_stmt->execute();
+      $get_max_bid_result = $get_max_bid_prepared_stmt->fetchAll();
+  } catch (PDOException $ex) { // Error in database processing.
+      echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+  }
+
+  if ($get_max_bid_result && $get_max_bid_prepared_stmt->rowCount() == 1) {
+    $maxBid = $get_max_bid_result[0]['maxBid'];
+    if ($bid > $maxBid) {
+      $add_bid = "INSERT INTO aka.bids (attendeeId, bachelorId, bidAmount)
+                  VALUES (:attendeeId, :bachelorId, :bid)";
+
+      try {
+          $add_bid_prepared_stmt = $dbo->prepare($add_bid);
+          $add_bid_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+          $add_bid_prepared_stmt->bindValue(':bachelorId', $attendee_id, PDO::PARAM_INT);
+          $add_bid_prepared_stmt->bindValue(':bachelorId', $bid, PDO::PARAM_INT);
+          $add_bid_prepared_stmt->execute();
+      } catch (PDOException $ex) { // Error in database processing.
+          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+      }
+    }
+  }
+
+}
+
+$time_expired = new DateTime();
+$time_expired->setTimestamp($_COOKIE['endTime']);
+$expired = (bool)(($time_expired->getTimestamp() - time()) < 0);
+// Reload page for next bachelor
+if (isset($_COOKIE['timer'])) {
+  $update_bachelor_auction_status = "UPDATE aka.bachelors
+                                     SET auctionStatus = 1
+                                     WHERE bachelorId = :bachelorId";
+   try {
+       $update_bachelor_auction_status_prepared_stmt = $dbo->prepare($update_bachelor_auction_status);
+       $update_bachelor_auction_status_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+       $update_bachelor_auction_status_prepared_stmt->execute();
+   } catch (PDOException $ex) { // Error in database processing.
+       echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+   }
+
+   // Get maximum bid from bids table
+   $get_max_bid_end_auction = "SELECT bidId,
+                                      attendeeId,
+                                      MAX(bidAmount) AS maxBid
+                               FROM aka.bids
+                               WHERE bachelorId = :bachelorId
+                               GROUP BY bachelorId";
+   try {
+       $get_max_bid_end_auction_prepared_stmt = $dbo->prepare($get_max_bid_end_auction);
+       $get_max_bid_end_auction_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+       $get_max_bid_end_auction_prepared_stmt->execute();
+       $get_max_bid_end_auction_result = $get_max_bid_end_auction_prepared_stmt->fetchAll();
+   } catch (PDOException $ex) { // Error in database processing.
+       echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+   }
+
+   if ($get_max_bid_end_auction_result && $get_max_bid_end_auction_prepared_stmt->rowCount() == 1) {
+     $bidId = $get_max_bid_end_auction_result[0]['bidId'];
+     $bid_attendeeId = $get_max_bid_end_auction_result[0]['attendeeId'];
+     $bid_maxBid = $get_max_bid_end_auction_result[0]['maxBid'];
+     $update_auction_table = "UPDATE aka.auctions
+                              SET winningAttendeeId = :attendeeId, winningBidId = :bidId, winningBid = :maxBid
+                              WHERE bachelorId = :bachelorId";
+      // Update auction table
+      try {
+          $update_auction_table_prepared_stmt = $dbo->prepare($update_auction_table);
+          $update_auction_table_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+          $update_auction_table_prepared_stmt->bindValue(':attendeeId', $bid_attendeeId, PDO::PARAM_INT);
+          $update_auction_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
+          $update_auction_table_prepared_stmt->bindValue(':bidId', $winningBidId, PDO::PARAM_INT);
+          $update_auction_table_prepared_stmt->execute();
+      } catch (PDOException $ex) { // Error in database processing.
+          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+      }
+   }
+}
+include_once("overlay.php"); ?>
 
 </div>
 
@@ -175,9 +355,7 @@ try {
     /*This section creates t*/
 
     var donations = document.getElementsByClassName("dropdown-btn-donations");
-    var account = document.getElementsByClassName("dropdown-btn-account");
     var i;
-    var j;
 
     for (i = 0; i < donations.length; i++) {
         donations[i].addEventListener("click", function () {
@@ -187,18 +365,6 @@ try {
                 dropdownDonations.style.display = "none";
             } else {
                 dropdownDonations.style.display = "block";
-            }
-        });
-    }
-
-    for (j = 0; j < account.length; j++) {
-        account[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownAccount = this.nextElementSibling;
-            if (dropdownAccount.style.display === "block") {
-                dropdownAccount.style.display = "none";
-            } else {
-                dropdownAccount.style.display = "block";
             }
         });
     }

@@ -298,7 +298,7 @@ $time_expired = new DateTime();
 $time_expired->setTimestamp($_COOKIE['endTime']);
 $expired = (bool)(($time_expired->getTimestamp() - time()) < 0);
 // Reload page for next bachelor
-if (isset($_COOKIE['timer'])) {
+if (isset($_COOKIE['timer']) && $expired) {
   $update_bachelor_auction_status = "UPDATE aka.bachelors
                                      SET auctionStatus = 1
                                      WHERE bachelorId = :bachelorId";

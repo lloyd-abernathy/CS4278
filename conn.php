@@ -36,6 +36,7 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 // } catch (PDOException $ex) {
 //   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 // }
+
 //
 
 // $show_auctions = "SELECT * FROM aka.auctions";
@@ -55,9 +56,5 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 // }
 //
 //
-// try {
-//
-// } catch (PDOException $ex) {
-//   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-// }
+
 ?>

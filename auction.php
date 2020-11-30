@@ -95,8 +95,6 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
      </script>
      <?php
    }
-
-
 $bachelorFullName = $curr_bachelor['fullName'];
 $bachelorClass = $curr_bachelor['class'];
 $bachelorMajor = $curr_bachelor['major'];
@@ -120,9 +118,10 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
     <link rel="stylesheet" href="css/auction.css">
     <script type="text/javascript" src="js/auction.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="/js/get-max-bid.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
 </head>
-<body>
+<body onload="setInterval('get-max-bid.js', 10000)">
 
 <?php include_once("header.php"); ?>
 
@@ -335,23 +334,23 @@ if (isset($_POST['make_bid'])) {
 }
 
 // Reload page for next bachelor
+
 if (isset($_COOKIE["timer-" . $bachelorID])) {
   $time_expired = new DateTime();
   $end_time_int = intval($_COOKIE['endTime']) * 1000;
   $time_expired->setTimestamp(strval($end_time_int));
   $expired = (bool)(($time_expired->getTimestamp() - time()) < 0);
-  if ($expired) {
-    $update_bachelor_auction_status = "UPDATE aka.bachelors
-                                       SET auctionStatus = 1
-                                       WHERE bachelorId = :bachelorId";
-     try {
-         $update_bachelor_auction_status_prepared_stmt = $dbo->prepare($update_bachelor_auction_status);
-         $update_bachelor_auction_status_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-         $update_bachelor_auction_status_prepared_stmt->execute();
-     } catch (PDOException $ex) { // Error in database processing.
-         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-     }
-
+if ($expired) {
+  $update_bachelor_auction_status = "UPDATE aka.bachelors
+                                     SET auctionStatus = 1
+                                     WHERE bachelorId = :bachelorId";
+   try {
+       $update_bachelor_auction_status_prepared_stmt = $dbo->prepare($update_bachelor_auction_status);
+       $update_bachelor_auction_status_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+       $update_bachelor_auction_status_prepared_stmt->execute();
+   } catch (PDOException $ex) { // Error in database processing.
+       echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+   }
      // Get maximum bid from bids table
      $get_max_bid_end_auction = "SELECT bachelorId,
                                         bidId,

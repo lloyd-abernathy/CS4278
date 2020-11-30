@@ -2,6 +2,7 @@
 
 require_once("conn.php");
 require_once("createflags.php");
+print_r($_COOKIE);
 
 // Set sql mode
 $sql_mode = "SET sql_mode=''";
@@ -24,7 +25,6 @@ try {
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
 
-
 if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
   $curr_bachelor = $bachelor_result[0];
   $bachelorID = $curr_bachelor['bachelorId'];
@@ -37,6 +37,7 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
        $find_auction_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
        $find_auction_prepared_stmt->execute();
        $find_auction_result = $find_auction_prepared_stmt->fetchAll();
+       print_r($find_auction_result);
    } catch (PDOException $ex) { // Error in database processing.
        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
    }
@@ -55,43 +56,46 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
      } catch (PDOException $ex) { // Error in database processing.
          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
      }
-
-     // Set cookies for time interval
-    $time_cookies = "SELECT *
-                     FROM aka.auctions
-                     WHERE bachelorId = :bachelorId";
-      try {
-          $time_cookies_prepared_stmt = $dbo->prepare($time_cookies);
-          $time_cookies_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-          $time_cookies_prepared_stmt->execute();
-          $time_cookies_result = $time_cookies_prepared_stmt->fetchAll();
-      } catch (PDOException $ex) { // Error in database processing.
-          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-      }
-
-      if ($time_cookies_result && $time_cookies_prepared_stmt->rowCount() > 0) {
-        $startTime = $time_cookies_result[0]['timeStart'];
-        $endTime = $time_cookies_result[0]['timeComplete'];
-        $auction_over = new DateTime();
-        $auction_over->setTimestamp($endTime);
-        $timestamp = $auction_over->getTimestamp() + 60;
-        ?>
-        <script type="text/javascript">
-        var start_time = "<?php echo $startTime; ?>";
-        var end_time = "<?php echo $endTime; ?>";
-        createTimeCookies('startTime', start_time);
-        createTimeCookies('endTime', end_time);
-        function createTimeCookies(name, value) {
-          var expired = <?php echo $timestamp; ?>;
-          var date = new Date(expired * 1000);
-          var expires = "; expires="+date.toGMTString();
-
-          document.cookie = name+ "=" + value+expires+"; path=/;";
-        }
-        </script>
-        <?php
-      }
   }
+
+  // Set cookies for time interval
+ $time_cookies = "SELECT *
+                  FROM aka.auctions
+                  WHERE bachelorId = :bachelorId";
+   try {
+       $time_cookies_prepared_stmt = $dbo->prepare($time_cookies);
+       $time_cookies_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+       $time_cookies_prepared_stmt->execute();
+       $time_cookies_result = $time_cookies_prepared_stmt->fetchAll();
+       print_r($time_cookies_result);
+   } catch (PDOException $ex) { // Error in database processing.
+       echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+   }
+
+   if ($time_cookies_result && $time_cookies_prepared_stmt->rowCount() > 0) {
+     $startTime = $time_cookies_result[0]['timeStart'];
+     $endTime = $time_cookies_result[0]['timeComplete'];
+     $auction_over = new DateTime();
+     $auction_over->setTimestamp($endTime);
+     $timestamp = $auction_over->getTimestamp() + 60;
+     ?>
+     <script type="text/javascript">
+     var start_time = "<?php echo $startTime; ?>";
+     var end_time = "<?php echo $endTime; ?>";
+     createTimeCookies('startTime', start_time);
+     createTimeCookies('endTime', end_time);
+     function createTimeCookies(name, value) {
+       var expired = <?php echo $timestamp; ?>;
+       var date = new Date(expired * 1000);
+       var expires = "; expires="+date.toGMTString();
+
+       document.cookie = name+ "=" + value+expires+"; path=/;";
+     }
+     </script>
+     <?php
+   }
+
+
 $bachelorFullName = $curr_bachelor['fullName'];
 $bachelorClass = $curr_bachelor['class'];
 $bachelorMajor = $curr_bachelor['major'];
@@ -100,8 +104,8 @@ $bachelorProfilePicture = $curr_bachelor['photoUrl'];
 $bachelorMaxBid = $curr_bachelor['maxBid'];
 $bachelorAuctionStatus = $curr_bachelor['auctionStatus'];
 $bachelorAddedBy = $curr_bachelor['addedBy'];
-
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -242,7 +246,7 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
         <?php
       } else if ($attendee_flag) {
         ?>
-        <form class="make_bid" action="index.html" method="post">
+        <form class="make_bid" action="auction.php" method="post">
           <input type="number" name="bid" value="0" min="0">
           <input type="submit" name="make_bid" value="Make Bid">
           <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
@@ -283,22 +287,38 @@ if (isset($_POST['make_bid'])) {
       try {
           $add_bid_prepared_stmt = $dbo->prepare($add_bid);
           $add_bid_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-          $add_bid_prepared_stmt->bindValue(':bachelorId', $attendee_id, PDO::PARAM_INT);
-          $add_bid_prepared_stmt->bindValue(':bachelorId', $bid, PDO::PARAM_INT);
+          $add_bid_prepared_stmt->bindValue(':attendeeId', $attendee_id, PDO::PARAM_INT);
+          $add_bid_prepared_stmt->bindValue(':bid', $bid, PDO::PARAM_INT);
           $add_bid_prepared_stmt->execute();
+          print_r($add_bid_prepared_stmt->errorInfo());
       } catch (PDOException $ex) { // Error in database processing.
           echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
       }
+    }
+  } else {
+    $add_bid_new = "INSERT INTO aka.bids (attendeeId, bachelorId, bidAmount)
+                VALUES (:attendeeId, :bachelorId, :bid)";
+
+    try {
+        $add_bid_new_prepared_stmt = $dbo->prepare($add_bid_new);
+        $add_bid_new_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+        $add_bid_new_prepared_stmt->bindValue(':attendeeId', $attendee_id, PDO::PARAM_INT);
+        $add_bid_new_prepared_stmt->bindValue(':bid', $bid, PDO::PARAM_INT);
+        $add_bid_new_prepared_stmt->execute();
+    } catch (PDOException $ex) { // Error in database processing.
+        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
     }
   }
 
 }
 
 $time_expired = new DateTime();
-$time_expired->setTimestamp($_COOKIE['endTime']);
-$expired = (bool)(($time_expired->getTimestamp() - time()) < 0);
+$end_time_int = intval($_COOKIE['endTime']) * 1000;
+$time_expired->setTimestamp(strval($end_time_int));
+$expired = (bool)(($time_expired->getTimestamp() - time()) <= 0);
+print_r((int) $expired);
 // Reload page for next bachelor
-if (isset($_COOKIE['timer']) && $expired) {
+if ($expired) {
   $update_bachelor_auction_status = "UPDATE aka.bachelors
                                      SET auctionStatus = 1
                                      WHERE bachelorId = :bachelorId";
@@ -344,7 +364,26 @@ if (isset($_COOKIE['timer']) && $expired) {
       } catch (PDOException $ex) { // Error in database processing.
           echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
       }
+
+      $update_attendee_table = "UPDATE aka.attendees
+                               SET auctionWon = 1, accountBalance = accountBalance - :maxBid
+                               WHERE attendeeId = :attendeeId";
+       // Update attendees table
+       try {
+           $update_attendee_table_prepared_stmt = $dbo->prepare($update_attendee_table);
+           $update_attendee_table_prepared_stmt->bindValue(':attendeeId', $bid_attendeeId, PDO::PARAM_INT);
+           $update_attendee_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
+           $update_attendee_table_prepared_stmt->execute();
+       } catch (PDOException $ex) { // Error in database processing.
+           echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+       }
    }
+   ?>
+   <script type="text/javascript">
+     deleteCookie("timer");
+   </script>
+  <?php
+   header('Location: '.$_SERVER['REQUEST_URI']);
 }
 include_once("overlay.php"); ?>
 

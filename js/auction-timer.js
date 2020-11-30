@@ -3,6 +3,7 @@
 // console.log(getCookie("endTime"));
 // console.log(parseInt(getCookie("endTime")) * 1000);
 var endAuction = new Date(parseInt(getCookie("endTime")) * 1000);
+console.log(endAuction);
 var auctionInterval = setInterval(function(){
   var auctionTime = new Date();
   // console.log(auctionTime);
@@ -28,9 +29,8 @@ var auctionInterval = setInterval(function(){
   } else {
     clearInterval(auctionInterval);
     document.getElementById('timer').innerHTML = "Auction has ended";
-    createCookie("timer", "expired");
-    console.log(document.cookie);
     window.location.href = "auction.php";
+    createCookie("timer", "expired");
   }
 }, 1000);
 

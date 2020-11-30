@@ -56,41 +56,42 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
      }
 
-     // Set cookies for time interval
-    $time_cookies = "SELECT *
-                     FROM aka.auctions
-                     WHERE bachelorId = :bachelorId";
-      try {
-          $time_cookies_prepared_stmt = $dbo->prepare($time_cookies);
-          $time_cookies_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-          $time_cookies_prepared_stmt->execute();
-          $time_cookies_result = $time_cookies_prepared_stmt->fetchAll();
-      } catch (PDOException $ex) { // Error in database processing.
-          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-      }
 
-      if ($time_cookies_result && $time_cookies_prepared_stmt->rowCount() > 0) {
-        $startTime = $time_cookies_result[0]['timeStart'];
-        $endTime = $time_cookies_result[0]['timeComplete'];
-        $auction_over = new DateTime();
-        $auction_over->setTimestamp($endTime);
-        $timestamp = $auction_over->getTimestamp() + 60;
-        ?>
-        <script type="text/javascript">
-        var start_time = "<?php echo $startTime; ?>";
-        var end_time = "<?php echo $endTime; ?>";
-        createTimeCookies('startTime', start_time);
-        createTimeCookies('endTime', end_time);
-        function createTimeCookies(name, value) {
-          var expired = <?php echo $timestamp; ?>;
-          var date = new Date(expired * 1000);
-          var expires = "; expires="+date.toGMTString();
-
-          document.cookie = name+ "=" + value+expires+"; path=/;";
-        }
-        </script>
-        <?php
       }
+      // Set cookies for time interval
+     $time_cookies = "SELECT *
+                      FROM aka.auctions
+                      WHERE bachelorId = :bachelorId";
+       try {
+           $time_cookies_prepared_stmt = $dbo->prepare($time_cookies);
+           $time_cookies_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+           $time_cookies_prepared_stmt->execute();
+           $time_cookies_result = $time_cookies_prepared_stmt->fetchAll();
+       } catch (PDOException $ex) { // Error in database processing.
+           echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+       }
+
+       if ($time_cookies_result && $time_cookies_prepared_stmt->rowCount() > 0) {
+         $startTime = $time_cookies_result[0]['timeStart'];
+         $endTime = $time_cookies_result[0]['timeComplete'];
+         $auction_over = new DateTime();
+         $auction_over->setTimestamp($endTime);
+         $timestamp = $auction_over->getTimestamp() + 60;
+         ?>
+         <script type="text/javascript">
+         var start_time = "<?php echo $startTime; ?>";
+         var end_time = "<?php echo $endTime; ?>";
+         createTimeCookies('startTime', start_time);
+         createTimeCookies('endTime', end_time);
+         function createTimeCookies(name, value) {
+           var expired = <?php echo $timestamp; ?>;
+           var date = new Date(expired * 1000);
+           var expires = "; expires="+date.toGMTString();
+
+           document.cookie = name+ "=" + value+expires+"; path=/;";
+         }
+         </script>
+         <?php
   }
 $bachelorFullName = $curr_bachelor['fullName'];
 $bachelorClass = $curr_bachelor['class'];
@@ -115,9 +116,10 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
     <link rel="stylesheet" href="css/auction.css">
     <script type="text/javascript" src="js/auction.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="/js/get-max-bid.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
 </head>
-<body>
+<body onload="setInterval('get-max-bid.js', 10000)">
 
 <?php include_once("header.php"); ?>
 
@@ -298,7 +300,7 @@ $time_expired = new DateTime();
 $time_expired->setTimestamp($_COOKIE['endTime']);
 $expired = (bool)(($time_expired->getTimestamp() - time()) < 0);
 // Reload page for next bachelor
-if (isset($_COOKIE['timer'])) {
+if (null !== $_COOKIE['timer'] && $expired) {
   $update_bachelor_auction_status = "UPDATE aka.bachelors
                                      SET auctionStatus = 1
                                      WHERE bachelorId = :bachelorId";

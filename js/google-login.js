@@ -89,10 +89,18 @@ function onFailure(error) {
 function signOut() {
     deleteCookie("fullName");
     deleteCookie("email");
+    deleteCookie("timer");
+    deleteCookie("startTime");
+    deleteCookie("endTime");
     localStorage.setItem("isUserLoggedIn", false);
 
     auth2.signOut().then(function () {
         console.log('User signed out.');
+        deleteCookie("fullName");
+        deleteCookie("email");
+        deleteCookie("timer");
+        deleteCookie("startTime");
+        deleteCookie("endTime");
         var signIn = document.getElementById('sign-in');
         //hideLogoutAndProfile();
         localStorage.setItem("isUserLoggedIn", false);

@@ -17,7 +17,7 @@ try {
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Donations via Dropbox</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/donations-dropbox.css">
@@ -31,6 +31,9 @@ try {
   include_once("header.php");
   ?>
     <h2>Donations via Dropbox</h2>
+    <div class="">
+
+    </div>
     <?php
     if ($admin_flag || $bachelor_flag) {
       ?>

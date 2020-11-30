@@ -1,3 +1,7 @@
+<?php
+require_once("conn.php");
+require_once("createflags.php");
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>

@@ -119,10 +119,7 @@ try {
                  $bachelorPhoto = $row_1['photoUrl'];
                  $bioStr = $row_1['biography'];
                  $array = explode("||", $bioStr);
-                 foreach ($array as $question) {
-                   $key_value = explode("=", $question);
-                   $bachelorBio[$key_value[0]] = $key_value[1];
-                 }
+
                  ?>
                  <h3 id="<?php echo "title-" . $bacheloriD; ?>">About <?php echo $bachelorfullName; ?></h3>
                  <form class="bachelor_forms" id="<?php echo "form-" . $bacheloriD; ?>" action="add-bachelors.php" method="post" enctype="multipart/form-data">
@@ -139,14 +136,13 @@ try {
                    <input type="text" name="class" value="<?php echo $bachelorClass; ?>"><br><br>
 
                   <?php
-                   $bachelorBiographyArr = explode("||", $bachelorBio);
-                    foreach ($bachelorBiographyArr as $str) {
-                      $question = explode("=", $str);
-                      ?>
-                      <label for="biography[]"><?php echo $question[0]; ?></label><br>
-                      <input type="text" name="biography[]" value="<?php echo substr($question[1], 1, -1); ?>" required><br><br>
-                      <?php
-                    }
+                  foreach ($array as $question) {
+                    $key_value = explode("=", $question);
+                    ?>
+                    <label for="biography[]"><?php echo $key_value[0]; ?></label><br>
+                    <input type="text" name="biography[]" value="<?php echo substr($key_value[1], 1, -1); ?>" required><br><br>
+                    <?php
+                  }
                     ?>
                    <label>Current Picture</label><br>
                    <img src="<?php echo $bachelorPhoto; ?>" alt="" style="width:50%;"><br>

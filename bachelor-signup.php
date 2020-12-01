@@ -1,13 +1,14 @@
 <?php
 require_once("conn.php");
 require_once("createflags.php");
-$query = "SELECT * FROM aka.bachelors";
 
+$sql_mode = "SET sql_mode=''";
+$foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
 try {
-    $prepared_stmt = $dbo->prepare($query);
-    $prepared_stmt->execute();
-    $result = $prepared_stmt->fetchAll();
-
+    $sql_mode_prepared_stmt = $dbo->prepare($sql_mode);
+    $sql_mode_prepared_stmt->execute();
+    $foreign_checks_zero_prepared_stmt = $dbo->prepare($foreign_checks_zero);
+    $foreign_checks_zero_prepared_stmt->execute();
 } catch (PDOException $ex) { // Error in database processing.
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
@@ -125,7 +126,7 @@ try {
            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
 
-        $is_attendee = false;
+        $is_attendee = (bool)false;
 
         $find_attendee_info = "SELECT * FROM aka.attendees WHERE email = :email";
 
@@ -139,7 +140,7 @@ try {
         }
 
         if ($find_attendee_info_result && $find_attendee_info_prepared_stmt->rowCount() == 1) {
-          $is_attendee = true;
+          $is_attendee = (bool)true;
         }
 
         if ($is_attendee) {
@@ -149,14 +150,11 @@ try {
             $delete_from_attendee_prepared_stmt = $dbo->prepare($delete_from_attendee);
             $delete_from_attendee_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
             $delete_from_attendee_prepared_stmt->execute();
-            $delete_from_attendee_result = $delete_from_attendee_prepared_stmt->fetchAll();
           } catch (PDOException $ex) {
             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
           }
         }
-        ?>
-        Form submitted successfully!
-        <?php
+        print_r("Form submitted successfully!");
       }
     }
     include_once("overlay.php");

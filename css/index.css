@@ -48,8 +48,8 @@
 }
 
 .quick_links {
-  background-color: #cc8899;
-  border: 2px solid #cc8899;
+  background-color: green;
+  border: 2px solid lightgreen;
   padding: 10px;
   color: white;
   font-family:'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Calisto MT', 'Times New Roman', serif;
@@ -73,6 +73,9 @@ div#links.buttons {
   width: 100%;
 }
 
+.section {
+  margin-bottom: 2%;
+}
 .section h2 {
   width: 100%;
   text-align: center;
@@ -137,10 +140,7 @@ div#links.buttons {
 }
 
 #instagram a {
-  color: white;
-  background-color: #cc8899;
-  padding: 5px;
-  border-radius: 3px;
+  color: green;
+  border-bottom: 2px solid green;
   text-decoration: none;
-  border: 3px solid #cc8899;
 }

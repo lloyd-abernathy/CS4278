@@ -44,7 +44,7 @@ if ($admin_flag) {
 <div class="donations_admin_list_info">
     <h2>Donations to Review</h2>
     <br>
-    <form class="" action="donations-admin-list.php" method="post">
+    <form class="" action="account.php" method="post">
         <?php
         if ($to_do_result && $to_do_prepared_stmt->rowCount() > 0) { ?>
         <table class="tasks">

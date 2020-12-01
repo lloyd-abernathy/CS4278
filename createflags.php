@@ -3,6 +3,7 @@
   $admin_flag = (bool)false;
   $bachelor_flag = (bool)false;
   $attendee_flag = (bool)false;
+  $vanderbilt_flag = (bool)false;
   $login_result = array();
 
   if(isset($_COOKIE["email"]) && isset($_COOKIE["fullName"])) {
@@ -55,6 +56,10 @@
       $attendee_flag = (bool)true;
       $login_result['id'] = $check_attendees_email_result[0]['attendeeId'];
       $login_result['email'] = $check_attendees_email_result[0]['email'];
+      $email_parts = explode("@", $login_result['email']);
+      if ($email_parts[1] == 'vanderbilt.edu') {
+        $vanderbilt_flag = (bool)true;
+      }
       $login_result['fullName'] = $check_attendees_email_result[0]['fullName'];
       $login_result['accountBalance'] = $check_attendees_email_result[0]['accountBalance'];
       $login_result['totalDonations'] = $check_attendees_email_result[0]['totalDonations'];

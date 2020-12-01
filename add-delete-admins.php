@@ -56,7 +56,7 @@ try {
         } catch (PDOException $ex) {
           echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
-
+        print_r("Successfully added!");
       }
        ?>
       <h2>Delete Admins</h2><br><br>
@@ -87,10 +87,10 @@ try {
           $delete_admin_prepared_stmt = $dbo->prepare($delete_admin);
           $delete_admin_prepared_stmt->bindValue(':id', $admin_to_delete, PDO::PARAM_INT);
           $delete_admin_prepared_stmt->execute();
-          print_r($delete_admin_prepared_stmt->errorInfo());
         } catch (PDOException $ex) {
           echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
+        print_r("Successfully deleted");
       }
     } else if ($bachelor_flag || $attendee_flag) {
       ?>

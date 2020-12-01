@@ -67,7 +67,6 @@ require_once("conn.php");
   require_once("createflags.php");
   if (isset($_COOKIE['email']) && isset($_COOKIE['fullName'])) {
     if (!$admin_flag && !$bachelor_flag && !$attendee_flag) {
-      print_r("Entering database");
       $full_name = $_COOKIE["fullName"];
       $email = $_COOKIE["email"];
        $insert_attendee = "INSERT INTO attendees(email, fullName, accountBalance, totalDonations, auctionWon)
@@ -77,12 +76,10 @@ require_once("conn.php");
          $insert_attendee_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
          $insert_attendee_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
          $insert_attendee_prepared_stmt->execute();
-         print_r($insert_attendee_prepared_stmt->errorInfo());
        } catch (PDOException $ex) {
          echo $sql . "<br>" . $error->getMessage();
        }
        $attendee_flag = 1;
-       print_r($attendee_flag);
      }
   }
   require_once("createflags.php");

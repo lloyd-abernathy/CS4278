@@ -53,7 +53,7 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
          $auctions_prepared_stmt = $dbo->prepare($auctions);
          $auctions_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
          $auctions_prepared_stmt->bindValue(':currTime', time(), PDO::PARAM_INT);
-         $auctions_prepared_stmt->bindValue(':tenMinutesLater', time() +  (60 * 2), PDO::PARAM_INT);
+         $auctions_prepared_stmt->bindValue(':tenMinutesLater', time() +  30, PDO::PARAM_INT);
          $auctions_prepared_stmt->execute();
      } catch (PDOException $ex) { // Error in database processing.
          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
@@ -126,14 +126,7 @@ if (isset($_POST['make_bid'])) {
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
   }
 
-  $show_attendees = "SELECT * FROM aka.bids";
-  try {
-    $show_attendees_prepared_stmt = $dbo->prepare($show_attendees);
-    $show_attendees_prepared_stmt->execute();
-    $show_attendees_result = $show_attendees_prepared_stmt->fetchAll();
-  } catch (PDOException $ex) {
-    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-  }
+  print_r("Your bid was submitted!");
 }
 
 // Reload page for next bachelor
@@ -209,7 +202,7 @@ if ($expired) {
      }
   }
 
-   // header('Location: '.$_SERVER['REQUEST_URI']);
+
 }
 
 ?>

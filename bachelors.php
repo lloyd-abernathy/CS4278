@@ -99,6 +99,24 @@ try {
                 </div>
             </div>
         <?php }
+    } else {
+      if ($admin_flag) {
+        ?>
+        <h4>No bachelors are being presented right now!</h4>
+        <p>
+          You can have bachelors sign up through <a href="bachelor-signup.php">this form</a>
+          and approve any recently signed up bachelors from your account page: <a href="account.php">here</a>.
+        </p>
+        <?php
+      } else {
+        ?>
+        <h4>Bachelors Coming Soon!</h4>
+        <p>
+          Check back later to see the list of bachelors for this year's heartbreAKA
+          event.
+        </p>
+        <?php
+      }  
     } ?>
 
     </body>

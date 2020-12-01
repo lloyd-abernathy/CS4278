@@ -165,9 +165,8 @@ require_once("createflags.php");
         } catch (PDOException $ex) { // Error in database processing.
             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
-        ?>
-        Successfully entered!
-        <?php
+
+        print_r("Successfully submitted!");
     }
     ?>
 </div>

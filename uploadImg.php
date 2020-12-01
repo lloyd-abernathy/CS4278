@@ -17,20 +17,18 @@ $check = getimagesize($tmp_image);
 
 if ($uploadOK == 1) {
   if (move_uploaded_file($tmp_image, $target_file)) {
-    ?>
-    Image uploaded successfully!
-    <?php
+    print_r("Image uploaded successfully!");
   } else {
     $uploadOK = 0;
-    ?>
-    Image was not uploaded successfully.
-    <?php
+
+    print_r("Image was not uploaded successfully.");
+
   }
 } else {
   $uploadOK = 0;
-  ?>
-  Image was not uploaded successfully since it is not the right type.
-  <?php
+
+  print_r("Image was not uploaded successfully since it is not the right type.");
+
 }
 
 // function checkBachelorDatabase($email) {

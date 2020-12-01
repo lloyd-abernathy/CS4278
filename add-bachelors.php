@@ -47,7 +47,7 @@ try {
            <br>
 
            <div class="add_bachelors_select">
-             <form class="" action="add-bachelors.php" method="post">
+             <form class="" action="account.php" method="post">
                <div class="signup_select">
                    <select id="bachelor_signup" class="bachelor_signup" name="bachelor_signup" size="20"
                            onchange="showForm()" multiple>

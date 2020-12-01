@@ -5,7 +5,8 @@ require_once("createflags.php");
 $winners = "SELECT AUC.auctionId,
                    AUC.winningBid AS bidAmount,
                    BACH.fullName AS bachelor,
-                   ATT.fullName AS attendee
+                   ATT.fullName AS attendee,
+                   ATT.email AS attendeeEmail
             FROM aka.auctions AUC
             JOIN aka.bachelors BACH ON AUC.bachelorId = BACH.bachelorId
             JOIN aka.attendees ATT ON AUC.winningAttendeeId = ATT.attendeeId

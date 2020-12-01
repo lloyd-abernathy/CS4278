@@ -129,13 +129,11 @@ try {
                 }
 
                 if ($get_null_auction_order_result && $get_null_auction_order_prepared_stmt->rowCount() > 0) {
-                    ?>
-                    Error! Please resubmit with all values added to the right side.
-                    <?php
+
+                    print_r("Error! Please resubmit with all values added to the right side.");
+
                 } else {
-                    ?>
-                    Successfully submitted! Order of bachelors updated.
-                    <?php
+                  print_r("Successfully submitted! Order of bachelors updated.");
                 }
             }
         } ?>

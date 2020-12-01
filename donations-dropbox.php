@@ -143,6 +143,7 @@ try {
       } catch (PDOException $ex) { // Error in database processing.
           echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
       }
+      print_r("Successfully submitted!");
     }
   }
   include_once("overlay.php");

@@ -35,18 +35,109 @@ require_once("createflags.php");
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
 
-    <div id="links" style="height:70px;margin-bottom:10px;width:100%;" class="buttons">
-        <form action="bachelors.php">
-            <input class="quick_links" type="submit" name="bachelors" value="View Bachelors">
-        </form>
-        <form action="donations-money.php">
-            <input class="quick_links" type="submit" name="bachelors"
-                   value="Make Monetary Donation">
-        </form>
-        <form action="auction.php">
-            <input id="auction" class="quick_links" type="submit" name="bachelors"
-                   value="Go to Auction">
-        </form>
+    <div class="section">
+      <h2>About the Elegant Eta Beta Chapter</h2>
+      <div class="table_info">
+        <table>
+          <tbody>
+            <tr>
+              <td><img src="images/homepage/chapter.jpg" alt=""></td>
+              <td>
+                <p>The Elegant Eta Beta Chapter of Alpha Kappa Alpha Sorority, Inc.
+                    was chartered on <strong>November 11, 1972</strong>
+                    by a group of 13 sophisticated young
+                    women from Vanderbilt University and George Peabody College for Teachers.
+                    The establishment of our chapter by these dynamic women, made Alpha Kappa
+                    Alpha Sorority, Inc. the <strong>FIRST</strong> Black Greek letter sorority at Vanderbilt
+                    University. Eta Beta has continued to strive to bring Alpha Kappa Alpha’s
+                    purpose of sisterhood, scholarship, and supreme service to all mankind to
+                    fruition.</p>
+                    <form action="about-chapter.php">
+                        <input class="quick_links" type="submit" name="about-chapter" value="Learn More About the Elegant Eta Beta Chapter">
+                    </form>
+              </td>
+            </tr>
+            <tr>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="section">
+      <h2>About HeartbreAKA</h2>
+      <div class="table_info">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <p>In accordance with our current initiatives, the Elegant Eta Beta Chapter
+                    of Alpha Kappa Alpha Sorority Inc. hosts HeartbreAKA every year to raise
+                    money for an important cause. HeartbreAKA is a date auction where
+                    attendees bid on the eligible bachelors being presented to win a
+                    complimentary group date with the chapter. <br><br>
+                    <strong>Do you want to attend this event?</strong>
+                     Login to your Google account and begin donating supplies and
+                     money to get AKA dollars that you can use at the event.</p><br>
+                    <form action="bachelors.php">
+                        <input class="quick_links" type="submit" name="bachelors" value="View Bachelors">
+                    </form>
+                    <form action="donations-money.php">
+                        <input class="quick_links" type="submit" name="bachelors"
+                               value="Make Monetary Donation">
+                    </form>
+                    <form action="donations-dropbox.php">
+                        <input class="quick_links" type="submit" name="bachelors"
+                               value="Make Donation Via Dropbox">
+                    </form>
+                    <form action="auction.php">
+                        <input id="auction" class="quick_links" type="submit" name="bachelors"
+                               value="Go to Auction">
+                    </form>
+              </td>
+              <td><img src="images/homepage/heartbreaka.jpg" alt=""></td>
+            </tr>
+            <tr>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section" id="instagram">
+      <h2>Follow Us on Instagram</h2>
+      <div class="table_info">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                  <p>Follow us on Instagram
+                    <a href="https://www.instagram.com/elegantetabeta/"><strong>@elegantetabeta</strong></a>
+                    to stay up to date with upcoming events!</p><br>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <!-- Place <div> tag where you want the feed to appear -->
+                <div id="curator-feed-default-feed-layout"></div>
+                <!-- The Javascript can be moved to the end of the html page before the </body> tag -->
+                <script type="text/javascript">
+                /* curator-feed-default-feed-layout */
+                (function(){
+                var i, e, d = document, s = "script";i = d.createElement("script");i.async = 1;
+                i.src = "https://cdn.curator.io/published/2931f676-8439-4444-a8b7-4c1ae868a7fc.js";
+                e = d.getElementsByTagName(s)[0];e.parentNode.insertBefore(i, e);
+                })();
+                </script>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
     </div>
 
     <?php include_once("overlay.php"); ?>

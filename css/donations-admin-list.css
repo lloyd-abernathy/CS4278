@@ -3,8 +3,10 @@
   padding: 8px;
   border-collapse: collapse;
   font-size: 18px;
-  width: 100%;
+  width: 90%;
   margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .tasks th {
@@ -28,4 +30,26 @@
   margin-right: 10px;
   margin-left: 10px;
   padding: 10px;
+}
+
+input[type=submit] {
+  background-color: green;
+  color: lightgreen;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  width: auto;
+  margin-left: 40%;
+}
+
+input[type=submit]:hover {
+  background-color: lightgreen;
+  color: green;
+}
+
+.no_tasks {
+  margin-left: 40%;
 }

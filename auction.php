@@ -105,6 +105,113 @@ $bachelorAuctionStatus = $curr_bachelor['auctionStatus'];
 $bachelorAddedBy = $curr_bachelor['addedBy'];
 }
 
+// Update Auction table with bid
+if (isset($_POST['make_bid'])) {
+  $attendee_id = $login_result['id'];
+  $bid = $_POST['bid'];
+
+
+  $add_bid_new = "INSERT INTO aka.bids (attendeeId, bachelorId, bidAmount)
+                  VALUES (:attendeeId, :bachelorId, :bid)";
+
+  try {
+
+
+    $add_bid_new_prepared_stmt = $dbo->prepare($add_bid_new);
+    $add_bid_new_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+    $add_bid_new_prepared_stmt->bindValue(':attendeeId', $attendee_id, PDO::PARAM_INT);
+    $add_bid_new_prepared_stmt->bindValue(':bid', $bid, PDO::PARAM_INT);
+    $add_bid_new_prepared_stmt->execute();
+  } catch (PDOException $ex) {
+    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+  }
+
+  $show_attendees = "SELECT * FROM aka.bids";
+  try {
+    $show_attendees_prepared_stmt = $dbo->prepare($show_attendees);
+    $show_attendees_prepared_stmt->execute();
+    $show_attendees_result = $show_attendees_prepared_stmt->fetchAll();
+  } catch (PDOException $ex) {
+    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+  }
+}
+
+// Reload page for next bachelor
+
+if (isset($_COOKIE["timer-" . $bachelorID])) {
+  $time_expired = new DateTime();
+  $end_time_int = intval($_COOKIE['endTime']) * 1000;
+  $time_expired->setTimestamp(strval($end_time_int));
+  $expired = (bool)(($time_expired->getTimestamp() - time()) < 0);
+if ($expired) {
+  $update_bachelor_auction_status = "UPDATE aka.bachelors
+                                     SET auctionStatus = 1
+                                     WHERE bachelorId = :bachelorId";
+   try {
+       $update_bachelor_auction_status_prepared_stmt = $dbo->prepare($update_bachelor_auction_status);
+       $update_bachelor_auction_status_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+       $update_bachelor_auction_status_prepared_stmt->execute();
+   } catch (PDOException $ex) { // Error in database processing.
+       echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+   }
+     // Get maximum bid from bids table
+     $get_max_bid_end_auction = "SELECT bachelorId,
+                                        bidId,
+                                        attendeeId,
+                                        MAX(bidAmount) AS maxBid
+                                 FROM aka.bids
+                                 WHERE bachelorId = :bachelorId
+                                 GROUP BY bachelorId
+                                 ORDER BY MAX(bidAmount) ASC";
+     try {
+         $get_max_bid_end_auction_prepared_stmt = $dbo->prepare($get_max_bid_end_auction);
+         $get_max_bid_end_auction_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+         $get_max_bid_end_auction_prepared_stmt->execute();
+         $get_max_bid_end_auction_result = $get_max_bid_end_auction_prepared_stmt->fetchAll();
+     } catch (PDOException $ex) { // Error in database processing.
+         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+     }
+
+     if ($get_max_bid_end_auction_prepared_stmt->rowCount() > 0) {
+       $bidId = $get_max_bid_end_auction_result[0]['bidId'];
+       $bid_attendeeId = $get_max_bid_end_auction_result[0]['attendeeId'];
+       $bid_maxBid = $get_max_bid_end_auction_result[0]['maxBid'];
+       $update_auction_table = "UPDATE aka.auctions
+                                SET winningAttendeeId = :attendeeId, winningBidId = :bidId, winningBid = :maxBid
+                                WHERE bachelorId = :bachelorId";
+        // Update auction table
+        try {
+            $update_auction_table_prepared_stmt = $dbo->prepare($update_auction_table);
+            $update_auction_table_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+            $update_auction_table_prepared_stmt->bindValue(':attendeeId', $bid_attendeeId, PDO::PARAM_INT);
+            $update_auction_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
+            $update_auction_table_prepared_stmt->bindValue(':bidId', $bidId, PDO::PARAM_INT);
+            $update_auction_table_prepared_stmt->execute();
+        } catch (PDOException $ex) { // Error in database processing.
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+        $foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
+        $update_attendee_table = "UPDATE aka.attendees
+                                 SET auctionWon = 1, accountBalance = accountBalance - :maxBid
+                                 WHERE attendeeId = :attendeeId";
+         // Update attendees table
+         try {
+           $foreign_checks_zero_prepared_stmt = $dbo->prepare($foreign_checks_zero);
+           $foreign_checks_zero_prepared_stmt->execute();
+
+           $update_attendee_table_prepared_stmt = $dbo->prepare($update_attendee_table);
+           $update_attendee_table_prepared_stmt->bindValue(':attendeeId', $bid_attendeeId, PDO::PARAM_INT);
+           $update_attendee_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
+           $update_attendee_table_prepared_stmt->execute();
+         } catch (PDOException $ex) { // Error in database processing.
+             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+         }
+     }
+  }
+
+   // header('Location: '.$_SERVER['REQUEST_URI']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -289,7 +396,7 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
           <?php
           if ($admin_flag) {
             ?>
-           <form class="" action="view_winners.php" method="post">
+           <form class="" action="view-winners.php" method="post">
              <input class="quick_links" type="submit" name="view_winners" value="View Winners">
            </form>
            <?php
@@ -301,126 +408,21 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
       <?php
       if ($admin_flag) {
         ?>
-        <div class="buttons">
-          <!-- <form class="" action="auction.php" method="post">
+        <!-- <div class="buttons">
+          <form class="" action="auction.php" method="post">
             <input type="submit" name="skip_bachelor" value="Skip Next Bachelor">
-          </form> -->
-          <!-- <form class="" action="auction.php" method="post">
+          </form>
+          <form class="" action="auction.php" method="post">
             <input type="submit" name="next_bachelor" value="Next Bachelor">
-          </form> -->
-        </div>
+          </form>
+        </div> -->
         <?php
       } ?>
     </div>
 </div>
 
 <?php
-// Update Auction table with bid
-if (isset($_POST['make_bid'])) {
-  $attendee_id = $login_result['id'];
-  $bid = $_POST['bid'];
 
-
-  $add_bid_new = "INSERT INTO aka.bids (attendeeId, bachelorId, bidAmount)
-                  VALUES (:attendeeId, :bachelorId, :bid)";
-
-  try {
-
-
-    $add_bid_new_prepared_stmt = $dbo->prepare($add_bid_new);
-    $add_bid_new_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-    $add_bid_new_prepared_stmt->bindValue(':attendeeId', $attendee_id, PDO::PARAM_INT);
-    $add_bid_new_prepared_stmt->bindValue(':bid', $bid, PDO::PARAM_INT);
-    $add_bid_new_prepared_stmt->execute();
-  } catch (PDOException $ex) {
-    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-  }
-
-  $show_attendees = "SELECT * FROM aka.bids";
-  try {
-    $show_attendees_prepared_stmt = $dbo->prepare($show_attendees);
-    $show_attendees_prepared_stmt->execute();
-    $show_attendees_result = $show_attendees_prepared_stmt->fetchAll();
-  } catch (PDOException $ex) {
-    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-  }
-}
-
-// Reload page for next bachelor
-
-if (isset($_COOKIE["timer-" . $bachelorID])) {
-  $time_expired = new DateTime();
-  $end_time_int = intval($_COOKIE['endTime']) * 1000;
-  $time_expired->setTimestamp(strval($end_time_int));
-  $expired = (bool)(($time_expired->getTimestamp() - time()) < 0);
-if ($expired) {
-  $update_bachelor_auction_status = "UPDATE aka.bachelors
-                                     SET auctionStatus = 1
-                                     WHERE bachelorId = :bachelorId";
-   try {
-       $update_bachelor_auction_status_prepared_stmt = $dbo->prepare($update_bachelor_auction_status);
-       $update_bachelor_auction_status_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-       $update_bachelor_auction_status_prepared_stmt->execute();
-   } catch (PDOException $ex) { // Error in database processing.
-       echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-   }
-     // Get maximum bid from bids table
-     $get_max_bid_end_auction = "SELECT bachelorId,
-                                        bidId,
-                                        attendeeId,
-                                        MAX(bidAmount) AS maxBid
-                                 FROM aka.bids
-                                 WHERE bachelorId = :bachelorId
-                                 GROUP BY bachelorId
-                                 ORDER BY MAX(bidAmount) ASC";
-     try {
-         $get_max_bid_end_auction_prepared_stmt = $dbo->prepare($get_max_bid_end_auction);
-         $get_max_bid_end_auction_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-         $get_max_bid_end_auction_prepared_stmt->execute();
-         $get_max_bid_end_auction_result = $get_max_bid_end_auction_prepared_stmt->fetchAll();
-     } catch (PDOException $ex) { // Error in database processing.
-         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-     }
-
-     if ($get_max_bid_end_auction_prepared_stmt->rowCount() > 0) {
-       $bidId = $get_max_bid_end_auction_result[0]['bidId'];
-       $bid_attendeeId = $get_max_bid_end_auction_result[0]['attendeeId'];
-       $bid_maxBid = $get_max_bid_end_auction_result[0]['maxBid'];
-       $update_auction_table = "UPDATE aka.auctions
-                                SET winningAttendeeId = :attendeeId, winningBidId = :bidId, winningBid = :maxBid
-                                WHERE bachelorId = :bachelorId";
-        // Update auction table
-        try {
-            $update_auction_table_prepared_stmt = $dbo->prepare($update_auction_table);
-            $update_auction_table_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-            $update_auction_table_prepared_stmt->bindValue(':attendeeId', $bid_attendeeId, PDO::PARAM_INT);
-            $update_auction_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
-            $update_auction_table_prepared_stmt->bindValue(':bidId', $bidId, PDO::PARAM_INT);
-            $update_auction_table_prepared_stmt->execute();
-        } catch (PDOException $ex) { // Error in database processing.
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
-        $foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
-        $update_attendee_table = "UPDATE aka.attendees
-                                 SET auctionWon = 1, accountBalance = accountBalance - :maxBid
-                                 WHERE attendeeId = :attendeeId";
-         // Update attendees table
-         try {
-           $foreign_checks_zero_prepared_stmt = $dbo->prepare($foreign_checks_zero);
-           $foreign_checks_zero_prepared_stmt->execute();
-
-           $update_attendee_table_prepared_stmt = $dbo->prepare($update_attendee_table);
-           $update_attendee_table_prepared_stmt->bindValue(':attendeeId', $bid_attendeeId, PDO::PARAM_INT);
-           $update_attendee_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
-           $update_attendee_table_prepared_stmt->execute();
-         } catch (PDOException $ex) { // Error in database processing.
-             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-         }
-     }
-  }
-
-   // header('Location: '.$_SERVER['REQUEST_URI']);
-}
 
 // $foreign_checks_one = "SET FOREIGN_KEY_CHECKS = 1";
 //

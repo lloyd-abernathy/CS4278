@@ -5,10 +5,12 @@
 }
 
 .bachelor {
-  width: 70%;
-  height: 80%;
+  width: 90%;
+  height: 100%;
   display: none;
-  overflow: hidden;
+  overflow-y: visible;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .bachelor table {
@@ -26,6 +28,8 @@
 .bachelor td {
   background-color: white;
   border-bottom: 5px solid #cc8899;
+  padding: 20px;
+  padding-bottom: 10px;
 }
 
 .bachelor_img {
@@ -34,6 +38,8 @@
   float: left;
   background-color: #cc8899;
   margin-left: 10px;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .bachelor_img img{
@@ -41,6 +47,8 @@
   width: 80%;
   margin-left: 10%;
   float: left;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 .bachelor_info {
@@ -48,6 +56,8 @@
   float: left;
   margin-left: 30px;
   font-size: 18px;
+  overflow-y: visible;
+  padding: 20px;
 }
 
 .days, .hours, .minutes, .seconds {

@@ -53,7 +53,7 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
          $auctions_prepared_stmt = $dbo->prepare($auctions);
          $auctions_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
          $auctions_prepared_stmt->bindValue(':currTime', time(), PDO::PARAM_INT);
-         $auctions_prepared_stmt->bindValue(':tenMinutesLater', time() +  60, PDO::PARAM_INT);
+         $auctions_prepared_stmt->bindValue(':tenMinutesLater', time() +  (60 * 2), PDO::PARAM_INT);
          $auctions_prepared_stmt->execute();
      } catch (PDOException $ex) { // Error in database processing.
          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
@@ -118,10 +118,9 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
     <link rel="stylesheet" href="css/auction.css">
     <script type="text/javascript" src="js/auction.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
-    <script src="/js/get-max-bid.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
 </head>
-<body onload="setInterval('get-max-bid.js', 10000)">
+<body>
 
 <?php include_once("header.php"); ?>
 
@@ -176,7 +175,6 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
       <div class="bachelor" id="bachelor">
         <script type="text/javascript">
         var endAuction = new Date(parseInt(getCookie("endTime")) * 1000);
-        console.log(endAuction);
         var id = <?php echo $bachelorID; ?>;
         var timerName = "timer-" + id.toString();
         var auctionInterval = setInterval(function(){
@@ -249,13 +247,28 @@ $bachelorAddedBy = $curr_bachelor['addedBy'];
                  </div>
                  <div class="current_bid">
                    <!-- Current Bid goes here -->
-                   Current Bid: <span id="bid"></span>
+                   <script type="text/javascript">
+                   var getMaxBid = setInterval(
+                     function (){
+
+                     var xhttp;
+                     xhttp = new XMLHttpRequest();
+                     xhttp.open("GET", "get-max-bid.php", true)
+                     xhttp.send();
+                     xhttp.onreadystatechange = function() {
+                       if(xhttp.readyState == 4 && xhttp.status == 200) {
+                         document.getElementById("bid").innerHTML = xhttp.responseText;
+                     }
+                     }
+                     }, 1000);
+                   </script>
+                   Current Bid: <span id="bid">0</span>
                  </div>
                  <?php
                  if ($attendee_flag) {
                    ?>
                    <form class="make_bid" action="auction.php" method="post">
-                     <input type="number" name="bid" value="0" min="0" max="<?php echo $login_result['accountBalance']; ?>">
+                     <input type="number" name="bid" value="0" min="0" >
                      <input type="submit" name="make_bid" value="Make Bid">
                      <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
                    </form>

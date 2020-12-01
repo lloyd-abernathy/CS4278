@@ -105,6 +105,23 @@ try {
     }
      ?>
      <?php include_once("overlay.php"); ?>
+     <script type="text/javascript">
+         /*This section creates t*/
 
+         var donations = document.getElementsByClassName("dropdown-btn-donations");
+         var i;
+
+         for (i = 0; i < donations.length; i++) {
+             donations[i].addEventListener("click", function () {
+                 this.classList.toggle("active");
+                 var dropdownDonations = this.nextElementSibling;
+                 if (dropdownDonations.style.display === "block") {
+                     dropdownDonations.style.display = "none";
+                 } else {
+                     dropdownDonations.style.display = "block";
+                 }
+             });
+         }
+     </script>
   </body>
 </html>

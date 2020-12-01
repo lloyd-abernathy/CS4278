@@ -23,7 +23,7 @@ try {
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Donations List</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
@@ -42,7 +42,7 @@ if ($admin_flag) {
 ?>
 
 <div class="donations_admin_list_info">
-    <h2>Tasks To Do</h2>
+    <h2>Donations to Review</h2>
     <br>
     <form class="" action="donations-admin-list.php" method="post">
         <?php
@@ -59,7 +59,8 @@ if ($admin_flag) {
                 ?>
                 <tr>
                     <td>
-                        <input type="checkbox" name="notificationId[]" value="<?= $to_do["notificationId"] ?>">
+                        <h4><?php echo $to_do["notificationId"]; ?></h4>
+                        <input type="hidden" name="notificationId[]" value="<?php echo $to_do["notificationId"]; ?>">
                         <input type="hidden" name="<?php echo "type-" . $to_do["notificationId"]; ?>" value="<?= $to_do["notificationType"] ?>">
                     </td>
                     <td>
@@ -126,14 +127,19 @@ if ($admin_flag) {
                         <label for="<?php echo "approved-" . $to_do["notificationId"]; ?>">Deny</label>
                     </td>
                 </tr>
-              </tbody>
-          </table>
-          <input type="submit" name="mark_completed" value="Mark Tasks Completed">
-      </form>
                 <?php
             }
+            ?>
+              </tbody>
+          </table>
+
+
+            <input type="submit" name="mark_completed" value="Mark Tasks Completed">
+        </form>
+            <?php
             } else { ?>
-                No tasks to complete!
+
+              <h4 class="no_tasks">NO TASKS TO COMPLETE!</h4>
                 <?php
             } ?>
     <?php
@@ -148,7 +154,6 @@ if ($admin_flag) {
           $attributes = explode(": ", $str);
           $messageArr[$attributes[0]] = $attributes[1];
         }
-        print_r($type == "Dropbox Donation");
 
         $approved = $_POST['approved-' . $notification_id];
 
@@ -212,7 +217,6 @@ if ($admin_flag) {
               $update_notification_monetary_denied_prepared_stmt = $dbo->prepare($update_notification_monetary_denied);
               $update_notification_monetary_denied_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
               $update_notification_monetary_denied_prepared_stmt->execute();
-              $update_notification_monetary_denied_result = $update_notification_monetary_denied_prepared_stmt->fetchAll();
             } catch (PDOException $ex) {
               echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
             }
@@ -230,8 +234,6 @@ if ($admin_flag) {
                 $update_attendee_dropbox_prepared_stmt->bindValue(':attendee', $attendee_id, PDO::PARAM_INT);
                 $update_attendee_dropbox_prepared_stmt->bindValue(':bank', $bank_dropbox, PDO::PARAM_INT);
                 $update_attendee_dropbox_prepared_stmt->execute();
-                $update_attendee_dropbox_result = $update_attendee_dropbox_prepared_stmt->fetchAll();
-                print_r($update_attendee_dropbox_prepared_stmt->errorInfo());
               } catch (PDOException $ex) {
                 echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
               }
@@ -244,8 +246,6 @@ if ($admin_flag) {
               $update_notification_dropbox_approved_prepared_stmt = $dbo->prepare($update_notification_dropbox_approved);
               $update_notification_dropbox_approved_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
               $update_notification_dropbox_approved_prepared_stmt->execute();
-              $update_notification_dropbox_approved_result = $update_notification_dropbox_approved_prepared_stmt->fetchAll();
-              print_r($update_notification_dropbox_approved_prepared_stmt->errorInfo());
             } catch (PDOException $ex) {
               echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
             }
@@ -257,7 +257,6 @@ if ($admin_flag) {
               $update_notification_dropbox_denied_prepared_stmt = $dbo->prepare($update_notification_dropbox_denied);
               $update_notification_dropbox_denied_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
               $update_notification_dropbox_denied_prepared_stmt->execute();
-              $update_notification_dropbox_denied_result = $update_notification_dropbox_denied_prepared_stmt->fetchAll();
             } catch (PDOException $ex) {
               echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
             }
@@ -267,7 +266,7 @@ if ($admin_flag) {
       }
     }
      ?>
-    <h2>Completed Tasks</h2>
+    <h2>Reviewed Donations</h2>
     <br>
       <?php
       if ($done_result && $done_prepared_stmt->rowCount() > 0) { ?>
@@ -357,7 +356,7 @@ if ($admin_flag) {
     </table>
          <?php
           } else { ?>
-              No tasks have been completed!
+              <h4 class="no_tasks">NO TASKS HAVE BEEN COMPLETED!</h4>
               <?php
           }
         } else if ($bachelor_flag || $attendee_flag) {

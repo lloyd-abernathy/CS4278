@@ -52,10 +52,17 @@ require_once("createflags.php");
               <td><?php
               $auctionWon = $login_result['auctionWon'];
               if ($auctionWon == 1) {
-                $winning_query = "SELECT winningAttendeeId,
-                                 bachelorId
-                          FROM aka.auctions
-                          WHERE winningAttendeeId = :id";
+                $winning_query = "SELECT AUC.winningAttendeeId,
+                                    AUC.auctionId,
+                                   AUC.winningBid AS bidAmount,
+                                   BACH.fullName AS bachelor,
+                                   ATT.fullName AS attendee
+                            FROM aka.auctions AUC
+                            JOIN aka.bachelors BACH ON AUC.bachelorId = BACH.bachelorId
+                            JOIN aka.attendees ATT ON AUC.winningAttendeeId = ATT.attendeeId
+                            WHERE AUC.winningAttendeeId = :id
+                            ORDER BY AUC.auctionId ASC";
+
                 try {
                   $winning_prepared_stmt = $dbo->prepare($winning_query);
                   $winning_prepared_stmt->bindValue(':id', $login_result['id'], PDO::PARAM_INT);
@@ -65,22 +72,12 @@ require_once("createflags.php");
                   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                 }
 
-                if ($winning_result && $winning_prepared_stmt->rowCount > 0) {
-                  $bachelor_won = $winning_result['bachelorId'];
-
-                  $bachelor_name_query = "SELECT fullName FROM aka.bachelors WHERE bachelorId = :id";
-
-                  try {
-                    $bachelor_name_prepared_stmt = $dbo->prepare($bachelor_name_query);
-                    $bachelor_name_prepared_stmt->bindValue(':id', $bachelor_won, PDO::PARAM_INT);
-                    $bachelor_name_prepared_stmt->execute();
-                    $bachelor_name_result = $bachelor_name_prepared_stmt->fetchAll();
-                  } catch (PDOException $ex) {
-                    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                  }
-
-                  if ($bachelor_name_result && $bachelor_name_prepared_stmt->rowCount() > 0) {
-                    echo $bachelor_name_result['fullName'];
+                if ($winning_result && $winning_prepared_stmt->rowCount() > 0) {
+                  foreach ($winning_result as $winner) {
+                    print_r($winner['bachelor']);
+                    ?>
+                    <br>
+                    <?php
                   }
                 }
               } else {

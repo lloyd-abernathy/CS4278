@@ -398,7 +398,8 @@ if (isset($bachelorID)) {
                                   ?>
                                   <form class="make_bid" action="auction.php" method="post">
                                       <input type="number" name="bid" value="0" min="0">
-                                      <input type="submit" name="make_bid" value="Make Bid">
+                                      <input type="submit" name="make_bid" value="Make Bid"
+                                             href="auction.php">
                                       <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
                                   </form>
                                   <?php

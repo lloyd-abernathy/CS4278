@@ -10,7 +10,7 @@ try {
 } catch (PDOException $ex) { // Error in database processing.
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
-if (isset($bachelor_result) && $bachelor_prepared_stmt->rowCount() > 0) {
+//if (isset($bachelor_result) && $bachelor_prepared_stmt->rowCount() > 0) {
   $bachelor_maxBid_ID = $bachelor_result[0]['bachelorId'];
   $get_max_bid = "SELECT bachelorId,
                            MAX(bidAmount) AS maxBid
@@ -30,6 +30,6 @@ if (isset($bachelor_result) && $bachelor_prepared_stmt->rowCount() > 0) {
     } catch (PDOException $ex) { // Error in database processing.
         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
     }
-}
+//}
 
  ?>

@@ -15,6 +15,7 @@ CREATE TABLE admins (
 DROP TABLE IF EXISTS bachelors;
 CREATE TABLE bachelors (
 	bachelorId SMALLINT UNSIGNED AUTO_INCREMENT,
+    email VARCHAR(155),
     fullName VARCHAR(100),
     class VARCHAR(40),
     major VARCHAR(100),
@@ -90,5 +91,6 @@ CREATE TABLE notifications (
     notificationSubject VARCHAR(200),
     notificationMessage TEXT,
     notificationFlag BOOLEAN DEFAULT 0,
+    notificationApproved BOOLEAN DEFAULT 0,
     CONSTRAINT pk_notificationId PRIMARY KEY(notificationId)
 );

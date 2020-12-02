@@ -47,7 +47,7 @@ try {
        </thead>
        <tbody>
          <?php
-         if ($winners_result && $winners_prepared_stmt->rowCount() > 0) {
+         if (isset($winners_result) && $winners_prepared_stmt->rowCount() > 0) {
            foreach ($winners_result as $winner) {
              $bachelor = $winner['bachelor'];
              $attendee = $winner['attendee'];

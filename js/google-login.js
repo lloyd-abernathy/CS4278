@@ -106,7 +106,7 @@ function signOut() {
         localStorage.setItem("isUserLoggedIn", false);
         //signIn.style.visibility = "visible";
     });
-    //window.href.location = "index.php";
+    //window.href.location = "index.html";
 };
 
 var userChanged = function (googleUser) {

@@ -413,7 +413,7 @@ if (isset($bachelorID)) {
             } else {
                 ?>
                 <p>No more bachelors to present! Thank you for coming to our HeartbreAKA event!</p>
-                <form class="" action="index.php" method="post">
+                <form class="" action="index.html" method="post">
                     <input class="quick_links" type="submit" name="go_home" value="Go to Homepage">
                 </form>
                 <?php

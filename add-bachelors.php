@@ -40,7 +40,7 @@ if ($admin_flag) {
     <h2>Add Bachelors from Sign Up</h2>
     <br>
     <?php
-    if ($bachelors_signup_result && $bachelors_signup_prepared_stmt->rowCount() > 0) {
+    if (isset($bachelors_signup_result) && $bachelors_signup_prepared_stmt->rowCount() > 0) {
 
         ?>
         <p></p>

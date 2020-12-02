@@ -20,17 +20,17 @@ require_once("createflags.php");
 <div class="homepage_info">
     <div class="slideshow" id="slideshow">
         <div class="slides">
-            <div class="slide_number">1 / 3</div>
+            <div class="slide_number">1 / 2</div>
             <img src="images/slideshow/image1.png" alt="">
         </div>
         <div class="slides">
-            <div class="slide_number">2 / 3</div>
+            <div class="slide_number">2 / 2</div>
             <img src="images/slideshow/image2.png" alt="">
         </div>
-        <div class="slides">
+        <!-- <div class="slides">
             <div class="slide_number">3 / 3</div>
             <img src="images/slideshow/instagram.png" alt="">
-        </div>
+        </div> -->
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
     </div>
@@ -51,7 +51,7 @@ require_once("createflags.php");
                     Alpha Sorority, Inc. the <strong>FIRST</strong> Black Greek letter sorority at Vanderbilt
                     University. Eta Beta has continued to strive to bring Alpha Kappa Alpha’s
                     purpose of sisterhood, scholarship, and supreme service to all mankind to
-                    fruition.</p>
+                    fruition.</p><br>
                     <form action="about-chapter.php">
                         <input class="quick_links" type="submit" name="about-chapter" value="Learn More About the Elegant Eta Beta Chapter">
                     </form>

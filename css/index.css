@@ -2,7 +2,7 @@
   position: relative;
   z-index: 0;
   width: 100%;
-  margin-bottom: 1%;
+  margin-bottom: 2%;
 }
 
 .slides {
@@ -58,7 +58,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 15px;
   border-radius: 3px;
   font-weight: bold;
 }
@@ -74,13 +74,14 @@ div#links.buttons {
 }
 
 .section {
-  margin-bottom: 2%;
+  margin-bottom: 30px;
 }
+
 .section h2 {
   width: 100%;
   text-align: center;
   margin-left: 0%;
-  font-size: 40px;
+  font-size: 35px;
 }
 
 .section img {
@@ -110,7 +111,7 @@ div#links.buttons {
 }
 
 .section p {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .section form {

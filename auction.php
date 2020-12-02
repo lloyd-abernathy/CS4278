@@ -28,7 +28,7 @@ try {
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
 
-if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
+if (isset($bachelor_result) && $bachelor_prepared_stmt->rowCount() > 0) {
     $curr_bachelor = $bachelor_result[0];
     $bachelorID = $curr_bachelor['bachelorId'];
 
@@ -73,7 +73,7 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
     }
 
-    if ($time_cookies_result && $time_cookies_prepared_stmt->rowCount() > 0) {
+    if (isset($time_cookies_result) && $time_cookies_prepared_stmt->rowCount() > 0) {
         $startTime = $time_cookies_result[0]['timeStart'];
         $endTime = $time_cookies_result[0]['timeComplete'];
         $auction_over = new DateTime();
@@ -105,31 +105,6 @@ if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
     $bachelorAuctionStatus = $curr_bachelor['auctionStatus'];
     $bachelorAddedBy = $curr_bachelor['addedBy'];
 }
-
-// Update Auction table with bid
-if (isset($_POST['make_bid'])) {
-    $attendee_id = $login_result['id'];
-    $bid = $_POST['bid'];
-
-
-    $add_bid_new = "INSERT INTO aka.bids (attendeeId, bachelorId, bidAmount)
-                  VALUES (:attendeeId, :bachelorId, :bid)";
-
-    try {
-
-
-        $add_bid_new_prepared_stmt = $dbo->prepare($add_bid_new);
-        $add_bid_new_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-        $add_bid_new_prepared_stmt->bindValue(':attendeeId', $attendee_id, PDO::PARAM_INT);
-        $add_bid_new_prepared_stmt->bindValue(':bid', $bid, PDO::PARAM_INT);
-        $add_bid_new_prepared_stmt->execute();
-    } catch (PDOException $ex) {
-        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-    }
-
-    print_r("Your bid was submitted!");
-}
-
 // Reload page for next bachelor
 
 if (isset($bachelorID)) {
@@ -198,6 +173,20 @@ if (isset($bachelorID)) {
                     $update_attendee_table_prepared_stmt->bindValue(':attendeeId', $bid_attendeeId, PDO::PARAM_INT);
                     $update_attendee_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
                     $update_attendee_table_prepared_stmt->execute();
+                } catch (PDOException $ex) { // Error in database processing.
+                    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                }
+
+                $update_bachelors_table = "UPDATE aka.bachelors
+                                     SET maxBid = :maxBid
+                                     WHERE bachelorId = :bachelorId";
+                // Update bachelors table
+                try {
+
+                    $update_bachelors_table_prepared_stmt = $dbo->prepare($update_bachelors_table);
+                    $update_bachelors_table_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+                    $update_bachelors_table_prepared_stmt->bindValue(':maxBid', $bid_maxBid, PDO::PARAM_INT);
+                    $update_bachelors_table_prepared_stmt->execute();
                 } catch (PDOException $ex) { // Error in database processing.
                     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                 }
@@ -320,7 +309,43 @@ if (isset($bachelorID)) {
                 }
             </script>
             <?php
-            if ($bachelor_result && $bachelor_prepared_stmt->rowCount() > 0) {
+            // Update Auction table with bid
+            if (isset($_POST['make_bid'])) {
+                $isSuccess = (bool)false;
+                $attendee_id = $login_result['id'];
+                $bid = $_POST['bid'];
+
+
+                $add_bid_new = "INSERT INTO aka.bids (attendeeId, bachelorId, bidAmount)
+                              VALUES (:attendeeId, :bachelorId, :bid)";
+
+                try {
+
+
+                    $add_bid_new_prepared_stmt = $dbo->prepare($add_bid_new);
+                    $add_bid_new_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
+                    $add_bid_new_prepared_stmt->bindValue(':attendeeId', $attendee_id, PDO::PARAM_INT);
+                    $add_bid_new_prepared_stmt->bindValue(':bid', $bid, PDO::PARAM_INT);
+                    $add_bid_new_prepared_stmt->execute();
+                    $isSuccess = (bool)true;
+                } catch (PDOException $ex) {
+                    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                }
+                if ($isSuccess) {
+                  ?>
+                  <h6 class="form_submission_successful">Your bid was submitted successfully!
+                    Scroll down to see if you are the highest :)
+                    </h6><br>
+                  <?php
+                } else {
+                  ?>
+                  <h6 class="form_submission_error">Your bid did not submit! Please
+                          notify us in the chat window!</h6><br>
+                  <?php
+                }
+            }
+
+            if (isset($bachelor_result) && $bachelor_prepared_stmt->rowCount() > 0) {
                 ?>
                 <table>
                     <tr>
@@ -336,49 +361,50 @@ if (isset($bachelorID)) {
                                 <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
                             </div>
                             <div class="bachelor_info">
-                                <?php
-                                $bachelorBiographyArr = explode("||", $bachelorBiography);
-                                foreach ($bachelorBiographyArr as $str) {
-                                    $question = explode("=", $str);
-                                    ?>
-                                    <strong><?php echo $question[0]; ?></strong><br><br>
-                                    <p><?php echo substr($question[1], 1, -1); ?></p><br>
-                                    <?php
-                                }
-                                ?>
-                                <div class="timer">
-                                    <span id="timer"></span>
-                                </div>
-                                <div class="current_bid">
-                                    <!-- Current Bid goes here -->
-                                    <script type="text/javascript">
-                                        var getMaxBid = setInterval(
-                                            function () {
+                              <?php
+                              $bachelorBiographyArr = explode("||", $bachelorBiography);
+                              foreach ($bachelorBiographyArr as $str) {
+                                  $question = explode("=", $str);
+                                  ?>
+                                  <strong><?php echo $question[0]; ?></strong><br><br>
+                                  <p><?php echo substr($question[1], 1, -1); ?></p><br>
+                                  <?php
+                              }
+                              ?>
+                              <div class="timer">
+                                  <span id="timer"></span>
+                              </div>
+                              <div class="current_bid">
+                                  <!-- Current Bid goes here -->
+                                  <script type="text/javascript">
+                                      var getMaxBid = setInterval(
+                                          function () {
 
-                                                var xhttp;
-                                                xhttp = new XMLHttpRequest();
-                                                xhttp.open("GET", "get-max-bid.php", true)
-                                                xhttp.send();
-                                                xhttp.onreadystatechange = function () {
-                                                    if (xhttp.readyState == 4 && xhttp.status == 200) {
-                                                        document.getElementById("bid").innerHTML = xhttp.responseText;
-                                                    }
-                                                }
-                                            }, 1000);
-                                    </script>
-                                    Current Bid: <span id="bid">0</span>
-                                </div>
-                                <?php
-                                if ($attendee_flag) {
-                                    ?>
-                                    <form class="make_bid" action="auction.php" method="post">
-                                        <input type="number" name="bid" value="0" min="0">
-                                        <input type="submit" name="make_bid" value="Make Bid">
-                                        <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
-                                    </form>
-                                    <?php
+                                              var xhttp;
+                                              xhttp = new XMLHttpRequest();
+                                              xhttp.open("GET", "get-max-bid.php", true)
+                                              xhttp.send();
+                                              xhttp.onreadystatechange = function () {
+                                                  if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                                      document.getElementById("bid").innerHTML = xhttp.responseText;
+                                                  }
+                                              }
+                                          }, 1000);
+                                  </script>
+                                  Current Bid: <span id="bid">0</span>
+                              </div>
+                              <?php
+                              if ($attendee_flag) {
+                                  ?>
+                                  <form class="make_bid" action="auction.php" method="post">
+                                      <input type="number" name="bid" value="0" min="0">
+                                      <input type="submit" name="make_bid" value="Make Bid">
+                                      <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
+                                  </form>
+                                  <?php
+
                                 }
-                                ?>
+                                   ?>
                             </div>
                         </td>
                     </tr>

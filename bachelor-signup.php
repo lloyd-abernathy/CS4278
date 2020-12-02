@@ -32,6 +32,116 @@ try {
 <body>
 <?php include_once("header.php"); ?>
 <h2>Bachelor Sign Up</h2> <br>
+<?php
+if (isset($_POST['sign_up'])) {
+    $full_name = $_POST['full_name'];
+    $email = $_POST['email'];
+    $find_bachelor = "SELECT * FROM aka.bachelors WHERE email = :email";
+    try {
+        $find_bachelor_prepared_stmt = $dbo->prepare($find_bachelor);
+        $find_bachelor_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $find_bachelor_prepared_stmt->execute();
+        $find_bachelor_result = $find_bachelor_prepared_stmt->fetchAll();
+    } catch (PDOException $ex) {
+        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+    }
+
+    $isSuccess = (bool)false;
+    if ($find_bachelor_prepared_stmt->rowCount() == 0) {
+        $major = $_POST['major'];
+        $class = $_POST['class'];
+        $hometown_state = $_POST['hometown_state'];
+        $food = $_POST['food'];
+        $hobbies = $_POST['hobbies'];
+        $pet_peeves = $_POST['pet_peeves'];
+        $dream_date = $_POST['dream_date'];
+        $image = basename($_FILES['uploadImg']["name"]);
+        $tmp_image = $_FILES['uploadImg']['tmp_name'];
+        require_once("uploadImg.php");
+        $biography = array(
+            "Hometown, State" => $hometown_state,
+            "What is your favorite food?" => $food,
+            "What are your favorite hobbies?" => $hobbies,
+            "What are your biggest pet peeves?" => $pet_peeves,
+            "What is your dream date?" => $dream_date
+        );
+        $biographyStr = implode('||', array_map(
+            function ($v, $k) {
+                return sprintf("%s='%s'", $k, $v);
+            },
+            $biography,
+            array_keys($biography)
+        ));
+        $uploadedImageLocation = "images/bachelors/" . $email . "/" . $_FILES['uploadImg']['name'];
+        $add_bachelor = "INSERT INTO bachelors (fullName, email, class, major, biography, photoUrl, maxBid, auctionStatus, addedBy, auction_order_id)
+                         VALUES (:fullName, :email, :class, :major, :biography, :photoUrl, 0.00, 0, NULL, 0)";
+
+        try {
+            $add_bachelor_prepared_stmt = $dbo->prepare($add_bachelor);
+            $add_bachelor_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
+            $add_bachelor_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $add_bachelor_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
+            $add_bachelor_prepared_stmt->bindValue(':major', $major, PDO::PARAM_STR);
+            $add_bachelor_prepared_stmt->bindValue(':biography', $biographyStr, PDO::PARAM_STR);
+            $add_bachelor_prepared_stmt->bindValue(':photoUrl', $uploadedImageLocation, PDO::PARAM_STR);
+            $add_bachelor_prepared_stmt->execute();
+            $isSuccess = (bool)true;
+        } catch (PDOException $ex) { // Error in database processing.
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+
+        $is_attendee = (bool)false;
+
+        $find_attendee_info = "SELECT * FROM aka.attendees WHERE email = :email";
+
+        try {
+            $find_attendee_info_prepared_stmt = $dbo->prepare($find_attendee_info);
+            $find_attendee_info_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $find_attendee_info_prepared_stmt->execute();
+            $find_attendee_info_result = $find_attendee_info_prepared_stmt->fetchAll();
+        } catch (PDOException $ex) {
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+
+        if (isset($find_attendee_info_result) && $find_attendee_info_prepared_stmt->rowCount() == 1) {
+            $is_attendee = (bool)true;
+            $foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
+            $delete_from_attendee = "DELETE FROM aka.attendees WHERE email = :email";
+
+            try {
+                $foreign_checks_zero_prepared_stmt = $dbo->prepare($foreign_checks_zero);
+                $foreign_checks_zero_prepared_stmt->execute();
+
+                $delete_from_attendee_prepared_stmt = $dbo->prepare($delete_from_attendee);
+                $delete_from_attendee_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                $delete_from_attendee_prepared_stmt->execute();
+                $is_attendee = (bool)false;
+            } catch (PDOException $ex) {
+                echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+            }
+        }
+
+        if ($isSuccess && !$is_attendee) {
+          ?>
+          <h6 class="form_submission_successful">Form Submitted Successfully!</h6><br>
+          <?php
+        } else if ($isSuccess && $is_attendee){
+          ?>
+          <h6 class="form_submission_successful">Form Submitted Successfully!</h6><br>
+          </h6><br>
+          <h6 class="form_submission_error">You are still registered as an attendee!
+            Please contact Erin with <a href="mailto:erin.hardnett.1@vanderbilt.edu?subject=Bachelor%20Sign%20Up%20Error%20Attendee">this email.</a>
+          </h6><br>
+        } else {
+          ?>
+          <h6 class="form_submission_error">Error in submitting form! Please
+            contact Erin at <a href="mailto:erin.hardnett.1@vanderbilt.edu?subject=Bachelor%20Sign%20Up%20Error">this email.</a>
+          </h6><br>
+          <?php
+        }
+    }
+}
+ ?>
 <form class="" action="bachelor-signup.php" method="post" enctype="multipart/form-data">
     <label for="full_name">Full Name</label><br>
     <input type="text" name="full_name" placeholder="i.e. Joe Smith" required><br><br>
@@ -73,92 +183,7 @@ try {
     <input type="submit" name="sign_up" value="Sign Up as Bachelor">
 </form>
 <?php
-if (isset($_POST['sign_up'])) {
-    $full_name = $_POST['full_name'];
-    $email = $_POST['email'];
-    $find_bachelor = "SELECT * FROM aka.bachelors WHERE email = :email";
-    try {
-        $find_bachelor_prepared_stmt = $dbo->prepare($find_bachelor);
-        $find_bachelor_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-        $find_bachelor_prepared_stmt->execute();
-        $find_bachelor_result = $find_bachelor_prepared_stmt->fetchAll();
-    } catch (PDOException $ex) {
-        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-    }
 
-    if ($find_bachelor_prepared_stmt->rowCount() == 0) {
-        $major = $_POST['major'];
-        $class = $_POST['class'];
-        $hometown_state = $_POST['hometown_state'];
-        $food = $_POST['food'];
-        $hobbies = $_POST['hobbies'];
-        $pet_peeves = $_POST['pet_peeves'];
-        $dream_date = $_POST['dream_date'];
-        $image = basename($_FILES['uploadImg']["name"]);
-        $tmp_image = $_FILES['uploadImg']['tmp_name'];
-        require_once("uploadImg.php");
-        $biography = array(
-            "Hometown, State" => $hometown_state,
-            "What is your favorite food?" => $food,
-            "What are your favorite hobbies?" => $hobbies,
-            "What are your biggest pet peeves?" => $pet_peeves,
-            "What is your dream date?" => $dream_date
-        );
-        $biographyStr = implode('||', array_map(
-            function ($v, $k) {
-                return sprintf("%s='%s'", $k, $v);
-            },
-            $biography,
-            array_keys($biography)
-        ));
-        $uploadedImageLocation = "images/bachelors/" . $email . "/" . $_FILES['uploadImg']['name'];
-        $add_bachelor = "INSERT INTO bachelors (fullName, email, class, major, biography, photoUrl, maxBid, auctionStatus, addedBy, auction_order_id)
-                         VALUES (:fullName, :email, :class, :major, :biography, :photoUrl, 0.00, 0, NULL, 0)";
-
-        try {
-            $add_bachelor_prepared_stmt = $dbo->prepare($add_bachelor);
-            $add_bachelor_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
-            $add_bachelor_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-            $add_bachelor_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
-            $add_bachelor_prepared_stmt->bindValue(':major', $major, PDO::PARAM_STR);
-            $add_bachelor_prepared_stmt->bindValue(':biography', $biographyStr, PDO::PARAM_STR);
-            $add_bachelor_prepared_stmt->bindValue(':photoUrl', $uploadedImageLocation, PDO::PARAM_STR);
-            $add_bachelor_prepared_stmt->execute();
-        } catch (PDOException $ex) { // Error in database processing.
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
-
-        $is_attendee = (bool)false;
-
-        $find_attendee_info = "SELECT * FROM aka.attendees WHERE email = :email";
-
-        try {
-            $find_attendee_info_prepared_stmt = $dbo->prepare($find_attendee_info);
-            $find_attendee_info_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-            $find_attendee_info_prepared_stmt->execute();
-            $find_attendee_info_result = $find_attendee_info_prepared_stmt->fetchAll();
-        } catch (PDOException $ex) {
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
-
-        if ($find_attendee_info_result && $find_attendee_info_prepared_stmt->rowCount() == 1) {
-            $is_attendee = (bool)true;
-        }
-
-        if ($is_attendee) {
-            $delete_from_attendee = "DELETE FROM aka.attendees WHERE email = :email";
-
-            try {
-                $delete_from_attendee_prepared_stmt = $dbo->prepare($delete_from_attendee);
-                $delete_from_attendee_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-                $delete_from_attendee_prepared_stmt->execute();
-            } catch (PDOException $ex) {
-                echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-            }
-        }
-        print_r("Form submitted successfully!");
-    }
-}
 include_once("overlay.php");
 ?>
 

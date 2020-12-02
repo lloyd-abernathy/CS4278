@@ -79,11 +79,17 @@ require_once("conn.php");
        } catch (PDOException $ex) {
          echo $sql . "<br>" . $error->getMessage();
        }
-       $attendee_flag = 1;
-     }
-  }
-  require_once("createflags.php");
+       $attendee_flag = (bool)true;
 
+     }
+     ?>
+     <h6 class="form_submission_successful">Login Successful!
+     </h6><br>
+     <script type="text/javascript">
+       window.location.href = "index.php";
+     </script>
+     <?php
+  }
 ?>
 
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>

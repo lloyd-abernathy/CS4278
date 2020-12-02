@@ -3,7 +3,8 @@
   require_once("createflags.php");
 
   if ($bachelor_flag) {
-    if ($_POST['submit_changes']) {
+    if (isset($_POST['submit_changes'])) {
+      $isSuccess = (bool)false;
       $full_name = $_POST['full_name'];
       $major = $_POST['major'];
       $class = $_POST['class'];
@@ -24,10 +25,8 @@
                   $bioArr,
                   array_keys($bioArr)
                 ));
-      $image = basename($_FILES['uploadNewImg']["name"]);
-      $tmp_image = $_FILES['uploadNewImg']['tmp_name'];
-      require_once("uploadImg.php");
-      if ($_FILES['uploadNewImg']['size'] == 0 && $_FILES['uploadNewImg']['error'] == 0) {
+      $check_upload = $_FILES['uploadNewImg']['error'];
+      if ($check_upload !== UPLOAD_ERR_OK) {
         $update_bachelor_without_image = "UPDATE aka.bachelors
                                           SET fullName = :fullName, major = :major, class = :class, biography = :biography, addedBy = NULL
                                           WHERE bachelorId = :id";
@@ -39,12 +38,15 @@
             $update_bachelor_without_image_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
             $update_bachelor_without_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
             $update_bachelor_without_image_prepared_stmt->execute();
+            $isSuccess = (bool)true;
          } catch (PDOException $ex) { // Error in database processing.
              echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
          }
 
       } else {
-
+        $image = basename($_FILES['uploadNewImg']["name"]);
+        $tmp_image = $_FILES['uploadNewImg']['tmp_name'];
+        require_once("uploadImg.php");
         $uploadedImageLocation = "images/bachelors/" . $login_result['email'] . "/" . $_FILES['uploadNewImg']["name"];
         $update_bachelor_with_image = "UPDATE aka.bachelors
                                        SET fullName = :fullName, major = :major, class = :class, biography = :biography, photoUrl = :photoUrl, addedBy = NULL
@@ -58,10 +60,26 @@
            $update_bachelor_with_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
            $update_bachelor_with_image_prepared_stmt->bindValue(':photoUrl', $uploadedImageLocation, PDO::PARAM_STR);
            $update_bachelor_with_image_prepared_stmt->execute();
+           $isSuccess = (bool)true;
         } catch (PDOException $ex) { // Error in database processing.
             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
-        print_r("Form Successfully Submitted!");
+
+      }
+      if ($isSuccess) {
+        ?>
+        <h6 class="form_submission_successful">Form submitted successfully!
+          View account <a href="account.php">here</a> to see changes.
+        </h6><br>
+        <?php
+      } else {
+        ?>
+        <h6 class="form_submission_error">Form was not submitted successfully!
+            Please see if there are any errors in your form submission. If not,
+            please contact Erin at
+            <a href="mailto:erin.hardnett.1@vanderbilt.edu?subject=Bachelor%20Edit%20Profile%20Error%20"> this email</a>.
+          </h6><br>
+        <?php
       }
     }
   }
@@ -89,7 +107,7 @@
        <h2>Edit Your Bachelor Profile</h2>
        <p>Fill out this form with any changes you would like to make to your existing
           profile. Upon submitting, your changes will be reviewed and made available
-          when they have been approved.</p>
+          when they have been approved.</p><br>
           <form class="" action="edit-bachelor.php" method="post" enctype="multipart/form-data">
             <label for="full_name">Full Name</label><br>
             <input type="text" name="full_name" value="<?php echo $login_result['fullName']; ?>"required><br><br>

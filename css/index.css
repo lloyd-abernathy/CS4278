@@ -75,6 +75,7 @@ div#links.buttons {
 
 .section {
   margin-bottom: 30px;
+  background-color: pink;
 }
 
 .section h2 {
@@ -133,7 +134,7 @@ div#links.buttons {
 }
 
 #instagram .table_info {
-  height: 340px;
+  height: 353px;
 }
 
 #instagram p {
@@ -142,6 +143,5 @@ div#links.buttons {
 
 #instagram a {
   color: green;
-  border-bottom: 2px solid green;
   text-decoration: none;
 }

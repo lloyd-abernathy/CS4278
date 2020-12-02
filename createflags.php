@@ -34,12 +34,12 @@
         echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
     }
 
-    if ($check_admin_email_result && $check_admin_email_prepared_stmt->rowCount() > 0) {
+    if (isset($check_admin_email_result) && $check_admin_email_prepared_stmt->rowCount() > 0) {
       $admin_flag = (bool)true;
       $login_result['id'] = $check_admin_email_result[0]['adminId'];
       $login_result['email'] = $check_admin_email_result[0]['email'];
       $login_result['fullName'] = $check_admin_email_result[0]['fullName'];
-    } else if ($check_bachelors_email_result && $check_bachelors_email_prepared_stmt->rowCount() > 0) {
+    } else if (isset($check_bachelors_email_result) && $check_bachelors_email_prepared_stmt->rowCount() > 0) {
       $bachelor_flag = (bool)true;
       $login_result['id'] = $check_bachelors_email_result[0]['bachelorId'];
       $login_result['email'] = $check_bachelors_email_result[0]['email'];
@@ -52,7 +52,7 @@
       $login_result['auctionStatus'] = $check_bachelors_email_result[0]['auctionStatus'];
       $login_result['addedBy'] = $check_bachelors_email_result[0]['addedBy'];
       $login_result['auction_order_id'] = $check_bachelors_email_result[0]['auction_order_id'];
-    } else if ($check_attendees_email_result && $check_attendees_email_prepared_stmt->rowCount() > 0) {
+    } else if (isset($check_attendees_email_result) && $check_attendees_email_prepared_stmt->rowCount() > 0) {
       $attendee_flag = (bool)true;
       $login_result['id'] = $check_attendees_email_result[0]['attendeeId'];
       $login_result['email'] = $check_attendees_email_result[0]['email'];

@@ -54,4 +54,32 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 // } catch (PDOException $ex) {
 //   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 // }
+
+// $foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
+// $truncate_attendees = "DELETE FROM aka.bachelors WHERE email = :email";
+// $foreign_checks_one = "SET FOREIGN_KEY_CHECKS = 1";
+//
+// try {
+//   $foreign_checks_zero_prepared_stmt = $dbo->prepare($foreign_checks_zero);
+//   $foreign_checks_zero_prepared_stmt->execute();
+//
+//   $truncate_attendees_prepared_stmt = $dbo->prepare($truncate_attendees);
+//   $truncate_attendees_prepared_stmt->bindValue(':email', 'erin.hardnett.7@gmail.com', PDO::PARAM_STR);
+//   $truncate_attendees_prepared_stmt->execute();
+//
+//   $foreign_checks_one_prepared_stmt = $dbo->prepare($foreign_checks_one);
+//   $foreign_checks_one_prepared_stmt->execute();
+// } catch (PDOException $ex) {
+//   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+// }
+//
+// $show_bids = "SELECT * FROM aka.bachelors";
+// try {
+//   $show_bids_prepared_stmt = $dbo->prepare($show_bids);
+//   $show_bids_prepared_stmt->execute();
+//   $show_bids_result = $show_bids_prepared_stmt->fetchAll();
+//   print_r($show_bids_result);
+// } catch (PDOException $ex) {
+//   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+// }
 ?>

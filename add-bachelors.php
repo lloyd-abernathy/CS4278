@@ -41,13 +41,48 @@ if ($admin_flag) {
     <br>
     <?php
     if (isset($bachelors_signup_result) && $bachelors_signup_prepared_stmt->rowCount() > 0) {
-
         ?>
         <p></p>
         <br>
 
         <div class="add_bachelors_select">
-            <form class="" action="account.php" method="post">
+            <?php
+            if (isset($_POST['approve_bachelors'])) {
+                $approved = $_POST['bachelor_approved'];
+                $x = 0;
+                foreach ($approved as $approved_bachelors) {
+                    $isSuccess = (bool)false;
+                    $approved_bachelors_query = "UPDATE aka.bachelors
+                                              SET addedBy = :adminId
+                                              WHERE bachelorId = :id";
+                    try {
+                        $approved_bachelors_prepared_stmt = $dbo->prepare($approved_bachelors_query);
+                        $approved_bachelors_prepared_stmt->bindValue(':id', $approved[$x], PDO::PARAM_INT);
+                        $approved_bachelors_prepared_stmt->bindValue(':adminId', (int)$login_result['id'], PDO::PARAM_INT);
+                        $approved_bachelors_prepared_stmt->execute();
+                        $x++;
+                        $isSuccess = (bool)true;
+                    } catch (PDOException $ex) {
+                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                    }
+
+                }
+                if ($isSuccess) {
+                  ?>
+                  <h6 class="form_submission_successful">Bachelors Successfully added!
+                    Refresh page to see changes or view new bachelors
+                    <a href="bachelors.php">here</a>.
+                  </h6><br>
+                  <?php
+                } else {
+                  ?>
+                  <h6 class="form_submission_error">Not all bachelors were successfully added!
+                      Please refresh page to see those that are left.</h6><br>
+                  <?php
+                }
+            }
+            ?>
+            <form class="" action="add-bachelors.php" method="post">
                 <div class="signup_select">
                     <select id="bachelor_signup" class="bachelor_signup" name="bachelor_signup"
                             size="20"
@@ -83,28 +118,6 @@ if ($admin_flag) {
                 <input id="submit_order" type="submit" name="approve_bachelors"
                        value="Approve Bachelors">
             </form>
-            <?php
-            if (isset($_POST['approve_bachelors'])) {
-                $approved = $_POST['bachelor_approved'];
-                $x = 0;
-                foreach ($approved as $approved_bachelors) {
-                    $approved_bachelors_query = "UPDATE aka.bachelors
-                                              SET addedBy = :adminId
-                                              WHERE bachelorId = :id";
-                    try {
-                        $approved_bachelors_prepared_stmt = $dbo->prepare($approved_bachelors_query);
-                        $approved_bachelors_prepared_stmt->bindValue(':id', $approved[$x], PDO::PARAM_INT);
-                        $approved_bachelors_prepared_stmt->bindValue(':adminId', (int)$login_result['id'], PDO::PARAM_INT);
-                        $approved_bachelors_prepared_stmt->execute();
-                        $x++;
-                    } catch (PDOException $ex) {
-                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                    }
-
-                }
-                print_r("Successfully entered!");
-            }
-            ?>
         </div>
         </div>
 
@@ -121,50 +134,9 @@ if ($admin_flag) {
                 $bioStr = $row_1['biography'];
                 $array = explode("||", $bioStr);
 
-                ?>
-                <h3 id="<?php echo "title-" . $bacheloriD; ?>">
-                    About <?php echo $bachelorfullName; ?></h3>
-                <form class="bachelor_forms" id="<?php echo "form-" . $bacheloriD; ?>"
-                      action="add-bachelors.php" method="post" enctype="multipart/form-data">
-                    <label for="full_name">Full Name</label><br>
-                    <input type="text" name="full_name" value="<?php echo $bachelorfullName; ?>"
-                           required><br><br>
-
-                    <label for="email">Vanderbilt Email</label><br>
-                    <input type="email" name="email" value="<?php echo $bachelorEmail; ?>"
-                           pattern=".+@vanderbilt.edu" required><br><br>
-
-                    <label for="major">Major</label><br>
-                    <input type="text" name="major" value="<?php echo $bachelorMajor; ?>"
-                           required><br><br>
-
-                    <label for="class">Classification</label><br>
-                    <input type="text" name="class" value="<?php echo $bachelorClass; ?>"><br><br>
-
-                    <?php
-                    foreach ($array as $question) {
-                        $key_value = explode("=", $question);
-                        ?>
-                        <label for="biography[]"><?php echo $key_value[0]; ?></label><br>
-                        <input type="text" name="biography[]"
-                               value="<?php echo substr($key_value[1], 1, -1); ?>" required><br><br>
-                        <?php
-                    }
-                    ?>
-                    <label>Current Picture</label><br>
-                    <img src="<?php echo $bachelorPhoto; ?>" alt="" style="width:50%;"><br>
-
-                    <label for="<?php echo "uploadApprovedImg-" . $bacheloriD; ?>">Want to upload a
-                        new picture?</label>
-                    <input type="file" name="<?php echo "uploadApprovedImg-" . $bacheloriD; ?>"
-                           accept="image/*"><br><br>
-
-                    <input type="submit" name="<?php echo "edit_bachelor_" . $bacheloriD; ?>"
-                           value="Edit Bachelor Info">
-                </form>
-                <?php
                 $submit = "edit_bachelor_" . $bacheloriD;
                 if (isset($_POST[$submit])) {
+                    $isSuccess = (bool)false;
                     $full_name = $_POST['full_name'];
                     $email = $_POST['email'];
                     $major = $_POST['major'];
@@ -181,10 +153,8 @@ if ($admin_flag) {
                         $bioArr,
                         array_keys($bioArr)
                     ));
-                    $image = basename($_FILES['uploadApprovedImg-' . $bacheloriD]["name"]);
-                    $tmp_image = $_FILES['uploadApprovedImg-' . $bacheloriD]['tmp_name'];
-                    require_once("uploadImg.php");
-                    if ($_FILES['uploadApprovedImg-' . $bacheloriD]['size'] == 0 && $_FILES['uploadApprovedImg-' . $bacheloriD]['error'] == 0) {
+                    $check_upload = $_FILES['uploadApprovedImg-' . $bacheloriD]["error"];
+                    if ($check_upload !== UPLOAD_ERR_OK) {
                         $update_bachelor_without_image = "UPDATE aka.bachelors
                                          SET fullName = :fullName, email = :email, major = :major, class = :class, biography = :biography
                                          WHERE bachelorId = :id";
@@ -196,13 +166,16 @@ if ($admin_flag) {
                             $update_bachelor_without_image_prepared_stmt->bindValue(':major', $major, PDO::PARAM_STR);
                             $update_bachelor_without_image_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
                             $update_bachelor_without_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
-                            $update_bachelor_without_image_prepared_stmt->bindValue(':photoUrl', $uploadedImageLocation, PDO::PARAM_STR);
                             $update_bachelor_without_image_prepared_stmt->execute();
+                            $isSuccess = (bool)true;
                         } catch (PDOException $ex) { // Error in database processing.
                             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                         }
 
                     } else {
+                        $image = basename($_FILES['uploadApprovedImg-' . $bacheloriD]["name"]);
+                        $tmp_image = $_FILES['uploadApprovedImg-' . $bacheloriD]['tmp_name'];
+                        require_once("uploadImg.php");
                         $uploadedImageLocation = "images/bachelors/" . $email . "/" . $_FILES['uploadApprovedImg-' . $bacheloriD]["name"];
                         $update_bachelor_with_image = "UPDATE aka.bachelors
                                          SET fullName = :fullName, email = :email, major = :major, class = :class, biography = :biography, photoUrl = :photoUrl
@@ -217,17 +190,79 @@ if ($admin_flag) {
                             $update_bachelor_with_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
                             $update_bachelor_with_image_prepared_stmt->bindValue(':photoUrl', $uploadedImageLocation, PDO::PARAM_STR);
                             $update_bachelor_with_image_prepared_stmt->execute();
+                            $isSuccess = (bool)true;
                         } catch (PDOException $ex) { // Error in database processing.
                             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                         }
 
                     }
-
-
+                    if ($isSuccess) {
+                      ?>
+                      <h6 class="form_submission_successful">Bachelors Information Edited!
+                        Refresh page to see changes!
+                      </h6><br>
+                      <?php
+                    } else {
+                      ?>
+                      <h6 class="form_submission_error">Bachelors Information not edited
+                          properly! Refresh page to view errors.</h6><br>
+                      <?php
+                    }
                 }
-            }
-
             ?>
+                <h3 id="<?php echo "title-" . $bacheloriD; ?>">
+                    About <?php echo $bachelorfullName; ?></h3>
+                <form class="bachelor_forms" id="<?php echo "form-" . $bacheloriD; ?>"
+                      action="add-bachelors.php" method="post" enctype="multipart/form-data">
+                    <label for="full_name">Full Name</label><br>
+                    <input type="text" name="full_name" value="<?php echo $bachelorfullName; ?>"
+                           required><br><br>
+
+                    <label for="email">Vanderbilt Email</label><br>
+                    <input type="email" name="email" value="<?php echo $bachelorEmail; ?>"
+                            required readonly><br><br>
+
+                    <label for="major">Major</label><br>
+                    <input type="text" name="major" value="<?php echo $bachelorMajor; ?>"
+                           required><br><br>
+
+                    <label for="class">Classification</label><br>
+                    <input id="class_input" type="text" name="class" value="<?php echo $bachelorClass; ?>" required readonly>
+                    <p id="note">NOTE: If you would like to edit this field, then click this button below:</p>
+                    <select id="class_select" class="" name="class" onchange="disableInput()"required>
+                      <option value="select" disabled selected>Select new class standing</option>
+                      <option value="Freshman">Freshman</option>
+                      <option value="Sophomore">Sophomore</option>
+                      <option value="Junior">Junior</option>
+                      <option value="Senior">Senior</option>
+                    </select><br><br>
+
+                    <?php
+                    foreach ($array as $question) {
+                        $key_value = explode("=", $question);
+                        ?>
+                        <label><?php echo $key_value[0]; ?></label><br>
+                        <input type="hidden" name="biography[]"
+                               value="<?php echo $key_value[0]; ?>">
+                        <input type="text" name="biography[]"
+                               value="<?php echo substr($key_value[1], 1, -1); ?>" required><br><br>
+                        <?php
+                    }
+                    ?>
+                    <label>Current Picture</label><br>
+                    <img src="<?php echo $bachelorPhoto; ?>" alt="" style="width:50%;"><br>
+
+                    <label for="<?php echo "uploadApprovedImg-" . $bacheloriD; ?>">Want to upload a
+                        new picture?</label>
+                    <input type="file" name="<?php echo "uploadApprovedImg-" . $bacheloriD; ?>"
+                           accept="image/*"><br><br>
+
+                    <input type="submit" name="<?php echo "edit_bachelor_" . $bacheloriD; ?>"
+                           value="Edit Bachelor Info">
+                </form>
+              <?php
+            }
+               ?>
         </div>
         <?php
     } else {

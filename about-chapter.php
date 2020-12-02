@@ -25,9 +25,7 @@ require_once("createflags.php");
 <div class="chapter_info">
     <?php
     if ($admin_flag) {
-      ?>
-      <!-- Create content editable by admin -->
-      <?php
+      // TODO: Make content editable for an admin
     }
      ?>
     <h2>About Elegant Eta Beta</h2><br>

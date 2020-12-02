@@ -43,20 +43,43 @@ if ($admin_flag) {
     </form><br>
     <?php
     if (isset($_POST['add_admin'])) {
+        $isSuccess = (bool)false;
         $full_name = $_POST['full_name'];
         $email = $_POST['email'];
+        $check_admin_email = "SELECT * FROM aka.admins WHERE email = :email";
 
-        $insert_to_admin = "INSERT INTO admins (fullName, email)
-                            VALUES (:fullName, :email)";
         try {
-            $insert_to_admin_prepared_stmt = $dbo->prepare($insert_to_admin);
-            $insert_to_admin_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
-            $insert_to_admin_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-            $insert_to_admin_prepared_stmt->execute();
+            $check_admin_email_prepared_stmt = $dbo->prepare($check_admin_email);
+            $check_admin_email_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+            $check_admin_email_prepared_stmt->execute();
+            $check_admin_email_result = $check_admin_email_prepared_stmt->fetchAll();
         } catch (PDOException $ex) {
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+
         }
-        print_r("Successfully added!");
+        if ($check_admin_email_prepared_stmt->rowCount() == 0) {
+          $insert_to_admin = "INSERT INTO admins (fullName, email)
+                              VALUES (:fullName, :email)";
+          try {
+              $insert_to_admin_prepared_stmt = $dbo->prepare($insert_to_admin);
+              $insert_to_admin_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
+              $insert_to_admin_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+              $insert_to_admin_prepared_stmt->execute();
+              $isSuccess = (bool)true;
+          } catch (PDOException $ex) {
+              echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+          }
+        }
+
+        if ($isSuccess) {
+          ?>
+          <h6 class="form_submission_successful">Successfully added admin!
+          </h6><br>
+          <?php
+        } else {
+          ?>
+          <h6 class="form_submission_error">Admin already exists!</h6><br>
+          <?php
+        }
     }
     ?>
     <h2>Delete Admins</h2><br><br>
@@ -81,16 +104,19 @@ if ($admin_flag) {
 
     if (isset($_POST['delete_admin'])) {
         $admin_to_delete = $_POST['delete'];
-
+        $foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
         $delete_admin = "DELETE FROM aka.admins WHERE adminId = :id";
         try {
+            $foreign_checks_zero_prepared_stmt = $dbo->prepare($foreign_checks_zero);
+            $foreign_checks_zero_prepared_stmt->execute();
+            
             $delete_admin_prepared_stmt = $dbo->prepare($delete_admin);
             $delete_admin_prepared_stmt->bindValue(':id', $admin_to_delete, PDO::PARAM_INT);
             $delete_admin_prepared_stmt->execute();
         } catch (PDOException $ex) {
             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
         }
-        print_r("Successfully deleted");
+
     }
 } else if ($bachelor_flag || $attendee_flag) {
     ?>

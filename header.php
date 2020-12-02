@@ -1,7 +1,7 @@
 <?php
 echo "<div class=\"header\">" .
     "<div class=\"header_left\">" .
-    "<span onclick=\"openNav()\"><i class=\"fa fa-ellipsis-v\"></i></span>" .
+    "<span onclick=\"openNav()\"><i class=\"fa fa-bars\"></i></span>" .
     "</div>" .
 
     "<div class=\"header_center\">" .

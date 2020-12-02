@@ -67,6 +67,57 @@ if ($attendee_flag) {
     feel free to reach out to the chapter through this
     <a href="mailto:aka.vanderbilt@gmail.com?subject=HeartbreAKA%20Inquiry%20about%20Dropbox%20Donations">email</a>.</p>
     <br>
+    <?php
+    if (isset($_POST['dropbox_donation'])) {
+        $isSuccess = (bool) false;
+        if ($attendee_flag) {
+            $full_name = $_POST['full_name'];
+            $email = $_POST['email'];
+            $donations = $_POST['donations'];
+            $bank = $_POST['total'];
+            $donationsArr = array();
+            for ($x = 0; $x < count($donations); $x = $x + 2) {
+                $donationsArr[$donations[$x]] = $donations[$x + 1];
+            }
+            $donationsString = implode('||', array_map(
+                function ($v, $k) {
+                    return sprintf("%s='%s'", $k, $v);
+                },
+                $donationsArr,
+                array_keys($donationsArr)
+            ));
+            $subject = "DROPBOX DONATION RECEIEVED FROM: " . $full_name;
+            $message = "Name: " . $full_name . ", Email: " . $email . ", Donations: "
+                . $donationsString . ", AKA Dollars: " . $bank;
+
+            $query = "INSERT INTO notifications(notificationType, notificationSubject, notificationMessage, notificationFlag, notificationApproved)
+                    VALUES ('Dropbox Donation', :subject, :message, 0, 0)";
+
+            try {
+                $prepared_stmt = $dbo->prepare($query);
+                $prepared_stmt->bindValue(':subject', $subject, PDO::PARAM_STR);
+                $prepared_stmt->bindValue(':message', $message, PDO::PARAM_STR);
+                $prepared_stmt->execute();
+                $isSuccess = (bool)true;
+            } catch (PDOException $ex) { // Error in database processing.
+                echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+            }
+
+            if ($isSuccess) {
+              ?>
+              <span class="form_submission_successful">Form Submitted Successfully!</span>
+              <?php
+            } else {
+              ?>
+              <span class="form_submission_error">Error in submitting form! Please
+                contact Erin at <a href="mailto:erin.hardnett.1@vanderbilt.edu">this email.</a>
+              </span>
+              <?php
+            }
+
+        }
+    }
+     ?>
 
     <form action="donations-dropbox.php" method="post" name="dropbox">
         <label for="full_name">Full Name</label><br>
@@ -118,41 +169,7 @@ if ($attendee_flag) {
 
 
 <?php
-if (isset($_POST['dropbox_donation'])) {
-    if ($attendee_flag) {
-        $full_name = $_POST['full_name'];
-        $email = $_POST['email'];
-        $donations = $_POST['donations'];
-        $bank = $_POST['total'];
-        $donationsArr = array();
-        for ($x = 0; $x < count($donations); $x = $x + 2) {
-            $donationsArr[$donations[$x]] = $donations[$x + 1];
-        }
-        $donationsString = implode('||', array_map(
-            function ($v, $k) {
-                return sprintf("%s='%s'", $k, $v);
-            },
-            $donationsArr,
-            array_keys($donationsArr)
-        ));
-        $subject = "DROPBOX DONATION RECEIEVED FROM: " . $full_name;
-        $message = "Name: " . $full_name . ", Email: " . $email . ", Donations: "
-            . $donationsString . ", AKA Dollars: " . $bank;
 
-        $query = "INSERT INTO notifications(notificationType, notificationSubject, notificationMessage, notificationFlag, notificationApproved)
-                VALUES ('Dropbox Donation', :subject, :message, 0, 0)";
-
-        try {
-            $prepared_stmt = $dbo->prepare($query);
-            $prepared_stmt->bindValue(':subject', $subject, PDO::PARAM_STR);
-            $prepared_stmt->bindValue(':message', $message, PDO::PARAM_STR);
-            $prepared_stmt->execute();
-        } catch (PDOException $ex) { // Error in database processing.
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
-        print_r("Successfully submitted!");
-    }
-}
 include_once("overlay.php");
 
 ?>

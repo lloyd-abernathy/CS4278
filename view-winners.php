@@ -36,34 +36,60 @@ try {
    <body>
      <?php
      include_once("header.php");
-     ?>
-     <table>
-       <thead>
-         <tr>
-           <th>Bachelor</th>
-           <th>Winner</th>
-           <th>Bid Amount</th>
-         </tr>
-       </thead>
-       <tbody>
-         <?php
-         if (isset($winners_result) && $winners_prepared_stmt->rowCount() > 0) {
-           foreach ($winners_result as $winner) {
-             $bachelor = $winner['bachelor'];
-             $attendee = $winner['attendee'];
-             $bidAmount = $winner['bidAmount'];
+     if ($admin_flag) {
+       if (isset($winners_result) && $winners_prepared_stmt->rowCount() > 0) {
+       ?>
+       <table>
+         <thead>
+           <tr>
+             <th>Bachelor</th>
+             <th>Winner</th>
+             <th>Bid Amount</th>
+             <th>Contact</th>
+           </tr>
+         </thead>
+         <tbody>
+           <?php
+             foreach ($winners_result as $winner) {
+               $bachelor = $winner['bachelor'];
+               $attendee = $winner['attendee'];
+               $bidAmount = $winner['bidAmount'];
+               $email = $winner['attendeeEmail'];
+               ?>
+               <tr>
+                 <td><?php echo $bachelor; ?></td>
+                 <td> <?php echo $attendee; ?></td>
+                 <td><?php echo "$" . $bidAmount; ?></td>
+                 <td>
+                   <a href="mailto:<?php echo $email; ?>">Email</a>
+                 </td>
+               </tr>
+               <?php
+             }
+           } else {
              ?>
-             <tr>
-               <td><?php echo $bachelor; ?></td>
-               <td> <?php echo $attendee; ?></td>
-               <td><?php echo "$" . $bidAmount; ?></td>
-             </tr>
+             <h4>HeartbreAKA Winners</h4>
+             <p>Winners will display here after the event! Contact emails will
+                be visible, but you will be able to send an email to them.</p>
              <?php
            }
-         }
-          ?>
-       </tbody>
-     </table>
+            ?>
+         </tbody>
+       </table>
+      <?php
+    } else if ($bachelor_flag || $attendee_flag) {
+      ?>
+      <h4>Restricted Access</h4>
+      <p>You do not have access to this page.</p>
+      <?php
+    } else {
+      ?>
+      <h4>Sign in Needed</h4>
+      <p>Please sign in from the navigation bar to view this page.</p>
+      <?php
+    }
+     ?>
+
      <?php
      include_once("overlay.php");
       ?>

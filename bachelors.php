@@ -35,7 +35,7 @@ try {
 <div class="Bachelors">
     <body>
     <h2>Bachelors</h2>
-    <?php if ($result && $prepared_stmt->rowCount() > 0) {
+    <?php if (isset($result) && $prepared_stmt->rowCount() > 0) {
         foreach ($result as $row) {
             $bachelorID = $row['bachelorId'];
             $bachelorFullName = $row['fullName'];

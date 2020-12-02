@@ -4,7 +4,7 @@ require_once("conn.php");
 require_once("createflags.php");
 
 $to_do_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 0";
-$done_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 1";
+$done_query = "SELECT * FROM aka.notifications WHERE notificationFlag = 1 ORDER BY notificationId DESC LIMIT 30";
 
 try {
     $to_do_prepared_stmt = $dbo->prepare($to_do_query);
@@ -17,6 +17,142 @@ try {
 
 } catch (PDOException $ex) { // Error in database processing.
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+}
+
+if (isset($_POST['mark_completed'])) {
+    $isSuccess = (bool)false;
+    $notification_ids = $_POST['notificationId'];
+    for ($x = 0; $x < count($notification_ids); $x++) {
+        $notification_id = $notification_ids[$x];
+        $type = $_POST['type-' . $notification_id];
+        $message = explode(",", $_POST['message-' . $notification_id]);
+        $messageArr = array();
+        foreach ($message as $str) {
+            $attributes = explode(": ", $str);
+            $messageArr[$attributes[0]] = $attributes[1];
+        }
+
+        $approved = $_POST['approved-' . $notification_id];
+
+        $name_of_attendee = $messageArr[' Name'];
+        $email_of_attendee = $messageArr[' Email'];
+
+        $is_attendee = false;
+
+        $find_attendee_info = "SELECT * FROM aka.attendees WHERE email = :email";
+
+        try {
+            $find_attendee_info_prepared_stmt = $dbo->prepare($find_attendee_info);
+            $find_attendee_info_prepared_stmt->bindValue(':email', $email_of_attendee, PDO::PARAM_STR);
+            $find_attendee_info_prepared_stmt->execute();
+            $find_attendee_info_result = $find_attendee_info_prepared_stmt->fetchAll();
+        } catch (PDOException $ex) {
+            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+        }
+
+        if (isset($find_attendee_info_result) && $find_attendee_info_prepared_stmt->rowCount() == 1) {
+            $is_attendee = true;
+        }
+
+        if ($type == "Monetary Donation") {
+            if ($approved == "Approve") {
+                $donation_amount = $messageArr[' Amount ($)'];
+                $bank_monetary = $donation_amount * 100;
+                if ($is_attendee) {
+                    $attendee_id = $find_attendee_info_result[0]['attendeeId'];
+                    $update_attendee_monetary = "UPDATE aka.attendees
+                              SET totalDonations = totalDonations + :donation, accountBalance = accountBalance + :bank
+                              WHERE attendeeId = :attendee";
+                    try {
+                        $update_attendee_monetary_prepared_stmt = $dbo->prepare($update_attendee_monetary);
+                        $update_attendee_monetary_prepared_stmt->bindValue(':attendee', $attendee_id, PDO::PARAM_INT);
+                        $update_attendee_monetary_prepared_stmt->bindValue(':donation', $donation_amount, PDO::PARAM_INT);
+                        $update_attendee_monetary_prepared_stmt->bindValue(':bank', $bank_monetary, PDO::PARAM_INT);
+                        $update_attendee_monetary_prepared_stmt->execute();
+                    } catch (PDOException $ex) {
+                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                    }
+
+                }
+                $update_notification_monetary_approved = "UPDATE aka.notifications
+                                SET notificationFlag = 1, notificationApproved = 1
+                                WHERE notificationId = :notification";
+                try {
+                    $update_notification_monetary_approved_prepared_stmt = $dbo->prepare($update_notification_monetary_approved);
+                    $update_notification_monetary_approved_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
+                    $update_notification_monetary_approved_prepared_stmt->execute();
+                } catch (PDOException $ex) {
+                    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                }
+            } else {
+                $update_notification_monetary_denied = "UPDATE aka.notifications
+                                SET notificationFlag = 1, notificationApproved = 0
+                                WHERE notificationId = :notification";
+                try {
+                    $update_notification_monetary_denied_prepared_stmt = $dbo->prepare($update_notification_monetary_denied);
+                    $update_notification_monetary_denied_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
+                    $update_notification_monetary_denied_prepared_stmt->execute();
+                } catch (PDOException $ex) {
+                    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                }
+            }
+            $isSuccess = (bool)true;
+        } else if ($type == "Dropbox Donation") {
+            if ($approved == "Approve") {
+                $bank_dropbox = $messageArr[' AKA Dollars'];
+                if ($is_attendee) {
+                    $attendee_id = $find_attendee_info_result[0]['attendeeId'];
+                    $update_attendee_dropbox = "UPDATE aka.attendees
+                              SET accountBalance = accountBalance + :bank
+                              WHERE attendeeId = :attendee";
+                    try {
+                        $update_attendee_dropbox_prepared_stmt = $dbo->prepare($update_attendee_dropbox);
+                        $update_attendee_dropbox_prepared_stmt->bindValue(':attendee', $attendee_id, PDO::PARAM_INT);
+                        $update_attendee_dropbox_prepared_stmt->bindValue(':bank', $bank_dropbox, PDO::PARAM_INT);
+                        $update_attendee_dropbox_prepared_stmt->execute();
+                    } catch (PDOException $ex) {
+                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                    }
+
+                }
+                $update_notification_dropbox_approved = "UPDATE aka.notifications
+                                SET notificationFlag = 1, notificationApproved = 1
+                                WHERE notificationId = :notification";
+                try {
+                    $update_notification_dropbox_approved_prepared_stmt = $dbo->prepare($update_notification_dropbox_approved);
+                    $update_notification_dropbox_approved_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
+                    $update_notification_dropbox_approved_prepared_stmt->execute();
+                } catch (PDOException $ex) {
+                    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                }
+            } else {
+                $update_notification_dropbox_denied = "UPDATE aka.notifications
+                                SET notificationFlag = 1, notificationApproved = 0
+                                WHERE notificationId = :notification";
+                try {
+                    $update_notification_dropbox_denied_prepared_stmt = $dbo->prepare($update_notification_dropbox_denied);
+                    $update_notification_dropbox_denied_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
+                    $update_notification_dropbox_denied_prepared_stmt->execute();
+                } catch (PDOException $ex) {
+                    echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                }
+            }
+            $isSuccess = (bool)true;
+        }
+    }
+    if ($isSuccess) {
+      ?>
+      <h6 class="form_submission_successful">Tasks have been marked accordingly!
+        Do not resubmit form! Enter page again to see results.
+      </h6><br>
+      <?php
+    } else {
+      ?>
+      <h6 class="form_submission_error">Tasks were not marked correctly! Do not
+        resubmit form! Enter page again to see the remaining donations to
+        approve. </h6><br>
+      <?php
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -44,9 +180,9 @@ if ($admin_flag) {
 <div class="donations_admin_list_info">
     <h2>Donations to Review</h2>
     <br>
-    <form class="" action="account.php" method="post">
+    <form class="" action="donations-admin-list.php" method="post" onsubmit="window.location.reload(); window.location.reload();">
         <?php
-        if ($to_do_result && $to_do_prepared_stmt->rowCount() > 0) { ?>
+        if (isset($to_do_result) && $to_do_prepared_stmt->rowCount() > 0) { ?>
         <table class="tasks">
             <thead>
             <th>&nbsp;</th>
@@ -130,11 +266,11 @@ if ($admin_flag) {
                         <input type="radio"
                                name="<?php echo "approved-" . $to_do["notificationId"]; ?>"
                                value="Approve">
-                        <label for="<?php echo "approved-" . $to_do["notificationId"]; ?>">Approve</label><br>
+                        <label>Approve</label><br>
                         <input type="radio"
                                name="<?php echo "approved-" . $to_do["notificationId"]; ?>"
                                value="Deny">
-                        <label for="<?php echo "approved-" . $to_do["notificationId"]; ?>">Deny</label>
+                        <label>Deny</label>
                     </td>
                 </tr>
                 <?php
@@ -153,133 +289,12 @@ if ($admin_flag) {
         <?php
     } ?>
     <?php
-    if (isset($_POST['mark_completed'])) {
-        $notification_ids = $_POST['notificationId'];
-        for ($x = 0; $x < count($notification_ids); $x++) {
-            $notification_id = $notification_ids[$x];
-            $type = $_POST['type-' . $notification_id];
-            $message = explode(",", $_POST['message-' . $notification_id]);
-            $messageArr = array();
-            foreach ($message as $str) {
-                $attributes = explode(": ", $str);
-                $messageArr[$attributes[0]] = $attributes[1];
-            }
 
-            $approved = $_POST['approved-' . $notification_id];
-
-            $name_of_attendee = $messageArr[' Name'];
-            $email_of_attendee = $messageArr[' Email'];
-
-            $is_attendee = false;
-
-            $find_attendee_info = "SELECT * FROM aka.attendees WHERE email = :email";
-
-            try {
-                $find_attendee_info_prepared_stmt = $dbo->prepare($find_attendee_info);
-                $find_attendee_info_prepared_stmt->bindValue(':email', $email_of_attendee, PDO::PARAM_STR);
-                $find_attendee_info_prepared_stmt->execute();
-                $find_attendee_info_result = $find_attendee_info_prepared_stmt->fetchAll();
-            } catch (PDOException $ex) {
-                echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-            }
-
-            if ($find_attendee_info_result && $find_attendee_info_prepared_stmt->rowCount() == 1) {
-                $is_attendee = true;
-            }
-
-            if ($type == "Monetary Donation") {
-                if ($approved == "Approve") {
-                    $donation_amount = $messageArr[' Amount ($)'];
-                    $bank_monetary = $donation_amount * 100;
-                    if ($is_attendee) {
-                        $attendee_id = $find_attendee_info_result[0]['attendeeId'];
-                        $update_attendee_monetary = "UPDATE aka.attendees
-                                  SET totalDonations = totalDonations + :donation, accountBalance = accountBalance + :bank
-                                  WHERE attendeeId = :attendee";
-                        try {
-                            $update_attendee_monetary_prepared_stmt = $dbo->prepare($update_attendee_monetary);
-                            $update_attendee_monetary_prepared_stmt->bindValue(':attendee', $attendee_id, PDO::PARAM_INT);
-                            $update_attendee_monetary_prepared_stmt->bindValue(':donation', $donation_amount, PDO::PARAM_INT);
-                            $update_attendee_monetary_prepared_stmt->bindValue(':bank', $bank_monetary, PDO::PARAM_INT);
-                            $update_attendee_monetary_prepared_stmt->execute();
-                            $update_attendee_monetary_result = $update_attendee_monetary_prepared_stmt->fetchAll();
-                        } catch (PDOException $ex) {
-                            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                        }
-
-                    }
-                    $update_notification_monetary_approved = "UPDATE aka.notifications
-                                    SET notificationFlag = 1, notificationApproved = 1
-                                    WHERE notificationId = :notification";
-                    try {
-                        $update_notification_monetary_approved_prepared_stmt = $dbo->prepare($update_notification_monetary_approved);
-                        $update_notification_monetary_approved_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
-                        $update_notification_monetary_approved_prepared_stmt->execute();
-                        $update_notification_monetary_approved_result = $update_notification_monetary_approved_prepared_stmt->fetchAll();
-                    } catch (PDOException $ex) {
-                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                    }
-                } else {
-                    $update_notification_monetary_denied = "UPDATE aka.notifications
-                                    SET notificationFlag = 1, notificationApproved = 0
-                                    WHERE notificationId = :notification";
-                    try {
-                        $update_notification_monetary_denied_prepared_stmt = $dbo->prepare($update_notification_monetary_denied);
-                        $update_notification_monetary_denied_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
-                        $update_notification_monetary_denied_prepared_stmt->execute();
-                    } catch (PDOException $ex) {
-                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                    }
-                }
-            } else if ($type == "Dropbox Donation") {
-                if ($approved == "Approve") {
-                    $bank_dropbox = $messageArr[' AKA Dollars'];
-                    if ($is_attendee) {
-                        $attendee_id = $find_attendee_info_result[0]['attendeeId'];
-                        $update_attendee_dropbox = "UPDATE aka.attendees
-                                  SET accountBalance = accountBalance + :bank
-                                  WHERE attendeeId = :attendee";
-                        try {
-                            $update_attendee_dropbox_prepared_stmt = $dbo->prepare($update_attendee_dropbox);
-                            $update_attendee_dropbox_prepared_stmt->bindValue(':attendee', $attendee_id, PDO::PARAM_INT);
-                            $update_attendee_dropbox_prepared_stmt->bindValue(':bank', $bank_dropbox, PDO::PARAM_INT);
-                            $update_attendee_dropbox_prepared_stmt->execute();
-                        } catch (PDOException $ex) {
-                            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                        }
-
-                    }
-                    $update_notification_dropbox_approved = "UPDATE aka.notifications
-                                    SET notificationFlag = 1, notificationApproved = 1
-                                    WHERE notificationId = :notification";
-                    try {
-                        $update_notification_dropbox_approved_prepared_stmt = $dbo->prepare($update_notification_dropbox_approved);
-                        $update_notification_dropbox_approved_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
-                        $update_notification_dropbox_approved_prepared_stmt->execute();
-                    } catch (PDOException $ex) {
-                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                    }
-                } else {
-                    $update_notification_dropbox_denied = "UPDATE aka.notifications
-                                    SET notificationFlag = 1, notificationApproved = 0
-                                    WHERE notificationId = :notification";
-                    try {
-                        $update_notification_dropbox_denied_prepared_stmt = $dbo->prepare($update_notification_dropbox_denied);
-                        $update_notification_dropbox_denied_prepared_stmt->bindValue(':notification', $notification_id, PDO::PARAM_INT);
-                        $update_notification_dropbox_denied_prepared_stmt->execute();
-                    } catch (PDOException $ex) {
-                        echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                    }
-                }
-
-            }
-        }
-    }
     ?>
     <h2>Reviewed Donations</h2>
     <br>
     <?php
-    if ($done_result && $done_prepared_stmt->rowCount() > 0) { ?>
+    if (isset($done_result) && $done_prepared_stmt->rowCount() > 0) { ?>
         <table class="tasks">
             <thead>
             <th>&nbsp;</th>
@@ -292,7 +307,7 @@ if ($admin_flag) {
                 ?>
                 <tr>
                     <td>
-                        <input type="checkbox" value="<?php echo $done["notificationId"]; ?>">
+                      <h4><?php echo $done["notificationId"]; ?></h4>
                     </td>
                     <td>
                         <strong>Subject: </strong> <?php echo $done["notificationSubject"]; ?><br>
@@ -406,5 +421,6 @@ if ($admin_flag) {
         });
     }
 </script>
+
 </body>
 </html>

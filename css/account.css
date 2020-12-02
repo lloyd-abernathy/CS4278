@@ -54,3 +54,24 @@
   width: 50%;
   margin-left: 35%;
 }
+
+.quick_links_disabled {
+  background-color: lightgray;
+  border: 2px solid lightgray;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  color: white;
+  font-family:'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Calisto MT', 'Times New Roman', serif;
+  text-align: center;
+  width: 40%;
+  margin-left: 10%;
+  margin-bottom: 20px;
+  font-size: 15px;
+  border-radius: 3px;
+  font-style: bold;
+  margin-top: 10px;
+  height: 40px;
+  font-weight: bold;
+  text-decoration: line-through;
+  color: white;
+}

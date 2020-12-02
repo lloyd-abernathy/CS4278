@@ -79,7 +79,7 @@ function onSuccess(googleUser) {
     createCookie("fullName", googleUser.getBasicProfile().getName());
     createCookie("email", googleUser.getBasicProfile().getEmail());
     localStorage.setItem("isUserLoggedIn", true);
-    window.location.href = "index.php";
+    window.location.href = "login.php";
 };
 
 function onFailure(error) {

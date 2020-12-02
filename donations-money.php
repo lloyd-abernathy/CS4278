@@ -83,6 +83,45 @@ require_once("createflags.php");
         be credited to your account as soon as it has been approved. We appreciate
         your generous contribution to our cause and hope you enjoy HeartbreAKA!
       </p><br>
+      <?php
+      if (isset($_POST['submit_payment']) && $attendee_flag) {
+          $isSuccess = (bool)false;
+          $name = $_POST['name'];
+          $email = $_POST['email'];
+          $amount = $_POST['amount'];
+          $service = $_POST['service'];
+
+          $subject = "PAYMENT RECIEVED FROM: " . $name;
+          $message = "Name: " . $name . ", Email: " . $email . ", Amount ($): " . $amount . ",
+                      Service Used: " . $service . ", Task: Please confirm this payment method
+                      by checking the " . $service . " account and approve it here for the record.";
+
+          $query = "INSERT INTO notifications(notificationType, notificationSubject, notificationMessage, notificationFlag, notificationApproved)
+                    VALUES ('Monetary Donation', :subject, :message, 0, 0)";
+
+          try {
+              $prepared_stmt = $dbo->prepare($query);
+              $prepared_stmt->bindValue(':subject', $subject, PDO::PARAM_STR);
+              $prepared_stmt->bindValue(':message', $message, PDO::PARAM_STR);
+              $prepared_stmt->execute();
+              $isSuccess = (bool)true;
+          } catch (PDOException $ex) { // Error in database processing.
+              echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+          }
+
+          if ($isSuccess) {
+            ?>
+            <h6 class="form_submission_successful">Form Submitted Successfully!</h6><br>
+            <?php
+          } else {
+            ?>
+            <h6 class="form_submission_error">Error in submitting form! Please
+              contact Erin at <a href="mailto:erin.hardnett.1@vanderbilt.edu">this email.</a>
+            </h6><br>
+            <?php
+          }
+      }
+      ?>
     <form class="monetary_donations_form" action="" method="post" name="monetary"
           onsubmit="submitForm()">
         <label for="name">Name</label>
@@ -142,33 +181,7 @@ require_once("createflags.php");
     <?php
   }
    ?>
-    <?php
-    if (isset($_POST['submit_payment']) && $attendee_flag) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $amount = $_POST['amount'];
-        $service = $_POST['service'];
 
-        $subject = "PAYMENT RECIEVED FROM: " . $name;
-        $message = "Name: " . $name . ", Email: " . $email . ", Amount ($): " . $amount . ",
-                    Service Used: " . $service . ", Task: Please confirm this payment method
-                    by checking the " . $service . " account and approve it here for the record.";
-
-        $query = "INSERT INTO notifications(notificationType, notificationSubject, notificationMessage, notificationFlag, notificationApproved)
-                  VALUES ('Monetary Donation', :subject, :message, 0, 0)";
-
-        try {
-            $prepared_stmt = $dbo->prepare($query);
-            $prepared_stmt->bindValue(':subject', $subject, PDO::PARAM_STR);
-            $prepared_stmt->bindValue(':message', $message, PDO::PARAM_STR);
-            $prepared_stmt->execute();
-        } catch (PDOException $ex) { // Error in database processing.
-            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-        }
-
-        print_r("Successfully submitted!");
-    }
-    ?>
 </div>
 <!-- This class defines and structures the overlay navigation bar-->
 <!-- It includes the content and functions of the nav bar-->

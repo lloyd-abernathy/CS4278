@@ -53,3 +53,8 @@ function moveToLeft() {
     newOptions[i].selected = "true";
   }
 }
+
+function disableInput() {
+  var class_input = document.getElementById("class_input");
+  class_input.disabled = "true";
+}

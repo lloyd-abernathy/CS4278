@@ -29,26 +29,36 @@ require_once("createflags.php");
 
         <tbody>
         <tr>
-            <td>Name</td>
+            <td>
+              <strong>Name</strong>
+            </td>
             <td><?php echo $login_result['fullName']; ?></td>
         </tr>
         <tr>
-            <td>Email</td>
+            <td>
+              <strong>Email</strong>
+            </td>
             <td><?php echo $login_result['email']; ?></td>
         </tr>
         <?php
           if ($attendee_flag) {
             ?>
             <tr>
-                <td>AKA Dollars Balance</td>
+                <td>
+                  <strong>AKA Dollars Balance</strong>
+                </td>
                 <td><?php echo "$" . $login_result['accountBalance']; ?></td>
             </tr>
             <tr>
-              <td>Total Monetary Donations</td>
+              <td>
+                <strong>Total Monetary Donations</strong>
+              </td>
               <td><?php echo "$" . $login_result['totalDonations']; ?></td>
             </tr>
             <tr>
-              <td>Bachelor Won</td>
+              <td>
+                <strong>Bachelor Won</strong>
+              </td>
               <td><?php
               $auctionWon = $login_result['auctionWon'];
               if ($auctionWon == 1) {
@@ -72,7 +82,7 @@ require_once("createflags.php");
                   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                 }
 
-                if ($winning_result && $winning_prepared_stmt->rowCount() > 0) {
+                if (isset($winning_result) && $winning_prepared_stmt->rowCount() > 0) {
                   foreach ($winning_result as $winner) {
                     print_r($winner['bachelor']);
                     ?>
@@ -81,7 +91,8 @@ require_once("createflags.php");
                   }
                 }
               } else {
-                echo "N/A";
+                // TODO: Change based on time of the event in database
+                print_r("N/A");
               }
                ?></td>
             </tr>
@@ -91,11 +102,15 @@ require_once("createflags.php");
           if ($bachelor_flag) {
             ?>
             <tr>
-              <td>Classification</td>
+              <td>
+                <strong>Classification</strong>
+              </td>
               <td><?php echo $login_result['class']; ?></td>
             </tr>
             <tr>
-              <td>Major</td>
+              <td>
+                <strong>Major</strong>
+              </td>
               <td><?php echo $login_result['major']; ?></td>
             </tr>
 
@@ -105,14 +120,18 @@ require_once("createflags.php");
                 $question = explode("=", $str);
                 ?>
               <tr>
-                <td><?php echo $question[0]; ?></td>
+                <td>
+                  <strong><?php echo $question[0]; ?></strong>
+                </td>
                 <td><?php echo substr($question[1], 1, -1); ?></td>
               </tr>
                 <?php
               }
               ?>
             <tr>
-              <td>Photo</td>
+              <td>
+                <strong>Photo</strong>
+              </td>
               <td>
                 <img src=<?= $login_result['photoUrl'] ?> alt="">
               </td>
@@ -136,15 +155,31 @@ require_once("createflags.php");
           <input class="quick_links" type="submit" name="dropbox_donation"
                 value="Make Dropbox Donations">
         </form>
+        <form action="bachelors.php">
+          <input class="quick_links" type="submit" name="dropbox_donation"
+                value="View Bachelors">
+        </form>
         <?php
       }
       if ($bachelor_flag) {
-        ?>
-        <form action="edit-bachelor.php">
-          <input class="quick_links" type="submit" name="edit_bachelor"
-                value="Edit Bachelor Profile">
-        </form>
-        <?php
+        if ($login_result['addedBy'] !== null) {
+          ?>
+          <form action="edit-bachelor.php">
+            <input class="quick_links" type="submit" name="edit_bachelor"
+                  value="Edit Bachelor Profile">
+          </form>
+          <?php
+        } else {
+          ?>
+          <h4>This button will be enabled when your
+            application is approved.</h4>
+          <form action="edit-bachelor.php">
+            <input class="quick_links_disabled" type="submit" name="edit_bachelor"
+                  value="Edit Bachelor Profile" disabled>
+          </form>
+          <?php
+        }
+
       }
 
       if ($admin_flag) {

@@ -35,7 +35,7 @@ try {
     <h2>Choose the Order of Bachelors</h2>
     <br>
     <?php
-    if ($bachelors_result && $bachelors_prepared_stmt->rowCount() > 0) {
+    if (isset($bachelors_result) && $bachelors_prepared_stmt->rowCount() > 0) {
 
     ?>
     <p>Please click on the bachelors and add them in the order

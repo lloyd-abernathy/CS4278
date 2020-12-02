@@ -81,7 +81,7 @@ try {
         <?php
         } else {
           ?>
-          No bachelors have been added yet! Use <a href="bachelor-signup">this form</a>
+          No bachelors have been added yet! Use <a href="bachelor-signup.php">this form</a>
           to add bachelors.
           <?php
         }

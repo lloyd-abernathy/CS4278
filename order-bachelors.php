@@ -4,8 +4,6 @@ require_once("conn.php");
 
 $bachelors = "SELECT * FROM aka.bachelors ORDER BY auction_order_id ASC";
 
-$auction_order = "SELECT auction_order_id FROM aka.bachelors";
-
 try {
     $bachelors_prepared_stmt = $dbo->prepare($bachelors);
     $bachelors_prepared_stmt->execute();
@@ -38,7 +36,6 @@ try {
     <br>
     <?php
     if ($bachelors_result && $bachelors_prepared_stmt->rowCount() > 0) {
-    $size = $bachelors_prepared_stmt->rowCount();
 
     ?>
     <p>Please click on the bachelors and add them in the order
@@ -53,13 +50,11 @@ try {
                     <?php
                     foreach ($bachelors_result as $row) {
                         $bachelorID = $row['bachelorId'];
-                        $bachelorFirstName = $row['firstName'];
-                        $bachelorLastName = $row['lastName'];
+                        $bachelorFullName = $row['fullName'];
                         ?>
                         <option class="bachelor"
-                                value="<?= $bachelorID ?>"><?php echo $bachelorFirstName . " " . $bachelorLastName; ?></option>
+                                value="<?= $bachelorID ?>"><?php echo $bachelorFullName; ?></option>
                         <?php
-                    }
                     }
                     ?>
                 </select>
@@ -84,6 +79,13 @@ try {
 
         </form>
         <?php
+        } else {
+          ?>
+          No bachelors have been added yet! Use <a href="bachelor-signup">this form</a>
+          to add bachelors.
+          <?php
+        }
+
         if (isset($_POST['submit_order'])) {
             $auction_order_null = "UPDATE aka.bachelors SET auction_order_id = 0";
 
@@ -127,13 +129,11 @@ try {
                 }
 
                 if ($get_null_auction_order_result && $get_null_auction_order_prepared_stmt->rowCount() > 0) {
-                    ?>
-                    Error! Please resubmit with all values added to the right side.
-                    <?php
+
+                    print_r("Error! Please resubmit with all values added to the right side.");
+
                 } else {
-                    ?>
-                    Successfully submitted! Order of bachelors updated.
-                    <?php
+                  print_r("Successfully submitted! Order of bachelors updated.");
                 }
             }
         } ?>
@@ -150,9 +150,7 @@ try {
     /*This section creates t*/
 
     var donations = document.getElementsByClassName("dropdown-btn-donations");
-    var account = document.getElementsByClassName("dropdown-btn-account");
     var i;
-    var j;
 
     for (i = 0; i < donations.length; i++) {
         donations[i].addEventListener("click", function () {
@@ -162,18 +160,6 @@ try {
                 dropdownDonations.style.display = "none";
             } else {
                 dropdownDonations.style.display = "block";
-            }
-        });
-    }
-
-    for (j = 0; j < account.length; j++) {
-        account[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownAccount = this.nextElementSibling;
-            if (dropdownAccount.style.display === "block") {
-                dropdownAccount.style.display = "none";
-            } else {
-                dropdownAccount.style.display = "block";
             }
         });
     }

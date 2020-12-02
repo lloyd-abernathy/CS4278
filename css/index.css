@@ -1,11 +1,8 @@
 .slideshow {
   position: relative;
   z-index: 0;
-  width: 80%;
-  height: 450px;
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-bottom: 5%;
+  width: 100%;
+  margin-bottom: 2%;
 }
 
 .slides {
@@ -13,11 +10,8 @@
 }
 
 .slides img {
-  width: 80%;
+  width: 100%;
   margin-top: 0;
-  height: 450px;
-  margin-left: 10%;
-  margin-right: 10%;
 }
 
 
@@ -37,12 +31,8 @@
 }
 
 .next {
-  right: 10%;
+  right: 0;
   border-radius: 3px 0 0 3px;
-}
-
-.prev {
-  left: 10%;
 }
 
 .prev:hover, .next:hover {
@@ -55,24 +45,22 @@
   padding: 8px 12px;
   position: absolute;
   top: 0;
-  left: 10%;
 }
 
 .quick_links {
-  background-color: #cc8899;
-  border: 2px solid #cc8899;
-  padding-top: 1px;
-  padding-bottom: 1px;
+  background-color: green;
+  border: 2px solid lightgreen;
+  padding: 10px;
   color: white;
-  float: left;
-  font-family: Didot, sans-serif;
+  font-family:'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Calisto MT', 'Times New Roman', serif;
   text-align: center;
-  width: 18%;
-  margin-left: 10%;
-  margin-bottom: 5%;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
   font-size: 15px;
   border-radius: 3px;
-  font-style: bold;
+  font-weight: bold;
 }
 
 .quick_links #auction {
@@ -85,7 +73,75 @@ div#links.buttons {
   width: 100%;
 }
 
-.about_heartbreaka {
-  margin-left: auto;
+.section {
+  margin-bottom: 30px;
+}
 
+.section h2 {
+  width: 100%;
+  text-align: center;
+  margin-left: 0%;
+  font-size: 35px;
+}
+
+.section img {
+  width: 400px;
+  height: 400px;
+}
+
+.section table {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.table_info {
+  background-color: pink;
+  width: 100%;
+}
+
+.section tr {
+  width: auto;
+}
+
+.section td {
+  width: auto;
+  height: 50%;
+  padding: 10px;
+}
+
+.section p {
+  font-size: 18px;
+}
+
+.section form {
+  text-align: center;
+}
+
+#curator-feed-default-feed-layout {
+    width: 100%;
+    overflow-x: scroll;
+}
+
+/* .crt-feed-scroll, .crt-feed {
+  z-index: 0;
+} */
+
+#instagram {
+  overflow-y: hidden;
+  margin-bottom: 50px;
+}
+
+#instagram .table_info {
+  height: 340px;
+}
+
+#instagram p {
+  text-align: center;
+}
+
+#instagram a {
+  color: green;
+  border-bottom: 2px solid green;
+  text-decoration: none;
 }

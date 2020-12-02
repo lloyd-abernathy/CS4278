@@ -1,6 +1,8 @@
 let form = document.forms.monetary;
+console.log(form);
 
 function updateAKADollars() {
+  console.log(form.amount);
   var dollars = form.amount.value;
   document.getElementById("aka_dollars").innerHTML = "AKA Dollars Amount: " + (dollars * 100);
 }

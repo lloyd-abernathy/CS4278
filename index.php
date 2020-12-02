@@ -36,13 +36,13 @@ require_once("createflags.php");
     </div>
 
     <div class="section">
-      <h2>About the Elegant Eta Beta Chapter</h2>
       <div class="table_info">
         <table>
           <tbody>
             <tr>
               <td><img src="images/homepage/chapter.jpg" alt=""></td>
               <td>
+                <h2>About the Elegant Eta Beta Chapter</h2>
                 <p>The Elegant Eta Beta Chapter of Alpha Kappa Alpha Sorority, Inc.
                     was chartered on <strong>November 11, 1972</strong>
                     by a group of 13 sophisticated young
@@ -67,12 +67,12 @@ require_once("createflags.php");
     </div>
 
     <div class="section">
-      <h2>About HeartbreAKA</h2>
       <div class="table_info">
         <table>
           <tbody>
             <tr>
               <td>
+                <h2>About HeartbreAKA</h2>
                 <p>In accordance with our current initiatives, the Elegant Eta Beta Chapter
                     of Alpha Kappa Alpha Sorority Inc. hosts HeartbreAKA every year to raise
                     money for an important cause. HeartbreAKA is a date auction where
@@ -108,15 +108,16 @@ require_once("createflags.php");
     </div>
 
     <div class="section" id="instagram">
-      <h2>Follow Us on Instagram</h2>
       <div class="table_info">
         <table>
           <tbody>
             <tr>
               <td>
-                  <p>Follow us on Instagram
+                <h2>Follow Us on Instagram:
+                  <a href="https://www.instagram.com/elegantetabeta/">@elegantetabeta</a></h2>
+                  <!-- <p>Follow us on Instagram
                     <a href="https://www.instagram.com/elegantetabeta/"><strong>@elegantetabeta</strong></a>
-                    to stay up to date with upcoming events!</p><br>
+                    to stay up to date with upcoming events!</p> -->
               </td>
             </tr>
             <tr>

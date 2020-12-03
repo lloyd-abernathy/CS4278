@@ -1,5 +1,7 @@
 # HeartbreAKA Website
 
+No installation or deployment is necessary as of now. To access the website, please visit the following URL: http://www.aka-elegantetabeta.com/
+
 ## About the Client
 
 The Elegant Eta Beta Chapter of Alpha Kappa Alpha (AKA) Sorority, Incorporated is a service organization to both Vanderbilt and the greater Nashville community. They plan and host events surrounding their current targets set by their International President. Some of their most well-known annual events include Chicken & Waffles, HeartbreAKA, and Taste of AKA. The members also serve the community by helping out at local food banks, collecting donations for worldwide charity organizations, and beautifying Nashville with new greenery.

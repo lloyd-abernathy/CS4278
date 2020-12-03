@@ -200,6 +200,10 @@ require_once("createflags.php");
           <input class="quick_links" type="submit" name="add-bachelors"
                 value="Add Bachelors to Page">
         </form>
+        <form action="bachelors-signup.php">
+          <input class="quick_links" type="submit" name="bachelors-signup"
+                value="Link to Bachelors Sign Up">
+        </form>
         <?php
       }
 

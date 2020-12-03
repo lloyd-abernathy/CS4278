@@ -84,7 +84,7 @@ if (isset($_POST['mark_completed'])) {
                 } catch (PDOException $ex) {
                     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                 }
-            } else {
+            } else if ($approved == "Deny") {
                 $update_notification_monetary_denied = "UPDATE aka.notifications
                                 SET notificationFlag = 1, notificationApproved = 0
                                 WHERE notificationId = :notification";
@@ -125,7 +125,7 @@ if (isset($_POST['mark_completed'])) {
                 } catch (PDOException $ex) {
                     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                 }
-            } else {
+            } else if ($approved == "Deny") {
                 $update_notification_dropbox_denied = "UPDATE aka.notifications
                                 SET notificationFlag = 1, notificationApproved = 0
                                 WHERE notificationId = :notification";

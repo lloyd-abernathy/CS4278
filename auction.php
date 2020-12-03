@@ -361,6 +361,7 @@ if (isset($bachelorID)) {
                                 <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
                             </div>
                             <div class="bachelor_info">
+
                                 <?php
                                 $bachelorBiographyArr = explode("||", $bachelorBiography);
                                 foreach ($bachelorBiographyArr as $str) {

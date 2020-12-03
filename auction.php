@@ -332,16 +332,16 @@ if (isset($bachelorID)) {
                     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
                 }
                 if ($isSuccess) {
-                  ?>
-                  <h6 class="form_submission_successful">Your bid was submitted successfully!
-                    Scroll down to see if you are the highest :)
+                    ?>
+                    <h6 class="form_submission_successful">Your bid was submitted successfully!
+                        Scroll down to see if you are the highest :)
                     </h6><br>
-                  <?php
+                    <?php
                 } else {
-                  ?>
-                  <h6 class="form_submission_error">Your bid did not submit! Please
-                          notify us in the chat window!</h6><br>
-                  <?php
+                    ?>
+                    <h6 class="form_submission_error">Your bid did not submit! Please
+                        notify us in the chat window!</h6><br>
+                    <?php
                 }
             }
 
@@ -361,50 +361,51 @@ if (isset($bachelorID)) {
                                 <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
                             </div>
                             <div class="bachelor_info">
-                              <?php
-                              $bachelorBiographyArr = explode("||", $bachelorBiography);
-                              foreach ($bachelorBiographyArr as $str) {
-                                  $question = explode("=", $str);
-                                  ?>
-                                  <strong><?php echo $question[0]; ?></strong><br><br>
-                                  <p><?php echo substr($question[1], 1, -1); ?></p><br>
-                                  <?php
-                              }
-                              ?>
-                              <div class="timer">
-                                  <span id="timer"></span>
-                              </div>
-                              <div class="current_bid">
-                                  <!-- Current Bid goes here -->
-                                  <script type="text/javascript">
-                                      var getMaxBid = setInterval(
-                                          function () {
 
-                                              var xhttp;
-                                              xhttp = new XMLHttpRequest();
-                                              xhttp.open("GET", "get-max-bid.php", true)
-                                              xhttp.send();
-                                              xhttp.onreadystatechange = function () {
-                                                  if (xhttp.readyState == 4 && xhttp.status == 200) {
-                                                      document.getElementById("bid").innerHTML = xhttp.responseText;
-                                                  }
-                                              }
-                                          }, 1000);
-                                  </script>
-                                  Current Bid: <span id="bid"></span>
-                              </div>
-                              <?php
-                              if ($attendee_flag) {
-                                  ?>
-                                  <form class="make_bid" action="auction.php" method="post">
-                                      <input type="number" name="bid" value="0" min="0">
-                                      <input type="submit" name="make_bid" value="Make Bid" href="account.php">
-                                      <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
-                                  </form>
-                                  <?php
+                                <?php
+                                $bachelorBiographyArr = explode("||", $bachelorBiography);
+                                foreach ($bachelorBiographyArr as $str) {
+                                    $question = explode("=", $str);
+                                    ?>
+                                    <strong><?php echo $question[0]; ?></strong><br><br>
+                                    <p><?php echo substr($question[1], 1, -1); ?></p><br>
+                                    <?php
+                                }
+                                ?>
+                                <div class="timer">
+                                    <span id="timer"></span>
+                                </div>
+                                <div class="current_bid">
+                                    <!-- Current Bid goes here -->
+                                    <script type="text/javascript">
+                                        var getMaxBid = setInterval(
+                                            function () {
+
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.open("GET", "get-max-bid.php", true)
+                                                xhttp.send();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                                        document.getElementById("bid").innerHTML = xhttp.responseText;
+                                                    }
+                                                }
+                                            }, 1000);
+                                    </script>
+                                    Current Bid: <span id="bid"></span>
+                                </div>
+                                <?php
+                                if ($attendee_flag) {
+                                    ?>
+                                    <form class="make_bid" action="auction.php" method="post">
+                                        <input type="number" name="bid" value="0" min="0">
+                                        <input type="submit" name="make_bid" value="Make Bid">
+                                        <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
+                                    </form>
+                                    <?php
 
                                 }
-                                   ?>
+                                ?>
                             </div>
                         </td>
                     </tr>
@@ -413,7 +414,7 @@ if (isset($bachelorID)) {
             } else {
                 ?>
                 <p>No more bachelors to present! Thank you for coming to our HeartbreAKA event!</p>
-                <form class="" action="index.php" method="post">
+                <form class="" action="index.html" method="post">
                     <input class="quick_links" type="submit" name="go_home" value="Go to Homepage">
                 </form>
                 <?php

@@ -20,10 +20,10 @@ echo
     //"<div class=\"dropdown-container-account\">" .
     "<a href=\"login.php\" class=\"login\" id=\"sign-in\">Login</a>" .
     "<a href=\"account.php\" id=\"account\">View Profile</a>" .
-    "<a href=\"index.php\" id=\"sign-out\" onclick=\"signOut();\">Logout</a>" .
+    "<a href=\"index.html\" id=\"sign-out\" onclick=\"signOut();\">Logout</a>" .
     //"</div>" .
     "<br>" .
-    "<a href=\"index.php\">Home</a>" .
+    "<a href=\"index.html\">Home</a>" .
 //     "<li class=\"dropdown\">" .
 //     "<a href=\"javascript:void(0)\" class=\"dropbtn\">Account</a>" .
 //     "<div class=\"dropdown-content\">" .

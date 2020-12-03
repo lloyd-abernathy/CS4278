@@ -14,7 +14,7 @@ require_once("conn.php");
     <link rel="stylesheet" href="css/master.css">
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
-    <meta name="google-signin-client_id" content="828552978883-a9t18224isla4nd0di12kf133mn4k6n5.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="171078891411-7i5ga9cttdoa4u7leqm36eaa013ojj94.apps.googleusercontent.com">
 </head>
 <body>
 
@@ -29,15 +29,15 @@ require_once("conn.php");
     <form class="login_google" action="login.php" method="post">
         <div id="login_google"></div>
     </form>
-    <!-- <form class="" action="index.php" method="post">
+    <!-- <form class="" action="index.html" method="post">
         <button class="login" id="login_facebook" type="button" name="button"><img class="sign_in_icon" id="facebook_icon" src="https://www.flaticon.com/svg/static/icons/svg/124/124010.svg" alt="facebook_icon"> Login with Facebook</button>
     </form>
     <h3>Sign Up</h3>
     <br>
-    <form class="" action="index.php" method="post">
+    <form class="" action="index.html" method="post">
         <button class="sign_up" id="join_google" type="button" name="button"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google_icon"> Join with Google</button>
     </form>
-    <form class="" action="index.php" method="post">
+    <form class="" action="index.html" method="post">
         <button class="sign_up" id="join_facebook" type="button" name="button"><img class="sign_in_icon" id="facebook_icon" src="https://www.flaticon.com/svg/static/icons/svg/124/124010.svg" alt="facebook_icon"> Join with Facebook</button>
     </form> -->
 </div>
@@ -86,7 +86,7 @@ require_once("conn.php");
      <h6 class="form_submission_successful">Login Successful!
      </h6><br>
      <script type="text/javascript">
-       window.location.href = "index.php";
+       window.location.href = "index.html";
      </script>
      <?php
   }

@@ -8,7 +8,7 @@ $dbname = '';
 $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
 
 // Resets values in the bachelor, auction and bid tables for testing auction page
-// $set_bachelors = "UPDATE aka.bachelors SET auctionStatus = 0";
+// $set_bachelors = "UPDATE aka.bachelors SET auctionStatus = 0, maxBid = 0";
 // try {
 //   $show_attendees_prepared_stmt = $dbo->prepare($set_bachelors);
 //   $show_attendees_prepared_stmt->execute();

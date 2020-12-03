@@ -391,14 +391,14 @@ if (isset($bachelorID)) {
                                               }
                                           }, 1000);
                                   </script>
-                                  Current Bid: <span id="bid">0</span>
+                                  Current Bid: <span id="bid"></span>
                               </div>
                               <?php
                               if ($attendee_flag) {
                                   ?>
                                   <form class="make_bid" action="auction.php" method="post">
                                       <input type="number" name="bid" value="0" min="0">
-                                      <input type="submit" name="make_bid" value="Make Bid">
+                                      <input type="submit" name="make_bid" value="Make Bid" href="account.php">
                                       <p><?php echo "AKA Dollars Available: $" . $login_result['accountBalance']; ?></p>
                                   </form>
                                   <?php

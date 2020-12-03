@@ -14,7 +14,7 @@ require_once("conn.php");
     <link rel="stylesheet" href="css/master.css">
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
-    <meta name="google-signin-client_id" content="828552978883-a9t18224isla4nd0di12kf133mn4k6n5.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="171078891411-7i5ga9cttdoa4u7leqm36eaa013ojj94.apps.googleusercontent.com">
 </head>
 <body>
 

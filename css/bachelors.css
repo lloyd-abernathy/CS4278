@@ -49,23 +49,58 @@ div.desc {
 }
 
 .bachelor_img {
-  width: 25%;
-  height: 100%;
-  float: left;
-  background-color: #cc8899;
-  margin-left: 10px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  height: 20%;
+  /* background-image: url("https://www.inspirationswholesale.co.uk/img/product/oasis-plain-pink-rose-border-cards-x-50-38066206-600.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; */
+  background-color: pink;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .bachelor_img img{
-  height: 80%;
-  width: 80%;
-  margin-top: 10%;
-  margin-left: 10%;
-  float: left;
+  height: 100%;
+  width: 40%;
+  padding-top: 5px;
+  padding-left: 5px;
+  border: 10px solid pink;
+  border-radius: 5px;
 }
 
 .bachelor_info {
-  width: 70%;
-  float: left;
-  margin-left: 30px;
+  width: 100%;
+  /* float: left; */
+  /* margin-left: 30px; */
+}
+
+.bachelor_info p {
+  text-align: center;
+}
+
+.bachelor_questions {
+  width: 100%;
+}
+
+.bachelor_questions table{
+  width: 60%;
+  margin-left: 20% ;
+  margin-right: 20%;
+}
+
+.bachelor_questions td{
+  width: 50%;
+}
+
+.bachelor_questions tr {
+  border-top: 2px solid pink;
+  border-bottom: 2px solid pink;
+}
+
+#question {
+  text-align: right;
+  padding-right: 20px;
 }

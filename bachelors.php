@@ -60,44 +60,54 @@ try {
             <div class="biography" id="<?php echo $bachelorID; ?>">
                 <span onclick="hideDiv('<?php echo $bachelorID; ?>')"
                       class="closebtn">&times;</span>
-                <div class="bachelor_img">
-                    <?php if ($bachelorProfilePicture) { ?>
-                        <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
-                    <?php } else { ?>
-                        <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
-                    <?php }; ?>
-                </div>
-                <div class="bachelor_info">
-                    <h3>About <?php echo $bachelorFullName; ?></h3>
-                    <p>
-                        <strong>Clasification: </strong><?php echo $bachelorClass; ?> <br>
-                        <strong>Major: </strong> <?php echo $bachelorMajor; ?> <br>
-                        <strong>Max Bid (AKA Dollars): $</strong> <?php echo $bachelorMaxBid; ?><br>
-                        <strong>Auction Status: </strong> <?php
-                        if ($bachelorAuctionStatus == 0) {
-                            ?>
-                            <strong style="color:green">AVAILABLE</strong>
-                            <?php
-                        } else {
-                            ?>
-                            <strong style="color:red">TAKEN</strong>
-                            <?php
-                        } ?><br>
-                        <!-- Add biography here -->
-                        <u><strong>BIOGRAPHY</strong></u><br>
-                        <?php
-                        $bachelorBiographyArr = explode("||", $bachelorBiography);
-                        foreach ($bachelorBiographyArr
 
-                        as $str) {
-                        $question = explode("=", $str);
-                        ?>
-                        <strong><?php echo $question[0]; ?></strong><br><br>
-                    <p><?php echo substr($question[1], 1, -1); ?></p><br>
-                    <?php
-                    }
-                    ?>
-                    </p>
+                <div class="bachelor_info">
+
+                    <h3>About <?php echo $bachelorFullName; ?></h3>
+                    <div class="bachelor_img">
+                        <?php if ($bachelorProfilePicture) { ?>
+                            <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
+                        <?php } else { ?>
+                            <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
+                        <?php }; ?>
+                    </div>
+                    <div>
+                      <p>
+                          <strong>Clasification: </strong><?php echo $bachelorClass; ?> <br>
+                          <strong>Major: </strong> <?php echo $bachelorMajor; ?> <br>
+                          <strong>Max Bid (AKA Dollars): $</strong> <?php echo $bachelorMaxBid; ?><br>
+                          <strong>Auction Status: </strong> <?php
+                          if ($bachelorAuctionStatus == 0) {
+                              ?>
+                              <strong style="color:green">AVAILABLE</strong>
+                              <?php
+                          } else {
+                              ?>
+                              <strong style="color:red">TAKEN</strong>
+                              <?php
+                          } ?><br>
+                          <!-- Add biography here -->
+                          <u><strong>BIOGRAPHY</strong></u><br>
+                          <div class="bachelor_questions">
+                            <table>
+                              <tbody>
+                                <?php
+                                $bachelorBiographyArr = explode("||", $bachelorBiography);
+                                foreach ($bachelorBiographyArr as $str) {
+                                $question = explode("=", $str);
+                                ?>
+                                <tr>
+                                  <td id="question"><strong><?php echo $question[0]; ?></strong></td>
+                                  <td><?php echo substr($question[1], 1, -1); ?></td>
+                                </tr>
+                              <?php
+                              }
+                              ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </p>
+                    </div>
                 </div>
             </div>
         <?php }

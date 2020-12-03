@@ -54,7 +54,17 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 // } catch (PDOException $ex) {
 //   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 // }
-
+// ?>
+// <script type="text/javascript">
+// function deleteCookie(name) {
+//   document.cookie = name+ "=; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/;";
+// }
+// deleteCookie('event');
+// deleteCookie('startTime');
+// deleteCookie('endTime');
+// </script>
+// <?php
+// print_r($_COOKIE);
 // $foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
 // $truncate_attendees = "DELETE FROM aka.bachelors WHERE email = :email";
 // $foreign_checks_one = "SET FOREIGN_KEY_CHECKS = 1";
@@ -64,7 +74,7 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 //   $foreign_checks_zero_prepared_stmt->execute();
 //
 //   $truncate_attendees_prepared_stmt = $dbo->prepare($truncate_attendees);
-//   $truncate_attendees_prepared_stmt->bindValue(':email', 'erin.hardnett.7@gmail.com', PDO::PARAM_STR);
+//   $truncate_attendees_prepared_stmt->bindValue(':email', 'artisticinnovation99@gmail.com', PDO::PARAM_STR);
 //   $truncate_attendees_prepared_stmt->execute();
 //
 //   $foreign_checks_one_prepared_stmt = $dbo->prepare($foreign_checks_one);
@@ -72,7 +82,7 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 // } catch (PDOException $ex) {
 //   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 // }
-//
+
 // $show_bids = "SELECT * FROM aka.bachelors";
 // try {
 //   $show_bids_prepared_stmt = $dbo->prepare($show_bids);

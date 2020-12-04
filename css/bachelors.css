@@ -2,7 +2,7 @@ div.bachelors_gallery {
   border: 1px solid #ccc;
   float: left;
   width: 250px;
-  height: 10%;
+  height: 250px;
   padding: 15px;
   margin-left: 20px;
   margin-right: 30px;
@@ -52,7 +52,7 @@ div.desc {
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-  height: 20%;
+  height: 60%;
   /* background-image: url("https://www.inspirationswholesale.co.uk/img/product/oasis-plain-pink-rose-border-cards-x-50-38066206-600.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -63,12 +63,12 @@ div.desc {
 }
 
 .bachelor_img img{
-  height: 100%;
   width: 40%;
-  padding-top: 5px;
-  padding-left: 5px;
-  border: 10px solid pink;
+  height: 100%;
+  /* padding-top: 5px;
+  padding-left: 5px; */
   border-radius: 5px;
+  position: relative;
 }
 
 .bachelor_info {

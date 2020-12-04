@@ -55,7 +55,7 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 //   echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 // }
 // ?>
-// <script type="text/javascript">
+ <script type="text/javascript">
 // function deleteCookie(name) {
 //   document.cookie = name+ "=; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/;";
 // }
@@ -63,7 +63,7 @@ $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbunam
 // deleteCookie('startTime');
 // deleteCookie('endTime');
 // </script>
-// <?php
+ <?php
 // print_r($_COOKIE);
 // $foreign_checks_zero = "SET FOREIGN_KEY_CHECKS = 0";
 // $truncate_attendees = "DELETE FROM aka.bachelors WHERE email = :email";

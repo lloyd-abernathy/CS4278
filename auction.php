@@ -146,8 +146,8 @@ try {
     </div>
     <?php
     // Load one bachelor at a time
-    if () {
-      print_r("oops!");
+    // if () {
+      // print_r("oops!");
       $bachelor = "SELECT * FROM aka.bachelors WHERE auctionStatus = 0, addedBy IS NOT NULL, auction_order_id != 0 ORDER BY auction_order_id ASC LIMIT 1";
 
       try {
@@ -327,7 +327,7 @@ try {
 
           }
       }
-    }
+    // }
      ?>
     <div class="event" id="event">
         <div class="bachelor" id="bachelor">

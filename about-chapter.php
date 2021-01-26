@@ -56,7 +56,7 @@ require_once("createflags.php");
                 http://www.aka.1908.com/</a></li>
         <li><strong>Current President:</strong> Jadah Keith</li>
     </ul>
-    <br><br>
+    <br>
     <h2>Signature Events</h2><br>
     <div class="event_rows">
         <div class="column_left">
@@ -82,6 +82,20 @@ require_once("createflags.php");
                 cancer and how it affects the Black community. Throughout the month,
                 we continue to spread the message on our Instagram page.</p>
         </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="column">
+        <img src="images/vanderbilt_picture.jpg" alt="">
+        <img src="images/about-3.jpg" alt="">
+      </div>
+      <div class="column">
+        <img src="images/homepage/chapter.jpg" alt="">
+        <img src="images/about-5.jpg" alt="">
+      </div>
+      <div class="column">
+        <img src="images/about-2.jpg" alt="">
+      </div>
     </div>
 </div>
 <?php include_once("overlay.php"); ?>
@@ -109,6 +123,7 @@ require_once("createflags.php");
         });
     }
 </script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
 
 </body>
 </html>

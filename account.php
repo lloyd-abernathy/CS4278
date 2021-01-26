@@ -133,7 +133,7 @@ require_once("createflags.php");
                 <strong>Photo</strong>
               </td>
               <td>
-                <img src=<?= $login_result['photoUrl'] ?> alt="">
+                <img id="bachelorPhoto" src=<?= $login_result['photoUrl'] ?> alt="">
               </td>
             </tr>
             <?php
@@ -143,7 +143,6 @@ require_once("createflags.php");
     </table>
     <?php
     ?>
-    <div class="links">
     <?php
       if ($attendee_flag) {
         ?>
@@ -208,7 +207,6 @@ require_once("createflags.php");
       }
 
      ?>
-   </div>
 
 </div>
 
@@ -231,5 +229,7 @@ require_once("createflags.php");
         });
     }
 </script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
+
 </body>
 </html>

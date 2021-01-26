@@ -180,7 +180,7 @@ if ($admin_flag) {
 <div class="donations_admin_list_info">
     <h2>Donations to Review</h2>
     <br>
-    <form class="" action="donations-admin-list.php" method="post" onsubmit="window.location.reload(); window.location.reload();">
+    <form class="" action="donations-admin-list.php" method="post">
         <?php
         if (isset($to_do_result) && $to_do_prepared_stmt->rowCount() > 0) { ?>
         <table class="tasks">
@@ -232,7 +232,7 @@ if ($admin_flag) {
                                         $donate = explode("=", $donations[$y]);
                                         ?>
                                         <p>
-                                            <?php echo "Number of " . $donate[0] . ": " . substr($donate[1], 1, -1); ?>
+                                            <?php echo "Number of " . $donate[0] . " : " . substr($donate[1], 1, -1); ?>
                                         </p>
                                         <?php
                                     }
@@ -330,7 +330,7 @@ if ($admin_flag) {
                                         $done_donate = explode("=", $done_donations[$y]);
                                         ?>
                                         <p>
-                                            <?php echo "Number of " . $done_donate[0] . ": " . substr($done_donate[1], 1, -1); ?>
+                                            <?php echo "Number of " . $done_donate[0] . " : " . substr($done_donate[1], 1, -1); ?>
                                         </p>
                                         <?php
                                     }
@@ -421,6 +421,7 @@ if ($admin_flag) {
         });
     }
 </script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
 
 </body>
 </html>

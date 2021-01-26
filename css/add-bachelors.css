@@ -52,23 +52,37 @@
   border-radius: 5px;
 }
 
-input[type='submit'] {
+input[type='submit']:enabled,
+input[type='button']:enabled {
   margin-top: 5%;
   margin-left: 2%;
   width: 20%;
   background-color: lightgreen;
   color: green;
-  padding: 14px 20px;
+  /* padding: 14px 20px; */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-weight: bold;
 }
 
-input[type=submit]:hover {
-  background-color: #45a049;
+input[type='submit']:disabled,
+input[type='button']:disabled {
+  width: auto;
+  background-color: lightgray;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: line-through;
 }
 
+input[type=submit]:hover,
+input[type='button']:hover {
+  background-color: #45a049;
+}
 
 input, select {
   width: 100%;
@@ -80,8 +94,9 @@ input, select {
   box-sizing: border-box;
 }
 
-.bachelor_forms input[type='submit'] {
-  width: 30%;
+.bachelor_forms input[type='submit']:enabled,
+.bachelor_forms input[type='button']:enabled {
+  width: auto;
   background-color: lightgreen;
   color: black;
   padding: 14px 20px;
@@ -91,7 +106,8 @@ input, select {
   cursor: pointer;
 }
 
-.bachelor_forms input[type='submit']:hover {
+.bachelor_forms input[type='submit']:hover,
+.bachelor_forms input[type='button']:hover {
   background-color: #45a049;
 }
 
@@ -106,4 +122,8 @@ input, select {
   font-weight: bold;
   margin-bottom: 10%;
   margin-top: 30px;
+}
+
+.bachelor_forms input[type='radio'] {
+  width: 10%;
 }

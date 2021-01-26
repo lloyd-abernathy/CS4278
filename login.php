@@ -94,5 +94,7 @@ require_once("conn.php");
 
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <script>startApp();</script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
+
 </body>
 </html>

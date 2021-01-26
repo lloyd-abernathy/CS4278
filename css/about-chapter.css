@@ -1,7 +1,3 @@
-.chapter_info {
-  margin-left: 20px;
-}
-
 .event_rows::after {
   display: table;
   content: "";
@@ -12,17 +8,63 @@
   width: 30%;
   float: left;
   padding-right: 15px;
+  margin-left: 2%;
 }
 
-@media (min-width: 320px) and (max-width: 750px) {
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+  margin-bottom: 5%;
+  margin-left: 5%;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 30%;
+  max-width: 30%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+/* @media screen and (min-width: 320px) and (max-width: 750px) {
   .column_left, .column_middle, .column_right {
     width: 100%;
     padding-bottom: 10px;
+    float: none;
+  }
+  .event_rows::after {
+    display: block;
   }
 }
 
-@media (min-width: 1000px) {
+@media screen and (min-width: 1000px) {
   .column_left, .column_middle, .column_right {
     width: 30%;
   }
-}
+
+  .event_rows::after {
+    display: block;
+  }
+} */

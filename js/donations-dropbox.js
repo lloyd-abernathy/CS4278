@@ -1,4 +1,4 @@
-let donationAmount = [0.35, 2, 3, 5, 5.5];
+let donationAmount = [0.35, 2, 3, 5, 5.5, 3.5];
 
 
 function openNav() {
@@ -22,5 +22,4 @@ function updateAKADollars() {
 
   document.getElementById("aka_dollars").innerHTML = "AKA Dollars Amount: " + dollars;
   total.value = dollars;
-
 }

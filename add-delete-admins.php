@@ -109,7 +109,7 @@ if ($admin_flag) {
         try {
             $foreign_checks_zero_prepared_stmt = $dbo->prepare($foreign_checks_zero);
             $foreign_checks_zero_prepared_stmt->execute();
-            
+
             $delete_admin_prepared_stmt = $dbo->prepare($delete_admin);
             $delete_admin_prepared_stmt->bindValue(':id', $admin_to_delete, PDO::PARAM_INT);
             $delete_admin_prepared_stmt->execute();
@@ -149,5 +149,7 @@ if ($admin_flag) {
         });
     }
 </script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
+
 </body>
 </html>

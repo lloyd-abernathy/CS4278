@@ -89,11 +89,11 @@ if ($admin_flag) {
                             onchange="showForm()" multiple>
                         <?php
                         foreach ($bachelors_signup_result as $row) {
-                            $bachelorID = $row['bachelorId'];
+                            $bachelorId = $row['bachelorId'];
                             $bachelorFullName = $row['fullName'];
                             ?>
                             <option class="bachelor"
-                                    value="<?php echo $bachelorID; ?>"><?php echo $bachelorFullName; ?></option>
+                                    value="<?php echo $bachelorId; ?>"><?php echo $bachelorFullName; ?></option>
                             <?php
                         }
                         ?>
@@ -125,7 +125,7 @@ if ($admin_flag) {
         <div class="bachelor_signup_info" id="bachelor_signup_info">
             <?php
             foreach ($bachelors_signup_result as $row_1) {
-                $bacheloriD = $row_1['bachelorId'];
+                $bachelorId = $row_1['bachelorId'];
                 $bachelorfullName = $row_1['fullName'];
                 $bachelorEmail = $row_1['email'];
                 $bachelorClass = $row_1['class'];
@@ -134,7 +134,7 @@ if ($admin_flag) {
                 $bioStr = $row_1['biography'];
                 $array = explode("||", $bioStr);
 
-                $submit = "edit_bachelor_" . $bacheloriD;
+                $submit = "edit_bachelor_" . $bachelorId;
                 if (isset($_POST[$submit])) {
                     $isSuccess = (bool)false;
                     $full_name = $_POST['full_name'];
@@ -153,48 +153,45 @@ if ($admin_flag) {
                         $bioArr,
                         array_keys($bioArr)
                     ));
-                    $check_upload = $_FILES['uploadApprovedImg-' . $bacheloriD]["error"];
-                    if ($check_upload !== UPLOAD_ERR_OK) {
-                        $update_bachelor_without_image = "UPDATE aka.bachelors
-                                         SET fullName = :fullName, email = :email, major = :major, class = :class, biography = :biography
-                                         WHERE bachelorId = :id";
-                        try {
-                            $update_bachelor_without_image_prepared_stmt = $dbo->prepare($update_bachelor_without_image);
-                            $update_bachelor_without_image_prepared_stmt->bindValue(':id', $bacheloriD, PDO::PARAM_INT);
-                            $update_bachelor_without_image_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
-                            $update_bachelor_without_image_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-                            $update_bachelor_without_image_prepared_stmt->bindValue(':major', $major, PDO::PARAM_STR);
-                            $update_bachelor_without_image_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
-                            $update_bachelor_without_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
-                            $update_bachelor_without_image_prepared_stmt->execute();
-                            $isSuccess = (bool)true;
-                        } catch (PDOException $ex) { // Error in database processing.
-                            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                        }
+
+                    $approvedImage = "uploadApprovedImg-" + $bachelorId;
+                    if (isset($_COOKIE[$bachelorEmail]) && isset($_POST[$approvedImage])) {
+                      $uploadedImageLocation = $_COOKIE[$bachelorEmail];
+                      $update_bachelor_with_image = "UPDATE aka.bachelors
+                                       SET fullName = :fullName, email = :email, major = :major, class = :class, biography = :biography, photoUrl = :photoUrl
+                                       WHERE bachelorId = :id";
+                      try {
+                          $update_bachelor_with_image_prepared_stmt = $dbo->prepare($update_bachelor_with_image);
+                          $update_bachelor_with_image_prepared_stmt->bindValue(':id', $bachelorId, PDO::PARAM_INT);
+                          $update_bachelor_with_image_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
+                          $update_bachelor_with_image_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                          $update_bachelor_with_image_prepared_stmt->bindValue(':major', $major, PDO::PARAM_STR);
+                          $update_bachelor_with_image_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
+                          $update_bachelor_with_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
+                          $update_bachelor_with_image_prepared_stmt->bindValue(':photoUrl', $uploadedImageLocation, PDO::PARAM_STR);
+                          $update_bachelor_with_image_prepared_stmt->execute();
+                          $isSuccess = (bool)true;
+                      } catch (PDOException $ex) { // Error in database processing.
+                          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                      }
 
                     } else {
-                        $image = basename($_FILES['uploadApprovedImg-' . $bacheloriD]["name"]);
-                        $tmp_image = $_FILES['uploadApprovedImg-' . $bacheloriD]['tmp_name'];
-                        require_once("uploadImg.php");
-                        $uploadedImageLocation = "images/bachelors/" . $email . "/" . $_FILES['uploadApprovedImg-' . $bacheloriD]["name"];
-                        $update_bachelor_with_image = "UPDATE aka.bachelors
-                                         SET fullName = :fullName, email = :email, major = :major, class = :class, biography = :biography, photoUrl = :photoUrl
-                                         WHERE bachelorId = :id";
-                        try {
-                            $update_bachelor_with_image_prepared_stmt = $dbo->prepare($update_bachelor_with_image);
-                            $update_bachelor_with_image_prepared_stmt->bindValue(':id', $bacheloriD, PDO::PARAM_INT);
-                            $update_bachelor_with_image_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
-                            $update_bachelor_with_image_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
-                            $update_bachelor_with_image_prepared_stmt->bindValue(':major', $major, PDO::PARAM_STR);
-                            $update_bachelor_with_image_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
-                            $update_bachelor_with_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
-                            $update_bachelor_with_image_prepared_stmt->bindValue(':photoUrl', $uploadedImageLocation, PDO::PARAM_STR);
-                            $update_bachelor_with_image_prepared_stmt->execute();
-                            $isSuccess = (bool)true;
-                        } catch (PDOException $ex) { // Error in database processing.
-                            echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
-                        }
-
+                      $update_bachelor_without_image = "UPDATE aka.bachelors
+                                       SET fullName = :fullName, email = :email, major = :major, class = :class, biography = :biography
+                                       WHERE bachelorId = :id";
+                      try {
+                          $update_bachelor_without_image_prepared_stmt = $dbo->prepare($update_bachelor_without_image);
+                          $update_bachelor_without_image_prepared_stmt->bindValue(':id', $bachelorId, PDO::PARAM_INT);
+                          $update_bachelor_without_image_prepared_stmt->bindValue(':fullName', $full_name, PDO::PARAM_STR);
+                          $update_bachelor_without_image_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                          $update_bachelor_without_image_prepared_stmt->bindValue(':major', $major, PDO::PARAM_STR);
+                          $update_bachelor_without_image_prepared_stmt->bindValue(':class', $class, PDO::PARAM_STR);
+                          $update_bachelor_without_image_prepared_stmt->bindValue(':biography', $bioString, PDO::PARAM_STR);
+                          $update_bachelor_without_image_prepared_stmt->execute();
+                          $isSuccess = (bool)true;
+                      } catch (PDOException $ex) { // Error in database processing.
+                          echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+                      }
                     }
                     if ($isSuccess) {
                       ?>
@@ -210,9 +207,9 @@ if ($admin_flag) {
                     }
                 }
             ?>
-                <h3 id="<?php echo "title-" . $bacheloriD; ?>">
+                <h3 id="<?php echo "title-" . $bachelorId; ?>">
                     About <?php echo $bachelorfullName; ?></h3>
-                <form class="bachelor_forms" id="<?php echo "form-" . $bacheloriD; ?>"
+                <form name="<?php echo $bachelorEmail; ?>"class="bachelor_forms" id="<?php echo "form-" . $bachelorId; ?>"
                       action="add-bachelors.php" method="post" enctype="multipart/form-data">
                     <label for="full_name">Full Name</label><br>
                     <input type="text" name="full_name" value="<?php echo $bachelorfullName; ?>"
@@ -250,14 +247,16 @@ if ($admin_flag) {
                     }
                     ?>
                     <label>Current Picture</label><br>
-                    <img src="<?php echo $bachelorPhoto; ?>" alt="" style="width:50%;"><br>
+                    <img id="bachelorPhoto" src=<?php echo $bachelorPhoto; ?> alt="" style="width:50%;"><br>
 
-                    <label for="<?php echo "uploadApprovedImg-" . $bacheloriD; ?>">Want to upload a
-                        new picture?</label>
-                    <input type="file" name="<?php echo "uploadApprovedImg-" . $bacheloriD; ?>"
-                           accept="image/*"><br><br>
+                    <!-- <label for="<?php echo "uploadApprovedImg-" . $bachelorId; ?>">Want to upload a
+                        new picture?</label><br>
+                    <input type="file" name="<?php echo "uploadApprovedImg-" . $bachelorId; ?>"
+                           accept="image/*" onchange="changeState(<?php $bachelorId ?>)"><br><br>
+                    <input type="button" name="<?php echo "bachelor_photo_" . $bachelorId; ?>"
+                           value="Upload New Image" onclick="uploadNewImage()" disabled><br> -->
 
-                    <input type="submit" name="<?php echo "edit_bachelor_" . $bacheloriD; ?>"
+                    <input type="submit" name="<?php echo "edit_bachelor_" . $bachelorId; ?>"
                            value="Edit Bachelor Info">
                 </form>
               <?php
@@ -305,5 +304,7 @@ if ($admin_flag) {
         });
     }
 </script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
+
 </body>
 </html>

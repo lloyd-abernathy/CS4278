@@ -1,6 +1,8 @@
 <?php
 require_once("conn.php");
-$bachelor = "SELECT * FROM aka.bachelors WHERE auctionStatus = 0 ORDER BY auction_order_id ASC LIMIT 1";
+$bachelor = "SELECT * FROM aka.bachelors
+             WHERE auctionStatus = 0 AND addedBy IS NOT NULL AND auction_order_id != 0
+             ORDER BY auction_order_id ASC LIMIT 1";
 
 try {
     $bachelor_prepared_stmt = $dbo->prepare($bachelor);
@@ -24,7 +26,7 @@ try {
     $get_max_bid_prepared_stmt->execute();
     $get_max_bid_result = $get_max_bid_prepared_stmt->fetchAll();
     if ($get_max_bid_prepared_stmt->rowCount() > 0) {
-        print_r("$" . $get_max_bid_result[0]['maxBid']);
+         print_r("$" . $get_max_bid_result[0]['maxBid']);
     }
 
 } catch (PDOException $ex) { // Error in database processing.

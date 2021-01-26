@@ -37,6 +37,15 @@ try {
     <body>
     <h2>Bachelors</h2>
     <?php if (isset($result) && $prepared_stmt->rowCount() > 0) {
+      ?>
+      <p>
+        Here are the bachelors for this year! To see more information about each bachelor:
+        <ul>
+          <li><strong>Laptop/Computer</strong>: Click on the bachelor you wish to see more information on.</li>
+          <li><strong>Mobile Device</strong>: Swipe left on the bachelor you wish to see more information on.</li>
+        </ul>
+      </p>
+      <?php
         foreach ($result as $row) {
           $bachelorID = $row['bachelorId'];
           $bachelorFullName = $row['fullName'];

@@ -1,3 +1,4 @@
+document.getElementsByClassName("buttons")[0].style.display = "none";
 function openNav() {
   document.getElementById("myNav").style.width = "100%";
 }

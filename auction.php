@@ -16,7 +16,6 @@ require_once("createflags.php");
     <script src="https://apis.google.com/js/platform.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
     <script src="js/jquery-3.5.1.min.js"></script>
-    <script type="text/javascript" src="js/auction.js"></script>
 </head>
 <body>
 
@@ -82,6 +81,7 @@ require_once("createflags.php");
 </div>
 
 <?php include_once("overlay.php"); ?>
+<script type="text/javascript" src="js/auction.js"></script>
 
 </div>
 <script type="text/javascript">

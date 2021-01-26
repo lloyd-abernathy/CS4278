@@ -151,35 +151,34 @@ if (isset($_COOKIE["photo"])) {
 </head>
 
 <body>
-<?php include_once("header.php"); ?>
-<h2>Bachelor Sign Up</h2> <br>
+<h2>HeartbreAKA Bachelor Sign Up</h2> <br>
 <p>
   On behalf of the Elegant Eta Beta Chapter of Alpha Kappa Alpha Sorority,
   Incorporated, ​you are cordially invited to participate as a bachelor in our
   highly anticipated event​,​ HeartbreAKA​ on February 12, 2021, at 7:08 PM​. As
   someone who has been identified as an ideal candidate for our date auction, we
-  would love to have you participate. <br>
+  would love to have you participate. <br><br>
 
   HeartbreAKA is our annual fundraiser that seeks to collect ​art supplies as a
   part of our​ 'Celebration of the Arts'​ initiative.​ ​Attendees will dropoff
   different ​art supplies​/shoes, prior to the event, that will equate to an
-  amount of AKA Dollars to then bid on bachelors in a ​date auction. <br>
+  amount of AKA Dollars to then bid on bachelors in a ​date auction. <br><br>
 
   Beginning this year, the bachelors will be announced on our website in the
   days leading up to the event. As you are answering these questions, please
   keep in mind that your answers will show up on the website as written. Upon
   your name being added to the website, you will be authorized to change any
   information that is displayed and all changes will be monitored by the members
-  of the chapter. <br>
+  of the chapter. <br><br>
 
   Your participation would require you to attend our ​1.5-hour program on ​
   February 12, 2021​, at 7:08 PM CST as well as a free, virtual date to
   participate in an Escape Room ​on February 13, 2021, at 5:00 PM CST ​with your
   companion. Please carefully look at your calendars​ as a commitment to both
   dates is <strong>mandatory</strong> unless previously communicated.​
-  <strong>Due to COVID restrictions, if you can not make this date, please do
+  <strong> Due to COVID restrictions, if you can not make this date, please do
     not sign up as we can not guarantee an alternative date for you and the
-    winner.</strong><br>
+    winner.</strong><br><br>
 
   Please RSVP ​on this form by ​Friday, ​January 31st​​ at ​5:00 pm. If you have any
   questions, don't hesitate to ​email me​. We look forward to your participation.
@@ -191,7 +190,7 @@ if (isset($_COOKIE["photo"])) {
 
     <?php // TODO: Add the pattern to only accept vanderbilt emails here! ?>
     <label for="email">Vanderbilt Email</label><br>
-    <input type="email" name="email" placeholder="i.e. joe.smith@vanderbilt.edu" onchange="changeState()" required>
+    <input type="email" name="email" placeholder="i.e. joe.smith@vanderbilt.edu" onchange="changeState()" pattern="[a-z0-9._%+-]+@vanderbilt.edu" required>
     <p id="note">NOTE: This email will be used to sign in to the website with.</p><br>
 
     <label for="major">Major</label><br>
@@ -228,9 +227,6 @@ if (isset($_COOKIE["photo"])) {
 
     <input type="submit" name="sign_up" value="Sign Up as Bachelor" id="submit_button" disabled>
 </form>
-<?php
-include_once("overlay.php");
-?>
 
 <script type="text/javascript">
   /*This section creates t*/

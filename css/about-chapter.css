@@ -7,7 +7,7 @@
 .column_left, .column_middle, .column_right {
   width: 30%;
   float: left;
-  padding-right: 15px;
+  padding-right: 5px;
   margin-left: 2%;
 }
 

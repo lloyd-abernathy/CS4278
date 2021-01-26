@@ -31,7 +31,8 @@ require_once("createflags.php");
         the navigation bar so that you can have your donation credited to your
         account.
       </strong><br>
-      For HeartbreAKA, we are accepting monetary donations to donate to a charity.
+      For HeartbreAKA, we are accepting monetary donations to donate to the
+      <a href="https://www.maryparrish.org/">Mary Parrish Center</a>.
       You can use the following payment methods to make a contribution and follow
       the instructions to make your donation:
     </p><br>
@@ -207,6 +208,7 @@ require_once("createflags.php");
     }
 </script>
 <script type="text/javascript" src="js/donations-money.js"></script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
 
 </body>
 </html>

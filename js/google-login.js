@@ -89,7 +89,6 @@ function onFailure(error) {
 function signOut() {
     deleteCookie("fullName");
     deleteCookie("email");
-    deleteCookie("timer");
     deleteCookie("startTime");
     deleteCookie("endTime");
     localStorage.setItem("isUserLoggedIn", false);

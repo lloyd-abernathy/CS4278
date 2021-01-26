@@ -1,6 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+<link rel="stylesheet" type="text/css" href="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.css"/>
+<script src="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.js" defer></script>
+<script>
+window.addEventListener("load", function() {
+  window.wpcc.init({
+    "border":"normal",
+    "corners":"normal",
+    "colors":{
+      "popup":{
+        "background":"#e2f7d4",
+        "text":"#000000",
+        "border":"#7fc25e"
+      },
+      "button":{
+        "background":"#7fc25e",
+        "text":"#ffffff"
+      }
+    },
+    "position":"bottom",
+    "padding":"large",
+    "content":{
+      "href":"https://www.websitepolicies.com/policies/view/UJzgY9RL",
+      "message":"This website uses cookies to ensure you get the best experience on our website. You must have your cookies turned on to ensure that the website works properly. If you see a banner at the top indicating that your cookies are not enabled, please go to your settings and turn them on for this site. You can see what we are using cookies for by reading the policy ",
+      "link":"here"
+    }
+  })
+});
+</script>
 <head>
+
     <meta charset="utf-8">
     <title>Home</title>
     <link rel="stylesheet"
@@ -11,6 +40,10 @@
     <script type="text/javascript" src="js/google-login.js"></script>
 </head>
 <body>
+<div class="cookie_message" id="cookie_message">
+  <p>Your cookies are not enabled! Please go to your settings for your browser
+    and enable them for this site.</p>
+</div>
 <div class="header">
     <div class="header_left">
         <span onclick="openNav()"><i class="fa fa-bars"></i></span>
@@ -29,18 +62,18 @@
     <div class="slideshow" id="slideshow">
         <div class="slides">
             <div class="slide_number">1 / 2</div>
-            <img src="images/slideshow/image1.png" alt="">
+            <img src="images/slideshow/image1.jpg" alt="">
         </div>
         <div class="slides">
             <div class="slide_number">2 / 2</div>
-            <img src="images/slideshow/image2.png" alt="">
+            <img src="images/slideshow/image2.jpg" alt="">
         </div>
         <!-- <div class="slides">
             <div class="slide_number">3 / 3</div>
             <img src="images/slideshow/instagram.png" alt="">
         </div> -->
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <!-- <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a> -->
     </div>
 
     <div class="section">
@@ -83,7 +116,7 @@
                         <h2>About HeartbreAKA</h2>
                         <p>In accordance with our current initiatives, the Elegant Eta Beta Chapter
                             of Alpha Kappa Alpha Sorority Inc. hosts HeartbreAKA every year to raise
-                            money for an important cause. HeartbreAKA is a date auction where
+                            money for the Mary Parrish Center. HeartbreAKA is a date auction where
                             attendees bid on the eligible bachelors being presented to win a
                             complimentary group date with the chapter. <br><br>
                             <strong>Do you want to attend this event?</strong>
@@ -92,20 +125,24 @@
                         <form action="bachelors.php">
                             <input class="quick_links" type="submit" name="bachelors" value="View Bachelors">
                         </form>
+                        <form action="https://www.maryparrish.org/">
+                          <input class="quick_links" type="submit" name="mary_parrish"
+                                 value="Learn More About Mary Parrish Center">
+                        </form>
                         <form action="donations-money.php">
-                            <input class="quick_links" type="submit" name="bachelors"
+                            <input class="quick_links" type="submit" name="money_donation"
                                    value="Make Monetary Donation">
                         </form>
                         <form action="donations-dropbox.php">
-                            <input class="quick_links" type="submit" name="bachelors"
+                            <input class="quick_links" type="submit" name="donation_dropbox"
                                    value="Make Donation Via Dropbox">
                         </form>
                         <form action="auction.php">
-                            <input id="auction" class="quick_links" type="submit" name="bachelors"
+                            <input id="auction" class="quick_links" type="submit" name="auction"
                                    value="Go to Auction">
                         </form>
                     </td>
-                    <td><img src="images/homepage/heartbreaka.jpg" alt=""></td>
+                    <td><img src="images/homepage/heartbreaka.png" alt=""></td>
                 </tr>
                 <tr>
 
@@ -213,6 +250,7 @@
     }
 </script>
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
 
 </body>
 </html>

@@ -45,27 +45,43 @@ if ($admin_flag || $bachelor_flag) {
     <?php
 }
 ?>
-<p>Beginning on January 15, you will be able to drop off your donations in
+<p>Beginning January 31, you will be able to drop off your donations in
     the following locations in the boxes that look like the picture showed on
-    this page.
+    this page. <br>
+    <strong>Donations will be accepted until February 11.</strong>
+  </p>
 <ul>
     <li>Rand</li>
     <li>NPHC House</li>
     <li>Commons Center</li>
     <li>Kissam Center</li>
 </ul>
+<div class="row">
+  <div class="column">
+    <img src="images/exchange_rates.png" alt="">
+  </div>
+  <div class="column">
+    <img src="" alt="">
+  </div>
+</div>
 <br>
 <?php
-if ($attendee_flag) {
+$current_date = new DateTime();
+
+if ($attendee_flag ) {
     ?>
-    We ask that if you are dropping off an item, please label it with your
-    name and email address associated with the account. After you have dropped
-    it off, fill out the form below specifying what is in the box and how much
-    of each item to determine how many AKA dollars you can be rewarded. Upon
-    submission, your donation will be reviewed by the chapter and funds will
-    be allocated to your account as soon as possible. If you have any questions,
-    feel free to reach out to the chapter through this
-    <a href="mailto:aka.vanderbilt@gmail.com?subject=HeartbreAKA%20Inquiry%20about%20Dropbox%20Donations">email</a>.</p>
+    <p>
+      We ask that if you are dropping off an item,
+      <strong>please label it with your name and email address associated with the
+      account.</strong> After you have dropped it off, fill out the form below
+      specifying what is in the box and how much of each item to determine how
+      many AKA dollars you can be rewarded. Upon submission, your donation will be
+      reviewed by the chapter and funds will be allocated to your account as soon
+      as possible. If you have any questions, feel free to reach out to the
+      chapter through this
+      <a href="mailto:aka.vanderbilt@gmail.com?subject=HeartbreAKA%20Inquiry%20about%20Dropbox%20Donations">email</a>.
+    </p>
+
     <br>
     <?php
     if (isset($_POST['dropbox_donation'])) {
@@ -145,9 +161,8 @@ if ($attendee_flag) {
         <label for="donations[]">Packet of Construction Paper</label>
         <input type="hidden" name="donations[]" value="Packet of Construction Paper">
         <input type="number" name="donations[]" min="0" value="0" onchange="updateAKADollars()"><br>
-        <!-- <input type="checkbox" name="donations[]" value="other">
         <label for="donations[]">Other</label>
-        <input type="number" name="donations[]" value="other"> -->
+        <input type="number" name="donations[]" min="0" value="other" onchange="updateAKADollars()"><br>
         <p id="aka_dollars">AKA Dollars Amount: </p><br>
         <input type="hidden" name="total" value="0">
 
@@ -162,6 +177,8 @@ if ($attendee_flag) {
             bar so that you can recieve credit for making this donation. If not,
             we appreciate your donation to the chapter for our cause!
         </strong>
+        <br>
+        <br>
     </p>
     <?php
 }
@@ -193,6 +210,7 @@ include_once("overlay.php");
     }
 </script>
 <script type="text/javascript" src="js/donations-dropbox.js"></script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
 
 </body>
 </html>

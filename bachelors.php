@@ -23,6 +23,7 @@ try {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
     <link rel="stylesheet" href="css/bachelors.css">
+    <script src="js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="js/bachelors.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
@@ -37,77 +38,77 @@ try {
     <h2>Bachelors</h2>
     <?php if (isset($result) && $prepared_stmt->rowCount() > 0) {
         foreach ($result as $row) {
-            $bachelorID = $row['bachelorId'];
-            $bachelorFullName = $row['fullName'];
-            $bachelorClass = $row['class'];
-            $bachelorMajor = $row['major'];
-            $bachelorBiography = $row['biography'];
-            $bachelorProfilePicture = $row['photoUrl'];
-            $bachelorMaxBid = $row['maxBid'];
-            $bachelorAuctionStatus = $row['auctionStatus'];
-            $bachelorAddedBy = $row['addedBy']; ?>
-            <div class="bachelors_gallery" onclick="showDiv('<?php echo $bachelorID; ?>')">
-                <?php if ($bachelorProfilePicture) { ?>
+          $bachelorID = $row['bachelorId'];
+          $bachelorFullName = $row['fullName'];
+          $bachelorClass = $row['class'];
+          $bachelorMajor = $row['major'];
+          $bachelorBiography = $row['biography'];
+          $bachelorProfilePicture = $row['photoUrl'];
+          $bachelorMaxBid = $row['maxBid'];
+          $bachelorAuctionStatus = $row['auctionStatus'];
+          $bachelorAddedBy = $row['addedBy']; ?>
+            <div class="bachelors_gallery" ontouchstart="this.classList.toggle('hover');">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <div class="bachelor_img">
                     <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
-                <?php } else { ?>
-                    <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
-                <?php }; ?>
-                <div class="desc">
-                    <strong><?php echo $bachelorFullName; ?></strong><br>
-                    <strong>Major: </strong><?php echo $bachelorMajor; ?><br>
+                  </div>
+                  <div class="desc">
+                    <strong><?php echo strtoupper($bachelorFullName); ?></strong><br>
+                    <strong>Clasification: </strong><?php echo $bachelorClass; ?> <br>
+                    <strong>Major: </strong> <?php echo $bachelorMajor; ?> <br>
+                    <strong>Winning Bid (AKA Dollars): $</strong><?php echo $bachelorMaxBid; ?><br>
+                    <strong>Auction Status: </strong> <?php
+                    if ($bachelorAuctionStatus == 0) {
+                        ?>
+                        <strong style="color:green">AVAILABLE</strong>
+                        <?php
+                    } else {
+                        ?>
+                        <strong style="color:red">TAKEN</strong>
+                        <?php
+                    } ?>
+                  </div>
+                  <div class="more_info">
+                    <p style="text-align: right; font-size: 15px;">More Info <i class="fa fa-share"></i></p>
+                  </div>
                 </div>
+                <div class="flip-card-back">
+                  <p>
+                      <!-- Add biography here -->
+                      <strong>BIOGRAPHY</strong><br>
+                      <div class="bachelor_questions">
+                        <table>
+                          <tbody>
+                            <?php
+                            $bachelorBiographyArr = explode("||", $bachelorBiography);
+                            foreach ($bachelorBiographyArr as $str) {
+                            $question = explode("=", $str);
+                            ?>
+                            <tr>
+                              <td id="question"><strong><?php echo $question[0]; ?></strong></td>
+                              <td><?php echo substr($question[1], 1, -1); ?></td>
+                            </tr>
+                          <?php
+                          }
+                          ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    <br><br>
+                    <div class="more_info">
+                      <p style="text-align: right; font-size: 15px;">Close  <i class="fa fa-times"></i></p>
+                    </div>
+                  </p>
+                </div>
+              </div>
             </div>
             <div class="biography" id="<?php echo $bachelorID; ?>">
-                <span onclick="hideDiv('<?php echo $bachelorID; ?>')"
-                      class="closebtn">&times;</span>
 
                 <div class="bachelor_info">
 
-                    <h3>About <?php echo $bachelorFullName; ?></h3>
-                    <div class="bachelor_img">
-                        <?php if ($bachelorProfilePicture) { ?>
-                            <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
-                        <?php } else { ?>
-                            <img src="https://i.stack.imgur.com/YQu5k.png" alt="">
-                        <?php }; ?>
-                    </div>
-                    <div>
-                      <p>
-                          <strong>Clasification: </strong><?php echo $bachelorClass; ?> <br>
-                          <strong>Major: </strong> <?php echo $bachelorMajor; ?> <br>
-                          <strong>Max Bid (AKA Dollars): $</strong> <?php echo $bachelorMaxBid; ?><br>
-                          <strong>Auction Status: </strong> <?php
-                          if ($bachelorAuctionStatus == 0) {
-                              ?>
-                              <strong style="color:green">AVAILABLE</strong>
-                              <?php
-                          } else {
-                              ?>
-                              <strong style="color:red">TAKEN</strong>
-                              <?php
-                          } ?><br>
-                          <!-- Add biography here -->
-                          <u><strong>BIOGRAPHY</strong></u><br>
-                          <div class="bachelor_questions">
-                            <table>
-                              <tbody>
-                                <?php
-                                $bachelorBiographyArr = explode("||", $bachelorBiography);
-                                foreach ($bachelorBiographyArr as $str) {
-                                $question = explode("=", $str);
-                                ?>
-                                <tr>
-                                  <td id="question"><strong><?php echo $question[0]; ?></strong></td>
-                                  <td><?php echo substr($question[1], 1, -1); ?></td>
-                                </tr>
-                              <?php
-                              }
-                              ?>
-                            </tbody>
-                          </table>
-                        </div>
-                      </p>
-                    </div>
+                    <!-- <h3 style="width: 60%; margin-left: 20%;">About <?php echo $bachelorFullName; ?></h3> -->
+
                 </div>
             </div>
         <?php }
@@ -175,6 +176,12 @@ try {
     function hideDiv(bachelorID) {
         document.getElementById(bachelorID).style.display = "none";
     }
+
+    $(document).on("click", ".bachelors_gallery", function () {
+        $(this).toggleClass('hover');
+    });
 </script>
+<script type="text/javascript" src="js/cookies-enable.js"></script>
+
 </body>
 </html>

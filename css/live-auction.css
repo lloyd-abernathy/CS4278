@@ -1,55 +1,129 @@
-.buttons input[type=submit] {
-  width: auto;
-  background-color: lightpink;
-  color: black;
-  padding: 14px;
-  /* padding-right: 30px; */
-  border: 2px solid lightpink;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-left: 40%;
-}
-
-.buttons {
-  margin-left: 25%;
-  margin-right: auto;
-  width: 50%;
-}
-
-.make_bid input[type=submit]:hover {
-  background-color: pink;
-}
-
-.days, .hours, .minutes, .seconds {
-  float: left;
-  width: 15%;
-  height: 15%;
-  border: 5px solid #cc8899;
-  margin: 10px;
-  border-radius: 10px;
-  background-color: pink;
-  font-weight: bold;
-}
-
-.countdown {
-  margin: auto;
-  width: 100%;
-  height: 600px;
+.curr_bid {
+  width: 102%;
+  background-color: #cc8899;
+  color: white;
   text-align: center;
-  padding-left: 18%;
-  margin-top: 5%;
+  margin-bottom: 2%;
+}
+
+.bachelors_auction {
+  width: 30%;
+  margin-left: 35%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.bachelor_bio {
+  float: left;
+  width: 100%;
+  background-color: pink;
+  padding: 5px;
+}
+
+.biography {
+  background-color: pink;
+  margin-top: 4%;
+  float: left;
+  /* margin-bottom: 5%; */
+}
+
+.name {
+  background-color: pink;
+  border-bottom: 5px solid #cc8899;
+  font-weight: normal;
+  font-size: 15px;
+  text-align: center;
+  width: 100%;
+  color: black;
+}
+
+.bachelor_img img{
+  width: 102%;
 }
 
 .num {
   font-size: 70px;
 }
 
-#attendee_button:disabled {
+.quick_links {
+  background-color: #cc8899;
+  border: 2px solid #cc8899;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  color: white;
+  font-family:'Didot', 'Didot LT STD', 'Hoefler Text', 'Garamond', 'Calisto MT', 'Times New Roman', serif;
+  text-align: center;
+  width: 20%;
+  margin-left: 10%;
+  margin-bottom: 20px;
+  font-size: 15px;
+  border-radius: 3px;
+  font-style: bold;
+  margin-top: 10px;
+  height: 40px;
+  font-weight: bold;
+}
+
+.make_bid {
+  background-color: #cc8899;
+  width: 100%;
+  /* margin-left: 30%; */
+  padding: 5px;
+  /* padding-right: 5px; */
+  /* border-radius: 10px; */
+  color: white;
+  font-weight: bold;
+  margin-bottom: 2%;
+}
+
+.make_bid p {
+  left: 0;
+  font-size: 15px;
+  margin-left: 20%;
+}
+
+.make_bid input[type=number] {
+  width: 40%;
+  margin-left: 20%;
+}
+
+.make_bid input[type=number]:disabled {
+  width: 40%;
   background-color: lightgray;
-  border: 2px solid lightgray;
+  color: white;
+}
+
+.make_bid input[type=submit] {
+  width: auto;
+  background-color: lightpink;
+  color: black;
+  padding: 10px;
+  /* padding: 14px 20px; */
+  /* padding-right: 30px; */
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.make_bid input[type=submit]:hover {
+  background-color: pink;
+}
+
+.make_bid input[type=submit]:disabled {
+  background-color: lightgray;
   color: white;
   text-decoration: line-through;
+}
+
+.curr_bid, .timer {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
+#bid {
+  color: white;
 }
 
 @media (min-width: 320px) {
@@ -74,7 +148,7 @@
   }
 
   .name {
-    font-size: 15px;
+    font-size: 12px;
   }
 }
 
@@ -99,7 +173,7 @@
   }
 
   .name {
-    font-size: 18px;
+    font-size: 12px;
   }
 }
 
@@ -124,7 +198,7 @@
   }
 
   .name {
-    font-size: 20px;
+    font-size: 14px;
   }
 }
 
@@ -149,7 +223,7 @@
   }
 
   .name {
-    font-size: 25px;
+    font-size: 16px;
   }
 }
 
@@ -175,7 +249,7 @@
   }
 
   .name {
-    font-size: 30px;
+    font-size: 18px;
   }
 }
 
@@ -201,6 +275,6 @@
   }
 
   .name {
-    font-size: 40px;
+    font-size: 20px;
   }
 }

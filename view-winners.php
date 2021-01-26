@@ -120,5 +120,6 @@ try {
               });
           }
       </script>
+      <script type="text/javascript" src="js/cookies-enable.js"></script>
    </body>
  </html>

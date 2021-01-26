@@ -1,5 +1,8 @@
 <?php
-echo "<div class=\"header\">" .
+echo "<div class=\"cookie_message\" id=\"cookie_message\">" .
+    "<p>Your cookies are not enabled! Please go to your settings for your browser and enable them for this site.</p>" . 
+    "</div>" .
+    "<div class=\"header\">" .
     "<div class=\"header_left\">" .
     "<span onclick=\"openNav()\"><i class=\"fa fa-bars\"></i></span>" .
     "</div>" .

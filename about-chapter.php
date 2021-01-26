@@ -38,7 +38,7 @@ require_once("createflags.php");
         purpose of sisterhood, scholarship, and supreme service to all mankind to
         fruition. Eta Beta has earned the award for Exemplary Undergraduate
         Chapter in the Southeastern Region for Alpha Kappa Alpha for innovative
-        and informative programming on campus. Annually the chapter hosts several
+        and informative programming on campus. Annually, the chapter hosts several
         signature events including our Chicken and Waffles, Breast Cancer
         Awareness Talk, Phinancial Literacy, HeartbreAKA, Pink Goes Red, and Taste
         of AKA. You can stay up to date with the chapter by following them on Instagram
@@ -53,7 +53,7 @@ require_once("createflags.php");
             Taste of AKA
         </li>
         <li><strong>National Website:</strong> <a href="http://www.aka.1908.com/">
-                http://www.aka.1908.com/</a></li>
+                http://www.aka1908.com/</a></li>
         <li><strong>Current President:</strong> Jadah Keith</li>
     </ul>
     <br>

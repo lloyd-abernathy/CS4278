@@ -57,7 +57,11 @@ if (isset($_POST['mark_completed'])) {
         if ($type == "Monetary Donation") {
             if ($approved == "Approve") {
                 $donation_amount = $messageArr[' Amount ($)'];
-                $bank_monetary = $donation_amount * 100;
+                $donation_monetary = $donation_amount * 100;
+                $conversion = intdiv($donation_amount, 5);
+                $total_conversion = 250 * $conversion;
+                $bank_monetary = $donation_monetary + $total_conversion;
+
                 if ($is_attendee) {
                     $attendee_id = $find_attendee_info_result[0]['attendeeId'];
                     $update_attendee_monetary = "UPDATE aka.attendees

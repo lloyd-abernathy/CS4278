@@ -38,14 +38,21 @@ include_once("header.php");
 <?php
 if ($admin_flag || $bachelor_flag) {
     ?>
-    <p>
+    <!-- <p>
         <strong>NOTE: You will not be awarded any AKA dollars, but you are welcome
             to donate at any of the listed locations!</strong>
-    </p><br>
+    </p><br> -->
     <?php
 }
 ?>
-<p>Beginning January 31, you will be able to drop off your donations in
+<h4>COMING SOON!</h4>
+<p>
+  Information about how to donate art supplies will be updated here soon! We highly
+  encourage you to take the time to collect all the art supplies you'd like to
+  donate now so that you are prepared when the information becomes available. The
+  exchange rates for this year are in the image below.
+</p>
+<!-- <p>Beginning January 31, you will be able to drop off your donations in
     the following locations in the boxes that look like the picture showed on
     this page. <br>
     <strong>Donations will be accepted until February 11.</strong>
@@ -55,22 +62,23 @@ if ($admin_flag || $bachelor_flag) {
     <li>NPHC House</li>
     <li>Commons Center</li>
     <li>Kissam Center</li>
-</ul>
-<div class="row">
+</ul> -->
+<img src="images/exchange_rates.png" alt="">
+<!-- <div class="row">
   <div class="column">
     <img src="images/exchange_rates.png" alt="">
   </div>
   <div class="column">
     <img src="" alt="">
   </div>
-</div>
+</div> -->
 <br>
 <?php
 $current_date = new DateTime();
 
 if ($attendee_flag ) {
     ?>
-    <p>
+    <!-- <p>
       We ask that if you are dropping off an item,
       <strong>please label it with your name and email address associated with the
       account.</strong> After you have dropped it off, fill out the form below
@@ -80,7 +88,7 @@ if ($attendee_flag ) {
       as possible. If you have any questions, feel free to reach out to the
       chapter through this
       <a href="mailto:aka.vanderbilt@gmail.com?subject=HeartbreAKA%20Inquiry%20about%20Dropbox%20Donations">email</a>.
-    </p>
+    </p> -->
 
     <br>
     <?php
@@ -135,7 +143,7 @@ if ($attendee_flag ) {
     }
      ?>
 
-    <form action="donations-dropbox.php" method="post" name="dropbox">
+    <!-- <form action="donations-dropbox.php" method="post" name="dropbox">
         <label for="full_name">Full Name</label><br>
         <input type="text" name="full_name" value="<?php echo $login_result['fullName']; ?>"
                readonly required><br><br>
@@ -167,11 +175,11 @@ if ($attendee_flag ) {
         <input type="hidden" name="total" value="0">
 
         <input type="submit" name="dropbox_donation" value="Submit Donation">
-    </form>
+    </form> -->
     <?php
 } else {
     ?>
-    <p>
+    <!-- <p>
         <strong>
             If you plan to attend the event, please sign in from the navigation
             bar so that you can recieve credit for making this donation. If not,
@@ -179,7 +187,7 @@ if ($attendee_flag ) {
         </strong>
         <br>
         <br>
-    </p>
+    </p> -->
     <?php
 }
 ?>

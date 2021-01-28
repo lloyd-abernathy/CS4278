@@ -135,7 +135,7 @@ try {
             ?>
             <h4>Bachelors Coming Soon!</h4>
             <p>
-                Check back later to see the list of bachelors for this year's heartbreAKA
+                Check back later to see the list of bachelors for this year's HeartbreAKA
                 event.
             </p>
             <?php

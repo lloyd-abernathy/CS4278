@@ -384,7 +384,7 @@ if (isset($bachelorID)) {
                     </div>
                   </div>
                   <?php
-                  if ($attendee_flag) {
+                  if ($attendee_flag && $vanderbilt_flag) {
                       ?>
                       <form class="make_bid" action="live-auction.php" method="post">
                           <input type="number" name="bid" value="0" min="0">

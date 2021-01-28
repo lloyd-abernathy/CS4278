@@ -173,8 +173,9 @@ if (isset($_COOKIE["photo"])) {
 
   Your participation would require you to attend our ​1.5-hour program on ​
   February 12, 2021​, at 7:08 PM CST as well as a free, virtual date to
-  participate in an Escape Room ​on February 13, 2021, at 5:00 PM CST ​with your
-  companion. Please carefully look at your calendars​ as a commitment to both
+  on February 13, 2021, from 5:00-7:00 PM CST ​with your companion. Details on
+  what the date will be sent out to your email at a later date. Please carefully
+  look at your calendars​ as a commitment to both
   dates is <strong>mandatory</strong> unless previously communicated.​
   <strong> Due to COVID restrictions, if you can not make this date, please do
     not sign up as we can not guarantee an alternative date for you and the

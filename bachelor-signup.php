@@ -12,7 +12,7 @@ try {
 } catch (PDOException $ex) { // Error in database processing.
     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
 }
-
+print_r($_COOKIE);
 if (isset($_COOKIE["photo"])) {
   // print_r("began adding to database");
     $full_name = $_POST['full_name'];
@@ -143,6 +143,7 @@ if (isset($_COOKIE["photo"])) {
     <link rel="stylesheet" href="css/bachelor-signup.css">
     <script src="js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="js/bachelor-signup.js"></script>
+    <script type="text/javascript" src="js/cookies-enable.js"></script>
     <script src="https://apis.google.com/js/platform.js"></script>
     <script type="text/javascript" src="js/google-login.js"></script>
     <script src="js/require.js"></script>

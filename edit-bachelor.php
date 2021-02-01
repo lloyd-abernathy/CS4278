@@ -135,7 +135,13 @@
             }
              ?>
             <label>Current Picture</label><br>
-            <img src="<?php echo $login_result['photoUrl']; ?>" alt="" style="width:50%"><br><br>
+            <?php
+            $bachelorProfilePicture = $login_result['photoUrl'];
+            $bachelorPhotoArr = explode("/", $bachelorProfilePicture);
+            $encodePhoto = urlencode(array_pop($bachelorPhotoArr));
+            $bachelorProfilePicture = implode("/", $bachelorPhotoArr) . "/" . $encodePhoto;
+             ?>
+            <img src="<?php echo $bachelorProfilePicture; ?>" alt="" style="width:50%"><br><br>
 
             <label for="uploadNewImg">Do you want to upload a new photo?</label><br>
             <input type="radio" name="yes" value="Yes">
@@ -178,6 +184,6 @@
          }
      </script>
      <script type="text/javascript" src="js/cookies-enable.js"></script>
-     
+
    </body>
  </html>

@@ -60,6 +60,12 @@ try {
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <div class="bachelor_img">
+                    <?php
+                      $bachelorPhotoArr = explode("/", $bachelorProfilePicture);
+                      $encodePhoto = urlencode(array_pop($bachelorPhotoArr));
+                      $bachelorProfilePicture = implode("/", $bachelorPhotoArr) . "/" . $encodePhoto;
+
+                     ?>
                     <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
                   </div>
                   <div class="desc">

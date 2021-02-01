@@ -20,7 +20,7 @@ CREATE TABLE bachelors (
     class VARCHAR(40),
     major VARCHAR(100),
     biography TEXT,
-    photoUrl VARCHAR(100),
+    photoUrl TEXT,
     maxBid DECIMAL(20,2) UNSIGNED DEFAULT 0.00,
     auctionStatus BOOLEAN DEFAULT 0,
     addedBy SMALLINT UNSIGNED,
@@ -94,3 +94,8 @@ CREATE TABLE notifications (
     notificationApproved BOOLEAN DEFAULT 0,
     CONSTRAINT pk_notificationId PRIMARY KEY(notificationId)
 );
+
+INSERT INTO admins (email, fullName) VALUES ("erin.hardnett.1@vanderbilt.edu", "Erin Hardnett");
+
+SET FOREIGN_KEY_CHECKS = 0;
+DELETE FROM aka.admins WHERE adminId = :id;

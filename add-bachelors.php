@@ -247,6 +247,12 @@ if ($admin_flag) {
                     }
                     ?>
                     <label>Current Picture</label><br>
+                    <?php
+                      $bachelorPhotoArr = explode("/", $bachelorPhoto);
+                      $encodePhoto = urlencode(array_pop($bachelorPhotoArr));
+                      $bachelorPhoto = implode("/", $bachelorPhotoArr) . "/" . $encodePhoto;
+
+                     ?>
                     <img id="bachelorPhoto" src=<?php echo $bachelorPhoto; ?> alt="" style="width:50%;"><br>
 
                     <!-- <label for="<?php echo "uploadApprovedImg-" . $bachelorId; ?>">Want to upload a

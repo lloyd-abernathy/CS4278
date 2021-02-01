@@ -6,7 +6,17 @@ $dbpass = 'EtaBeta1972!';
 $dbname = 'aka';
 
 $dbo = new PDO('mysql:host=' . $dbhost . ';port=3306;dbname=' . $dbname, $dbuname, $dbpass);
-
+// $bachelor = "SELECT * FROM aka.bachelors";
+//
+// try {
+//     $bachelor_prepared_stmt = $dbo->prepare($bachelor);
+//     // $bachelor_prepared_stmt->bindValue(':email', $email, PDO::PARAM_STR);
+//     $bachelor_prepared_stmt->execute();
+//     $bachelor_result = $bachelor_prepared_stmt->fetchAll();
+//     print_r($bachelor_result);
+// } catch (PDOException $ex) { // Error in database processing.
+//     echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
+// }
 // Resets values in the bachelor, auction and bid tables for testing auction page
 // $set_bachelors = "UPDATE aka.bachelors SET auctionStatus = 0, maxBid = 0";
 // try {

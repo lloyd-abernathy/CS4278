@@ -84,7 +84,7 @@ if ($admin_flag) {
     ?>
     <h2>Delete Admins</h2><br><br>
     <?php
-    if ($result && $prepared_stmt->rowCount() > 0) {
+    if (isset($result) && $prepared_stmt->rowCount() > 0) {
         ?>
         <form class="" action="add-delete-admins.php" method="post">
             <select class="" name="delete">
@@ -92,7 +92,7 @@ if ($admin_flag) {
                 <?php
                 foreach ($result as $row) {
                     ?>
-                    <option value="<? echo $row['adminId']; ?>"><?php echo $row['fullName']; ?></option>
+                    <option value="<? $row['adminId'] ?>"><?php echo $row['fullName']; ?></option>
                     <?php
                 }
                 ?>
@@ -111,7 +111,7 @@ if ($admin_flag) {
             $foreign_checks_zero_prepared_stmt->execute();
 
             $delete_admin_prepared_stmt = $dbo->prepare($delete_admin);
-            $delete_admin_prepared_stmt->bindValue(':id', $admin_to_delete, PDO::PARAM_INT);
+            $delete_admin_prepared_stmt->bindValue(':id', intval($admin_to_delete), PDO::PARAM_INT);
             $delete_admin_prepared_stmt->execute();
         } catch (PDOException $ex) {
             echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error

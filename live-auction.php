@@ -19,6 +19,7 @@ try {
 $bachelor = "SELECT * FROM aka.bachelors
              WHERE auctionStatus = 0 AND addedBy IS NOT NULL AND auction_order_id != 0
              ORDER BY auction_order_id ASC LIMIT 1";
+// $bachelor = "SELECT * FROM aka.bachelors ASC LIMIT 1";
 
 try {
     $bachelor_prepared_stmt = $dbo->prepare($bachelor);
@@ -49,13 +50,14 @@ if (isset($bachelor_result) && $bachelor_prepared_stmt->rowCount() > 0) {
     if ($find_auction_prepared_stmt->rowCount() == 0) {
         if ($admin_flag) {
           // Add bachelor to auction table
+          $curr_time = new DateTime("now", new DateTimeZone('America/Chicago'));
           $auctions = "INSERT INTO aka.auctions (bachelorId, timeStart, timeComplete)
                    VALUES (:bachelorId, :currTime, :tenMinutesLater)";
           try {
               $auctions_prepared_stmt = $dbo->prepare($auctions);
               $auctions_prepared_stmt->bindValue(':bachelorId', $bachelorID, PDO::PARAM_INT);
-              $auctions_prepared_stmt->bindValue(':currTime', time(), PDO::PARAM_INT);
-              $auctions_prepared_stmt->bindValue(':tenMinutesLater', time() + (60*10), PDO::PARAM_INT);
+              $auctions_prepared_stmt->bindValue(':currTime', $curr_time->getTimestamp(), PDO::PARAM_INT);
+              $auctions_prepared_stmt->bindValue(':tenMinutesLater', $curr_time->getTimestamp() + (60*7), PDO::PARAM_INT);
               $auctions_prepared_stmt->execute();
           } catch (PDOException $ex) { // Error in database processing.
               echo $sql . "<br>" . $error->getMessage(); // HTTP 500 - Internal Server Error
@@ -107,6 +109,9 @@ if (isset($bachelor_result) && $bachelor_prepared_stmt->rowCount() > 0) {
     $bachelorMajor = $curr_bachelor['major'];
     $bachelorBiography = $curr_bachelor['biography'];
     $bachelorProfilePicture = $curr_bachelor['photoUrl'];
+    $bachelorPhotoArr = explode("/", $bachelorProfilePicture);
+    $encodePhoto = urlencode(array_pop($bachelorPhotoArr));
+    $bachelorProfilePicture = implode("/", $bachelorPhotoArr) . "/" . $encodePhoto;
     $bachelorMaxBid = $curr_bachelor['maxBid'];
     $bachelorAuctionStatus = $curr_bachelor['auctionStatus'];
     $bachelorAddedBy = $curr_bachelor['addedBy'];

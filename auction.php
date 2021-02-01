@@ -28,16 +28,16 @@ require_once("createflags.php");
          <br>
         <p>In accordance with our current initiatives, the Elegant Eta Beta Chapter
             of Alpha Kappa Alpha Sorority Inc. hosts HeartbreAKA every year to raise
-            money and collect art supplies for the Mary Parrish Center. HeartbreAKA
-            is a date auction where attendees bid on the eligible bachelors being
-            presented to win a complimentary group date with the chapter. <br><br>
+            money and collect art supplies for the Mary Parrish Center. HeartbreAKA is a service auction where
+            attendees will bid on the individual expertise and aid of eligible Vanderbilt
+            bachelors to be used during a virtual Escape Room experience! <br><br>
             <strong>So, how does the event happen?</strong> <br>
             Prior to the event, attendees can make physical and monetary donations using this website. Upon receiving the
             donation, the correct amount of AKA dollars will be awarded to the attendee
             to use in the auction. During the event, bachelors will be presented
             and attendees will decide if they want to place a bid for that bachelor.
-            The attendee with the highest bid will win the date and will receive
-            further instructions later about where and when the date will be held.<br>
+            The attendee with the highest bid will win the individual expertise and aid of
+            that bachelor to be used during a virtual Escape Room experience!<br>
             Overall, HeartbreAKA is meant to be a fun event where you can make
             a significant contribution to the community.</p>
     </div>

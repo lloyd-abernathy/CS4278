@@ -9,7 +9,7 @@ body {
   padding: 0;
 }
 
-p {
+p, h4 {
   margin-left: 2%;
   margin-right: 3%;
 }

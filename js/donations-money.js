@@ -1,10 +1,11 @@
 let form = document.forms.monetary;
-console.log(form);
 
 function updateAKADollars() {
-  console.log(form.amount);
   var dollars = form.amount.value;
-  document.getElementById("aka_dollars").innerHTML = "AKA Dollars Amount: " + (dollars * 100);
+  var conversion = Math.floor(dollars / 5);
+  var total_conversion = 250 * conversion;
+  var total = ((dollars * 100) + total_conversion);
+  document.getElementById("aka_dollars").innerHTML = "AKA Dollars Amount: " + total;
 }
 
 // function submitForm() {

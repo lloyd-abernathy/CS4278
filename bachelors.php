@@ -60,6 +60,12 @@ try {
               <div class="flip-card-inner">
                 <div class="flip-card-front">
                   <div class="bachelor_img">
+                    <?php
+                      $bachelorPhotoArr = explode("/", $bachelorProfilePicture);
+                      $encodePhoto = urlencode(array_pop($bachelorPhotoArr));
+                      $bachelorProfilePicture = implode("/", $bachelorPhotoArr) . "/" . $encodePhoto;
+
+                     ?>
                     <img src="<?php echo $bachelorProfilePicture; ?>" alt="">
                   </div>
                   <div class="desc">
@@ -135,7 +141,7 @@ try {
             ?>
             <h4>Bachelors Coming Soon!</h4>
             <p>
-                Check back later to see the list of bachelors for this year's heartbreAKA
+                Check back later to see the list of bachelors for this year's HeartbreAKA
                 event.
             </p>
             <?php

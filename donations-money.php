@@ -36,6 +36,7 @@ require_once("createflags.php");
       You can use the following payment methods to make a contribution and follow
       the instructions to make your donation:
     </p><br>
+    <img src="images/exchange_rates.png" alt="">
     <div class="payment_rows">
         <div class="column_left">
           <h3>PayPal</h3>
@@ -123,6 +124,7 @@ require_once("createflags.php");
           }
       }
       ?>
+    <img src="images/exchange_rates.png" alt="">
     <form class="monetary_donations_form" action="" method="post" name="monetary"
           onsubmit="submitForm()">
         <label for="name">Name</label>
